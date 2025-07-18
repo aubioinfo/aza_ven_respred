@@ -23,7 +23,7 @@
 <meta name="author" content="Peng Jin, Qiqi Jin, Kankan Wang" />
 
 
-<meta name="date" content="2025-07-18" />
+<meta name="date" content="2025-07-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -244,61 +244,45 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="integration-with-aml-genomics" class="section level2 hasAnchor" number="6.1">
 <h2><span class="header-section-number">6.1</span> Integration with AML genomics<a href="integration-with-aml-genomics.html#integration-with-aml-genomics" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb393"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb393-1"><a href="integration-with-aml-genomics.html#cb393-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb393-2"><a href="integration-with-aml-genomics.html#cb393-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggpubr)</span>
-<span id="cb393-3"><a href="integration-with-aml-genomics.html#cb393-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggsci)</span>
-<span id="cb393-4"><a href="integration-with-aml-genomics.html#cb393-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggridges)</span>
-<span id="cb393-5"><a href="integration-with-aml-genomics.html#cb393-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cowplot)</span></code></pre></div>
-<pre><code>## 
-## Attaching package: &#39;cowplot&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:patchwork&#39;:
-## 
-##     align_plots</code></pre>
-<pre><code>## The following object is masked from &#39;package:lubridate&#39;:
-## 
-##     stamp</code></pre>
-<pre><code>## The following object is masked from &#39;package:ggpubr&#39;:
-## 
-##     get_legend</code></pre>
-<div class="sourceCode" id="cb398"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb398-1"><a href="integration-with-aml-genomics.html#cb398-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggrastr)</span>
-<span id="cb398-2"><a href="integration-with-aml-genomics.html#cb398-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
-<span id="cb398-3"><a href="integration-with-aml-genomics.html#cb398-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggrastr)</span>
-<span id="cb398-4"><a href="integration-with-aml-genomics.html#cb398-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb398-5"><a href="integration-with-aml-genomics.html#cb398-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Single mutation</span></span>
-<span id="cb398-6"><a href="integration-with-aml-genomics.html#cb398-6" aria-hidden="true" tabindex="-1"></a>hcat <span class="ot">&lt;-</span> <span class="fu">read_xlsx</span>(<span class="st">&quot;../03.out/figure5/rjaml_mutations_rf8.xlsx&quot;</span>)</span>
-<span id="cb398-7"><a href="integration-with-aml-genomics.html#cb398-7" aria-hidden="true" tabindex="-1"></a>mut_variables <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;RF8.prob.CR&quot;</span>, <span class="st">&quot;TP53&quot;</span>,   <span class="st">&quot;ASXL1&quot;</span>,    <span class="st">&quot;BCOR&quot;</span>, <span class="st">&quot;BCORL1&quot;</span>,</span>
-<span id="cb398-8"><a href="integration-with-aml-genomics.html#cb398-8" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;CBL&quot;</span>,   <span class="st">&quot;CEBPA&quot;</span>,    <span class="st">&quot;ETV6&quot;</span>, <span class="st">&quot;DDX41&quot;</span>,    <span class="st">&quot;DNMT3A&quot;</span>,   <span class="st">&quot;EZH2&quot;</span>, </span>
-<span id="cb398-9"><a href="integration-with-aml-genomics.html#cb398-9" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;FLT3-ITD&quot;</span>,  <span class="st">&quot;FLT3-TKD&quot;</span>, <span class="st">&quot;IDH1&quot;</span>, <span class="st">&quot;IDH2&quot;</span>, <span class="st">&quot;KRAS&quot;</span>, <span class="st">&quot;NF1&quot;</span>,<span class="st">&quot;NPM1&quot;</span>,</span>
-<span id="cb398-10"><a href="integration-with-aml-genomics.html#cb398-10" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;NRAS&quot;</span>,  <span class="st">&quot;PHF6&quot;</span>, <span class="st">&quot;PTPN11&quot;</span>,   <span class="st">&quot;RUNX1&quot;</span>,    <span class="st">&quot;SF3B1&quot;</span>,    <span class="st">&quot;SMC1A&quot;</span>,    <span class="st">&quot;SRSF2&quot;</span>,</span>
-<span id="cb398-11"><a href="integration-with-aml-genomics.html#cb398-11" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;STAG2&quot;</span>, <span class="st">&quot;TET2&quot;</span>, <span class="st">&quot;U2AF1&quot;</span>,    <span class="st">&quot;WT1&quot;</span>,  <span class="st">&quot;CBFB::MYH11&quot;</span>,  <span class="st">&quot;RUNX1::RUNX1T1&quot;</span></span>
-<span id="cb398-12"><a href="integration-with-aml-genomics.html#cb398-12" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb398-13"><a href="integration-with-aml-genomics.html#cb398-13" aria-hidden="true" tabindex="-1"></a>hcat <span class="ot">&lt;-</span> hcat[, mut_variables]</span>
-<span id="cb398-14"><a href="integration-with-aml-genomics.html#cb398-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb398-15"><a href="integration-with-aml-genomics.html#cb398-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Transform data for plotting</span></span>
-<span id="cb398-16"><a href="integration-with-aml-genomics.html#cb398-16" aria-hidden="true" tabindex="-1"></a>alteration <span class="ot">&lt;-</span> hcat <span class="sc">%&gt;%</span></span>
-<span id="cb398-17"><a href="integration-with-aml-genomics.html#cb398-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(<span class="sc">-</span>RF8.prob.CR, <span class="at">key=</span><span class="st">&#39;Alteration&#39;</span>, <span class="at">value=</span><span class="st">&#39;Status&#39;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb398-18"><a href="integration-with-aml-genomics.html#cb398-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Status <span class="sc">&gt;</span> <span class="dv">0</span>)</span>
-<span id="cb398-19"><a href="integration-with-aml-genomics.html#cb398-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb398-20"><a href="integration-with-aml-genomics.html#cb398-20" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> alteration <span class="sc">%&gt;%</span></span>
-<span id="cb398-21"><a href="integration-with-aml-genomics.html#cb398-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y=</span><span class="fu">fct_reorder</span>(Alteration, RF8.prob.CR), <span class="at">x=</span>RF8.prob.CR, <span class="at">fill=</span><span class="fu">stat</span>(x))) <span class="sc">+</span></span>
-<span id="cb398-22"><a href="integration-with-aml-genomics.html#cb398-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density_ridges_gradient</span>(</span>
-<span id="cb398-23"><a href="integration-with-aml-genomics.html#cb398-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">jittered_points =</span> <span class="cn">TRUE</span>, <span class="at">scale=</span><span class="fl">1.25</span>,</span>
-<span id="cb398-24"><a href="integration-with-aml-genomics.html#cb398-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">position=</span><span class="fu">position_points_jitter</span>(<span class="at">width=</span><span class="fl">0.05</span>, <span class="at">height=</span><span class="dv">0</span>),</span>
-<span id="cb398-25"><a href="integration-with-aml-genomics.html#cb398-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">point_shape=</span><span class="st">&#39;|&#39;</span>, <span class="at">point_size=</span><span class="dv">3</span>, <span class="at">point_alpha=</span><span class="fl">0.3</span>) <span class="sc">+</span></span>
-<span id="cb398-26"><a href="integration-with-aml-genomics.html#cb398-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="at">low=</span><span class="st">&quot;grey&quot;</span>, <span class="at">high=</span><span class="st">&quot;#9970AB&quot;</span>, <span class="at">midpoint=</span><span class="fl">0.5</span>, <span class="at">name=</span><span class="st">&quot;&quot;</span>) <span class="sc">+</span></span>
-<span id="cb398-27"><a href="integration-with-aml-genomics.html#cb398-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_pubr</span>() <span class="sc">+</span></span>
-<span id="cb398-28"><a href="integration-with-aml-genomics.html#cb398-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&#39;&#39;</span>) <span class="sc">+</span></span>
-<span id="cb398-29"><a href="integration-with-aml-genomics.html#cb398-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&#39;RF8 score&#39;</span>) <span class="sc">+</span></span>
-<span id="cb398-30"><a href="integration-with-aml-genomics.html#cb398-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">&#39;right&#39;</span>,</span>
-<span id="cb398-31"><a href="integration-with-aml-genomics.html#cb398-31" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.x=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">15</span>))</span>
-<span id="cb398-32"><a href="integration-with-aml-genomics.html#cb398-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb398-33"><a href="integration-with-aml-genomics.html#cb398-33" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p1)</span></code></pre></div>
-<pre><code>## Warning: `stat(x)` was deprecated in ggplot2 3.4.0.
-## ℹ Please use `after_stat(x)` instead.
-## This warning is displayed once every 8 hours.
-## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.</code></pre>
-<pre><code>## Picking joint bandwidth of 0.147</code></pre>
-<p><img src="_main_files/figure-html/unnamed-chunk-49-1.png" width="672" /></p>
+<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="integration-with-aml-genomics.html#cb156-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb156-2"><a href="integration-with-aml-genomics.html#cb156-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggpubr)</span>
+<span id="cb156-3"><a href="integration-with-aml-genomics.html#cb156-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggsci)</span>
+<span id="cb156-4"><a href="integration-with-aml-genomics.html#cb156-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggridges)</span>
+<span id="cb156-5"><a href="integration-with-aml-genomics.html#cb156-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cowplot)</span>
+<span id="cb156-6"><a href="integration-with-aml-genomics.html#cb156-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggrastr)</span>
+<span id="cb156-7"><a href="integration-with-aml-genomics.html#cb156-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb156-8"><a href="integration-with-aml-genomics.html#cb156-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggrastr)</span>
+<span id="cb156-9"><a href="integration-with-aml-genomics.html#cb156-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-10"><a href="integration-with-aml-genomics.html#cb156-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Single mutation</span></span>
+<span id="cb156-11"><a href="integration-with-aml-genomics.html#cb156-11" aria-hidden="true" tabindex="-1"></a>hcat <span class="ot">&lt;-</span> <span class="fu">read_xlsx</span>(<span class="st">&quot;../03.out/figure5/rjaml_mutations_rf8.xlsx&quot;</span>)</span>
+<span id="cb156-12"><a href="integration-with-aml-genomics.html#cb156-12" aria-hidden="true" tabindex="-1"></a>mut_variables <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;RF8.prob.CR&quot;</span>, <span class="st">&quot;TP53&quot;</span>,   <span class="st">&quot;ASXL1&quot;</span>,    <span class="st">&quot;BCOR&quot;</span>, <span class="st">&quot;BCORL1&quot;</span>,</span>
+<span id="cb156-13"><a href="integration-with-aml-genomics.html#cb156-13" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;CBL&quot;</span>,   <span class="st">&quot;CEBPA&quot;</span>,    <span class="st">&quot;ETV6&quot;</span>, <span class="st">&quot;DDX41&quot;</span>,    <span class="st">&quot;DNMT3A&quot;</span>,   <span class="st">&quot;EZH2&quot;</span>, </span>
+<span id="cb156-14"><a href="integration-with-aml-genomics.html#cb156-14" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;FLT3-ITD&quot;</span>,  <span class="st">&quot;FLT3-TKD&quot;</span>, <span class="st">&quot;IDH1&quot;</span>, <span class="st">&quot;IDH2&quot;</span>, <span class="st">&quot;KRAS&quot;</span>, <span class="st">&quot;NF1&quot;</span>,<span class="st">&quot;NPM1&quot;</span>,</span>
+<span id="cb156-15"><a href="integration-with-aml-genomics.html#cb156-15" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;NRAS&quot;</span>,  <span class="st">&quot;PHF6&quot;</span>, <span class="st">&quot;PTPN11&quot;</span>,   <span class="st">&quot;RUNX1&quot;</span>,    <span class="st">&quot;SF3B1&quot;</span>,    <span class="st">&quot;SMC1A&quot;</span>,    <span class="st">&quot;SRSF2&quot;</span>,</span>
+<span id="cb156-16"><a href="integration-with-aml-genomics.html#cb156-16" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;STAG2&quot;</span>, <span class="st">&quot;TET2&quot;</span>, <span class="st">&quot;U2AF1&quot;</span>,    <span class="st">&quot;WT1&quot;</span>,  <span class="st">&quot;CBFB::MYH11&quot;</span>,  <span class="st">&quot;RUNX1::RUNX1T1&quot;</span></span>
+<span id="cb156-17"><a href="integration-with-aml-genomics.html#cb156-17" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb156-18"><a href="integration-with-aml-genomics.html#cb156-18" aria-hidden="true" tabindex="-1"></a>hcat <span class="ot">&lt;-</span> hcat[, mut_variables]</span>
+<span id="cb156-19"><a href="integration-with-aml-genomics.html#cb156-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-20"><a href="integration-with-aml-genomics.html#cb156-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Transform data for plotting</span></span>
+<span id="cb156-21"><a href="integration-with-aml-genomics.html#cb156-21" aria-hidden="true" tabindex="-1"></a>alteration <span class="ot">&lt;-</span> hcat <span class="sc">%&gt;%</span></span>
+<span id="cb156-22"><a href="integration-with-aml-genomics.html#cb156-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(<span class="sc">-</span>RF8.prob.CR, <span class="at">key=</span><span class="st">&#39;Alteration&#39;</span>, <span class="at">value=</span><span class="st">&#39;Status&#39;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb156-23"><a href="integration-with-aml-genomics.html#cb156-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Status <span class="sc">&gt;</span> <span class="dv">0</span>)</span>
+<span id="cb156-24"><a href="integration-with-aml-genomics.html#cb156-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-25"><a href="integration-with-aml-genomics.html#cb156-25" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> alteration <span class="sc">%&gt;%</span></span>
+<span id="cb156-26"><a href="integration-with-aml-genomics.html#cb156-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y=</span><span class="fu">fct_reorder</span>(Alteration, RF8.prob.CR), <span class="at">x=</span>RF8.prob.CR, <span class="at">fill=</span><span class="fu">stat</span>(x))) <span class="sc">+</span></span>
+<span id="cb156-27"><a href="integration-with-aml-genomics.html#cb156-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density_ridges_gradient</span>(</span>
+<span id="cb156-28"><a href="integration-with-aml-genomics.html#cb156-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">jittered_points =</span> <span class="cn">TRUE</span>, <span class="at">scale=</span><span class="fl">1.25</span>,</span>
+<span id="cb156-29"><a href="integration-with-aml-genomics.html#cb156-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">position=</span><span class="fu">position_points_jitter</span>(<span class="at">width=</span><span class="fl">0.05</span>, <span class="at">height=</span><span class="dv">0</span>),</span>
+<span id="cb156-30"><a href="integration-with-aml-genomics.html#cb156-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">point_shape=</span><span class="st">&#39;|&#39;</span>, <span class="at">point_size=</span><span class="dv">3</span>, <span class="at">point_alpha=</span><span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb156-31"><a href="integration-with-aml-genomics.html#cb156-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="at">low=</span><span class="st">&quot;grey&quot;</span>, <span class="at">high=</span><span class="st">&quot;#9970AB&quot;</span>, <span class="at">midpoint=</span><span class="fl">0.5</span>, <span class="at">name=</span><span class="st">&quot;&quot;</span>) <span class="sc">+</span></span>
+<span id="cb156-32"><a href="integration-with-aml-genomics.html#cb156-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_pubr</span>() <span class="sc">+</span></span>
+<span id="cb156-33"><a href="integration-with-aml-genomics.html#cb156-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&#39;&#39;</span>) <span class="sc">+</span></span>
+<span id="cb156-34"><a href="integration-with-aml-genomics.html#cb156-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&#39;RF8 score&#39;</span>) <span class="sc">+</span></span>
+<span id="cb156-35"><a href="integration-with-aml-genomics.html#cb156-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">&#39;right&#39;</span>,</span>
+<span id="cb156-36"><a href="integration-with-aml-genomics.html#cb156-36" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.x=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">15</span>))</span>
+<span id="cb156-37"><a href="integration-with-aml-genomics.html#cb156-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-38"><a href="integration-with-aml-genomics.html#cb156-38" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p1)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-50-1.png" width="672" /></p>
 </div>
             </section>
 

@@ -23,7 +23,7 @@
 <meta name="author" content="Peng Jin, Qiqi Jin, Kankan Wang" />
 
 
-<meta name="date" content="2025-07-18" />
+<meta name="date" content="2025-07-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -244,40 +244,36 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="venn-diagram-for-target-genes" class="section level2 hasAnchor" number="6.11">
 <h2><span class="header-section-number">6.11</span> Venn Diagram for target genes<a href="venn-diagram-for-target-genes.html#venn-diagram-for-target-genes" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb457"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb457-1"><a href="venn-diagram-for-target-genes.html#cb457-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggVennDiagram)</span></code></pre></div>
-<pre><code>## 
-## Attaching package: &#39;ggVennDiagram&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:tidyr&#39;:
-## 
-##     unite</code></pre>
-<div class="sourceCode" id="cb460"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb460-1"><a href="venn-diagram-for-target-genes.html#cb460-1" aria-hidden="true" tabindex="-1"></a>stat1 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;../03.out/figure5/RF8_correlatedGenes.csv&quot;</span>, <span class="at">header =</span> T)</span>
-<span id="cb460-2"><a href="venn-diagram-for-target-genes.html#cb460-2" aria-hidden="true" tabindex="-1"></a>stat1<span class="sc">$</span>rank_score <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fu">log2</span>(stat1<span class="sc">$</span>P.value) <span class="sc">*</span> <span class="fu">abs</span>(stat1<span class="sc">$</span>rho)</span>
-<span id="cb460-3"><a href="venn-diagram-for-target-genes.html#cb460-3" aria-hidden="true" tabindex="-1"></a>stat1 <span class="ot">&lt;-</span> stat1[<span class="fu">order</span>(stat1<span class="sc">$</span>rank_score, <span class="at">decreasing =</span> <span class="cn">TRUE</span>), ]</span>
-<span id="cb460-4"><a href="venn-diagram-for-target-genes.html#cb460-4" aria-hidden="true" tabindex="-1"></a>rf8_genes <span class="ot">&lt;-</span> <span class="fu">head</span>(stat1, <span class="at">n=</span><span class="dv">1000</span>)</span>
-<span id="cb460-5"><a href="venn-diagram-for-target-genes.html#cb460-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb460-6"><a href="venn-diagram-for-target-genes.html#cb460-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Example Venn plot for 5 sets</span></span>
-<span id="cb460-7"><a href="venn-diagram-for-target-genes.html#cb460-7" aria-hidden="true" tabindex="-1"></a>venn_plot <span class="ot">&lt;-</span> <span class="fu">ggVennDiagram</span>(</span>
-<span id="cb460-8"><a href="venn-diagram-for-target-genes.html#cb460-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">list</span>(</span>
-<span id="cb460-9"><a href="venn-diagram-for-target-genes.html#cb460-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;RF8-genes&quot;</span> <span class="ot">=</span> rf8_genes<span class="sc">$</span>ID,</span>
-<span id="cb460-10"><a href="venn-diagram-for-target-genes.html#cb460-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;TP53 mutation&quot;</span> <span class="ot">=</span> degs_tp53<span class="sc">$</span>Symbol,</span>
-<span id="cb460-11"><a href="venn-diagram-for-target-genes.html#cb460-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;DNMT3A mutation&quot;</span> <span class="ot">=</span> degs_dnmt3a<span class="sc">$</span>Symbol,</span>
-<span id="cb460-12"><a href="venn-diagram-for-target-genes.html#cb460-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;IDH2 mutation&quot;</span> <span class="ot">=</span> degs_idh2<span class="sc">$</span>Symbol,</span>
-<span id="cb460-13"><a href="venn-diagram-for-target-genes.html#cb460-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;CEBPA mutation&quot;</span> <span class="ot">=</span> degs_cebpa<span class="sc">$</span>Symbol</span>
-<span id="cb460-14"><a href="venn-diagram-for-target-genes.html#cb460-14" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb460-15"><a href="venn-diagram-for-target-genes.html#cb460-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">label_alpha =</span> <span class="fl">0.5</span>,</span>
-<span id="cb460-16"><a href="venn-diagram-for-target-genes.html#cb460-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">edge_size =</span> <span class="fl">0.5</span>,</span>
-<span id="cb460-17"><a href="venn-diagram-for-target-genes.html#cb460-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">label =</span> <span class="st">&quot;count&quot;</span></span>
-<span id="cb460-18"><a href="venn-diagram-for-target-genes.html#cb460-18" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span> </span>
-<span id="cb460-19"><a href="venn-diagram-for-target-genes.html#cb460-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Intersection of Gene Sets&quot;</span>) <span class="sc">+</span></span>
-<span id="cb460-20"><a href="venn-diagram-for-target-genes.html#cb460-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span>
-<span id="cb460-21"><a href="venn-diagram-for-target-genes.html#cb460-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb460-22"><a href="venn-diagram-for-target-genes.html#cb460-22" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(venn_plot)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-63-1.png" width="672" /></p>
-<div class="sourceCode" id="cb461"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb461-1"><a href="venn-diagram-for-target-genes.html#cb461-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Save each gene list to a CSV file</span></span>
-<span id="cb461-2"><a href="venn-diagram-for-target-genes.html#cb461-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(degs_tp53<span class="sc">$</span>Symbol, <span class="st">&quot;../03.out/figure5/TP53_genes.csv&quot;</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb461-3"><a href="venn-diagram-for-target-genes.html#cb461-3" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(degs_dnmt3a<span class="sc">$</span>Symbol, <span class="st">&quot;../03.out/figure5/DNMT3A_genes.csv&quot;</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb461-4"><a href="venn-diagram-for-target-genes.html#cb461-4" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(degs_idh2<span class="sc">$</span>Symbol, <span class="st">&quot;../03.out/figure5/IDH2_genes.csv&quot;</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb461-5"><a href="venn-diagram-for-target-genes.html#cb461-5" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(degs_cebpa<span class="sc">$</span>Symbol, <span class="st">&quot;../03.out/figure5/CEBPA_genes.csv&quot;</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb176-1"><a href="venn-diagram-for-target-genes.html#cb176-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggVennDiagram)</span>
+<span id="cb176-2"><a href="venn-diagram-for-target-genes.html#cb176-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb176-3"><a href="venn-diagram-for-target-genes.html#cb176-3" aria-hidden="true" tabindex="-1"></a>stat1 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;../03.out/figure5/RF8_correlatedGenes.csv&quot;</span>, <span class="at">header =</span> T)</span>
+<span id="cb176-4"><a href="venn-diagram-for-target-genes.html#cb176-4" aria-hidden="true" tabindex="-1"></a>stat1<span class="sc">$</span>rank_score <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fu">log2</span>(stat1<span class="sc">$</span>P.value) <span class="sc">*</span> <span class="fu">abs</span>(stat1<span class="sc">$</span>rho)</span>
+<span id="cb176-5"><a href="venn-diagram-for-target-genes.html#cb176-5" aria-hidden="true" tabindex="-1"></a>stat1 <span class="ot">&lt;-</span> stat1[<span class="fu">order</span>(stat1<span class="sc">$</span>rank_score, <span class="at">decreasing =</span> <span class="cn">TRUE</span>), ]</span>
+<span id="cb176-6"><a href="venn-diagram-for-target-genes.html#cb176-6" aria-hidden="true" tabindex="-1"></a>rf8_genes <span class="ot">&lt;-</span> <span class="fu">head</span>(stat1, <span class="at">n=</span><span class="dv">1000</span>)</span>
+<span id="cb176-7"><a href="venn-diagram-for-target-genes.html#cb176-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb176-8"><a href="venn-diagram-for-target-genes.html#cb176-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Example Venn plot for 5 sets</span></span>
+<span id="cb176-9"><a href="venn-diagram-for-target-genes.html#cb176-9" aria-hidden="true" tabindex="-1"></a>venn_plot <span class="ot">&lt;-</span> <span class="fu">ggVennDiagram</span>(</span>
+<span id="cb176-10"><a href="venn-diagram-for-target-genes.html#cb176-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">list</span>(</span>
+<span id="cb176-11"><a href="venn-diagram-for-target-genes.html#cb176-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;RF8-genes&quot;</span> <span class="ot">=</span> rf8_genes<span class="sc">$</span>ID,</span>
+<span id="cb176-12"><a href="venn-diagram-for-target-genes.html#cb176-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;TP53 mutation&quot;</span> <span class="ot">=</span> degs_tp53<span class="sc">$</span>Symbol,</span>
+<span id="cb176-13"><a href="venn-diagram-for-target-genes.html#cb176-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;DNMT3A mutation&quot;</span> <span class="ot">=</span> degs_dnmt3a<span class="sc">$</span>Symbol,</span>
+<span id="cb176-14"><a href="venn-diagram-for-target-genes.html#cb176-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;IDH2 mutation&quot;</span> <span class="ot">=</span> degs_idh2<span class="sc">$</span>Symbol,</span>
+<span id="cb176-15"><a href="venn-diagram-for-target-genes.html#cb176-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;CEBPA mutation&quot;</span> <span class="ot">=</span> degs_cebpa<span class="sc">$</span>Symbol</span>
+<span id="cb176-16"><a href="venn-diagram-for-target-genes.html#cb176-16" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb176-17"><a href="venn-diagram-for-target-genes.html#cb176-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">label_alpha =</span> <span class="fl">0.5</span>,</span>
+<span id="cb176-18"><a href="venn-diagram-for-target-genes.html#cb176-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">edge_size =</span> <span class="fl">0.5</span>,</span>
+<span id="cb176-19"><a href="venn-diagram-for-target-genes.html#cb176-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">label =</span> <span class="st">&quot;count&quot;</span></span>
+<span id="cb176-20"><a href="venn-diagram-for-target-genes.html#cb176-20" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span> </span>
+<span id="cb176-21"><a href="venn-diagram-for-target-genes.html#cb176-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Intersection of Gene Sets&quot;</span>) <span class="sc">+</span></span>
+<span id="cb176-22"><a href="venn-diagram-for-target-genes.html#cb176-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span>
+<span id="cb176-23"><a href="venn-diagram-for-target-genes.html#cb176-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb176-24"><a href="venn-diagram-for-target-genes.html#cb176-24" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(venn_plot)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-64-1.png" width="672" /></p>
+<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="venn-diagram-for-target-genes.html#cb177-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Save each gene list to a CSV file</span></span>
+<span id="cb177-2"><a href="venn-diagram-for-target-genes.html#cb177-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(degs_tp53<span class="sc">$</span>Symbol, <span class="st">&quot;../03.out/figure5/TP53_genes.csv&quot;</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb177-3"><a href="venn-diagram-for-target-genes.html#cb177-3" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(degs_dnmt3a<span class="sc">$</span>Symbol, <span class="st">&quot;../03.out/figure5/DNMT3A_genes.csv&quot;</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb177-4"><a href="venn-diagram-for-target-genes.html#cb177-4" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(degs_idh2<span class="sc">$</span>Symbol, <span class="st">&quot;../03.out/figure5/IDH2_genes.csv&quot;</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb177-5"><a href="venn-diagram-for-target-genes.html#cb177-5" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(degs_cebpa<span class="sc">$</span>Symbol, <span class="st">&quot;../03.out/figure5/CEBPA_genes.csv&quot;</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 </div>
             </section>
 

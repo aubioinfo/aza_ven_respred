@@ -23,7 +23,7 @@
 <meta name="author" content="Peng Jin, Qiqi Jin, Kankan Wang" />
 
 
-<meta name="date" content="2025-07-18" />
+<meta name="date" content="2025-07-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -244,30 +244,30 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="barplot-for-predicted-response-0.630" class="section level2 hasAnchor" number="4.9">
 <h2><span class="header-section-number">4.9</span> Barplot for predicted Response (0.630)<a href="barplot-for-predicted-response-0.html#barplot-for-predicted-response-0.630" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb323"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb323-1"><a href="barplot-for-predicted-response-0.html#cb323-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggstatsplot)</span>
-<span id="cb323-2"><a href="barplot-for-predicted-response-0.html#cb323-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb323-3"><a href="barplot-for-predicted-response-0.html#cb323-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
-<span id="cb323-4"><a href="barplot-for-predicted-response-0.html#cb323-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb323-5"><a href="barplot-for-predicted-response-0.html#cb323-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Test set bar plot</span></span>
-<span id="cb323-6"><a href="barplot-for-predicted-response-0.html#cb323-6" aria-hidden="true" tabindex="-1"></a>data_test <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;../03.out/figure3/RF8_RJAML_cohort1_test.csv&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">row.names =</span> <span class="dv">1</span>)</span>
-<span id="cb323-7"><a href="barplot-for-predicted-response-0.html#cb323-7" aria-hidden="true" tabindex="-1"></a>data_test<span class="sc">$</span>Predicted_Response <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(data_test<span class="sc">$</span>RF8.prob.CR <span class="sc">&gt;</span> <span class="fl">0.630</span>, <span class="st">&quot;Responder&quot;</span>, <span class="st">&quot;Non-responder&quot;</span>)</span>
-<span id="cb323-8"><a href="barplot-for-predicted-response-0.html#cb323-8" aria-hidden="true" tabindex="-1"></a>p_test <span class="ot">&lt;-</span> <span class="fu">ggbarstats</span>(<span class="at">data =</span> data_test, <span class="at">x =</span> Response, <span class="at">y =</span> Predicted_Response) <span class="sc">+</span> </span>
-<span id="cb323-9"><a href="barplot-for-predicted-response-0.html#cb323-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
-<span id="cb323-10"><a href="barplot-for-predicted-response-0.html#cb323-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Test Set&quot;</span>)</span>
-<span id="cb323-11"><a href="barplot-for-predicted-response-0.html#cb323-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb323-12"><a href="barplot-for-predicted-response-0.html#cb323-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Entire set bar plot</span></span>
-<span id="cb323-13"><a href="barplot-for-predicted-response-0.html#cb323-13" aria-hidden="true" tabindex="-1"></a>data_entire <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;../03.out/figure3/RF8_RJAML_cohort1_entire.csv&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">row.names =</span> <span class="dv">1</span>)</span>
-<span id="cb323-14"><a href="barplot-for-predicted-response-0.html#cb323-14" aria-hidden="true" tabindex="-1"></a>data_entire<span class="sc">$</span>Predicted_Response <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(data_entire<span class="sc">$</span>RF8.prob.CR <span class="sc">&gt;</span> <span class="fl">0.630</span>, <span class="st">&quot;Responder&quot;</span>, <span class="st">&quot;Non-responder&quot;</span>)</span>
-<span id="cb323-15"><a href="barplot-for-predicted-response-0.html#cb323-15" aria-hidden="true" tabindex="-1"></a>p_entire <span class="ot">&lt;-</span> <span class="fu">ggbarstats</span>(<span class="at">data =</span> data_entire, <span class="at">x =</span> Response, <span class="at">y =</span> Predicted_Response) <span class="sc">+</span> </span>
-<span id="cb323-16"><a href="barplot-for-predicted-response-0.html#cb323-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
-<span id="cb323-17"><a href="barplot-for-predicted-response-0.html#cb323-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Entire Set&quot;</span>)</span>
-<span id="cb323-18"><a href="barplot-for-predicted-response-0.html#cb323-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb323-19"><a href="barplot-for-predicted-response-0.html#cb323-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine plots</span></span>
-<span id="cb323-20"><a href="barplot-for-predicted-response-0.html#cb323-20" aria-hidden="true" tabindex="-1"></a>combined_barplot <span class="ot">&lt;-</span> p_test <span class="sc">|</span> p_entire</span>
-<span id="cb323-21"><a href="barplot-for-predicted-response-0.html#cb323-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb323-22"><a href="barplot-for-predicted-response-0.html#cb323-22" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(combined_barplot)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-33-1.png" width="672" /></p>
-<div class="sourceCode" id="cb324"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb324-1"><a href="barplot-for-predicted-response-0.html#cb324-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ggsave(combined_barplot, filename = &quot;../03.out/figure3/RF8_barplot_Test_Entire_optimal.pdf&quot;, width = 7, height = 4.5)</span></span></code></pre></div>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="barplot-for-predicted-response-0.html#cb107-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggstatsplot)</span>
+<span id="cb107-2"><a href="barplot-for-predicted-response-0.html#cb107-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb107-3"><a href="barplot-for-predicted-response-0.html#cb107-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb107-4"><a href="barplot-for-predicted-response-0.html#cb107-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb107-5"><a href="barplot-for-predicted-response-0.html#cb107-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Test set bar plot</span></span>
+<span id="cb107-6"><a href="barplot-for-predicted-response-0.html#cb107-6" aria-hidden="true" tabindex="-1"></a>data_test <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;../03.out/figure3/RF8_RJAML_cohort1_test.csv&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">row.names =</span> <span class="dv">1</span>)</span>
+<span id="cb107-7"><a href="barplot-for-predicted-response-0.html#cb107-7" aria-hidden="true" tabindex="-1"></a>data_test<span class="sc">$</span>Predicted_Response <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(data_test<span class="sc">$</span>RF8.prob.CR <span class="sc">&gt;</span> <span class="fl">0.630</span>, <span class="st">&quot;Responder&quot;</span>, <span class="st">&quot;Non-responder&quot;</span>)</span>
+<span id="cb107-8"><a href="barplot-for-predicted-response-0.html#cb107-8" aria-hidden="true" tabindex="-1"></a>p_test <span class="ot">&lt;-</span> <span class="fu">ggbarstats</span>(<span class="at">data =</span> data_test, <span class="at">x =</span> Response, <span class="at">y =</span> Predicted_Response) <span class="sc">+</span> </span>
+<span id="cb107-9"><a href="barplot-for-predicted-response-0.html#cb107-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb107-10"><a href="barplot-for-predicted-response-0.html#cb107-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Test Set&quot;</span>)</span>
+<span id="cb107-11"><a href="barplot-for-predicted-response-0.html#cb107-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb107-12"><a href="barplot-for-predicted-response-0.html#cb107-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Entire set bar plot</span></span>
+<span id="cb107-13"><a href="barplot-for-predicted-response-0.html#cb107-13" aria-hidden="true" tabindex="-1"></a>data_entire <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;../03.out/figure3/RF8_RJAML_cohort1_entire.csv&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">row.names =</span> <span class="dv">1</span>)</span>
+<span id="cb107-14"><a href="barplot-for-predicted-response-0.html#cb107-14" aria-hidden="true" tabindex="-1"></a>data_entire<span class="sc">$</span>Predicted_Response <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(data_entire<span class="sc">$</span>RF8.prob.CR <span class="sc">&gt;</span> <span class="fl">0.630</span>, <span class="st">&quot;Responder&quot;</span>, <span class="st">&quot;Non-responder&quot;</span>)</span>
+<span id="cb107-15"><a href="barplot-for-predicted-response-0.html#cb107-15" aria-hidden="true" tabindex="-1"></a>p_entire <span class="ot">&lt;-</span> <span class="fu">ggbarstats</span>(<span class="at">data =</span> data_entire, <span class="at">x =</span> Response, <span class="at">y =</span> Predicted_Response) <span class="sc">+</span> </span>
+<span id="cb107-16"><a href="barplot-for-predicted-response-0.html#cb107-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb107-17"><a href="barplot-for-predicted-response-0.html#cb107-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Entire Set&quot;</span>)</span>
+<span id="cb107-18"><a href="barplot-for-predicted-response-0.html#cb107-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb107-19"><a href="barplot-for-predicted-response-0.html#cb107-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine plots</span></span>
+<span id="cb107-20"><a href="barplot-for-predicted-response-0.html#cb107-20" aria-hidden="true" tabindex="-1"></a>combined_barplot <span class="ot">&lt;-</span> p_test <span class="sc">|</span> p_entire</span>
+<span id="cb107-21"><a href="barplot-for-predicted-response-0.html#cb107-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb107-22"><a href="barplot-for-predicted-response-0.html#cb107-22" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(combined_barplot)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-34-1.png" width="672" /></p>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="barplot-for-predicted-response-0.html#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ggsave(combined_barplot, filename = &quot;../03.out/figure3/RF8_barplot_Test_Entire_optimal.pdf&quot;, width = 7, height = 4.5)</span></span></code></pre></div>
 </div>
             </section>
 

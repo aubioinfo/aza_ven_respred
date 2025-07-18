@@ -23,7 +23,7 @@
 <meta name="author" content="Peng Jin, Qiqi Jin, Kankan Wang" />
 
 
-<meta name="date" content="2025-07-18" />
+<meta name="date" content="2025-07-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -244,33 +244,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="brier-score-analysis" class="section level2 hasAnchor" number="7.4">
 <h2><span class="header-section-number">7.4</span> Brier Score Analysis<a href="brier-score-analysis.html#brier-score-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb487"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb487-1"><a href="brier-score-analysis.html#cb487-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pec)</span></code></pre></div>
-<pre><code>## Loading required package: prodlim</code></pre>
-<pre><code>## 
-## Attaching package: &#39;pec&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:caret&#39;:
-## 
-##     R2</code></pre>
-<div class="sourceCode" id="cb491"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb491-1"><a href="brier-score-analysis.html#cb491-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survival)</span>
-<span id="cb491-2"><a href="brier-score-analysis.html#cb491-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
-<span id="cb491-3"><a href="brier-score-analysis.html#cb491-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb491-4"><a href="brier-score-analysis.html#cb491-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Load data</span></span>
-<span id="cb491-5"><a href="brier-score-analysis.html#cb491-5" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read_xlsx</span>(<span class="st">&quot;../03.out/figure6/01.RF8_SurvivalAnalysis.xlsx&quot;</span>)</span>
-<span id="cb491-6"><a href="brier-score-analysis.html#cb491-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb491-7"><a href="brier-score-analysis.html#cb491-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Define models for Event-Free Survival (EFS)</span></span>
-<span id="cb491-8"><a href="brier-score-analysis.html#cb491-8" aria-hidden="true" tabindex="-1"></a>models_efs <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb491-9"><a href="brier-score-analysis.html#cb491-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;RF8&quot;</span> <span class="ot">=</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(EFS_Time, EFS_Status) <span class="sc">~</span> RF8.prob.CR, <span class="at">data =</span> data, <span class="at">x =</span> <span class="cn">TRUE</span>, <span class="at">y =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb491-10"><a href="brier-score-analysis.html#cb491-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;ELN2022&quot;</span> <span class="ot">=</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(EFS_Time, EFS_Status) <span class="sc">~</span> ELN2022, <span class="at">data =</span> data, <span class="at">x =</span> <span class="cn">TRUE</span>, <span class="at">y =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb491-11"><a href="brier-score-analysis.html#cb491-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;ELN2024&quot;</span> <span class="ot">=</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(EFS_Time, EFS_Status) <span class="sc">~</span> ELN2024, <span class="at">data =</span> data, <span class="at">x =</span> <span class="cn">TRUE</span>, <span class="at">y =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb491-12"><a href="brier-score-analysis.html#cb491-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;gene4_signature&quot;</span> <span class="ot">=</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(EFS_Time, EFS_Status) <span class="sc">~</span> gene4_signature, <span class="at">data =</span> data, <span class="at">x =</span> <span class="cn">TRUE</span>, <span class="at">y =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb491-13"><a href="brier-score-analysis.html#cb491-13" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;molecular_predictor&quot;</span> <span class="ot">=</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(EFS_Time, EFS_Status) <span class="sc">~</span> molecular_predictor, <span class="at">data =</span> data, <span class="at">x =</span> <span class="cn">TRUE</span>, <span class="at">y =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb491-14"><a href="brier-score-analysis.html#cb491-14" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;mayo_predictor&quot;</span> <span class="ot">=</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(EFS_Time, EFS_Status) <span class="sc">~</span> mayo_predictor, <span class="at">data =</span> data, <span class="at">x =</span> <span class="cn">TRUE</span>, <span class="at">y =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb491-15"><a href="brier-score-analysis.html#cb491-15" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb491-16"><a href="brier-score-analysis.html#cb491-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb491-17"><a href="brier-score-analysis.html#cb491-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate Brier scores for EFS</span></span>
-<span id="cb491-18"><a href="brier-score-analysis.html#cb491-18" aria-hidden="true" tabindex="-1"></a>brier_efs <span class="ot">&lt;-</span> <span class="fu">pec</span>(models_efs, <span class="at">data =</span> data, <span class="at">formula =</span> <span class="fu">Surv</span>(EFS_Time, EFS_Status) <span class="sc">~</span> <span class="dv">1</span>)</span></code></pre></div>
-<pre><code>## No covariates  specified: Kaplan-Meier for censoring times used for weighting.</code></pre>
-<div class="sourceCode" id="cb493"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb493-1"><a href="brier-score-analysis.html#cb493-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(brier_efs)</span></code></pre></div>
+<div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb184-1"><a href="brier-score-analysis.html#cb184-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pec)</span>
+<span id="cb184-2"><a href="brier-score-analysis.html#cb184-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survival)</span>
+<span id="cb184-3"><a href="brier-score-analysis.html#cb184-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb184-4"><a href="brier-score-analysis.html#cb184-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb184-5"><a href="brier-score-analysis.html#cb184-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Load data</span></span>
+<span id="cb184-6"><a href="brier-score-analysis.html#cb184-6" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read_xlsx</span>(<span class="st">&quot;../03.out/figure6/01.RF8_SurvivalAnalysis.xlsx&quot;</span>)</span>
+<span id="cb184-7"><a href="brier-score-analysis.html#cb184-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb184-8"><a href="brier-score-analysis.html#cb184-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Define models for Event-Free Survival (EFS)</span></span>
+<span id="cb184-9"><a href="brier-score-analysis.html#cb184-9" aria-hidden="true" tabindex="-1"></a>models_efs <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb184-10"><a href="brier-score-analysis.html#cb184-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;RF8&quot;</span> <span class="ot">=</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(EFS_Time, EFS_Status) <span class="sc">~</span> RF8.prob.CR, <span class="at">data =</span> data, <span class="at">x =</span> <span class="cn">TRUE</span>, <span class="at">y =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb184-11"><a href="brier-score-analysis.html#cb184-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;ELN2022&quot;</span> <span class="ot">=</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(EFS_Time, EFS_Status) <span class="sc">~</span> ELN2022, <span class="at">data =</span> data, <span class="at">x =</span> <span class="cn">TRUE</span>, <span class="at">y =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb184-12"><a href="brier-score-analysis.html#cb184-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;ELN2024&quot;</span> <span class="ot">=</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(EFS_Time, EFS_Status) <span class="sc">~</span> ELN2024, <span class="at">data =</span> data, <span class="at">x =</span> <span class="cn">TRUE</span>, <span class="at">y =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb184-13"><a href="brier-score-analysis.html#cb184-13" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;gene4_signature&quot;</span> <span class="ot">=</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(EFS_Time, EFS_Status) <span class="sc">~</span> gene4_signature, <span class="at">data =</span> data, <span class="at">x =</span> <span class="cn">TRUE</span>, <span class="at">y =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb184-14"><a href="brier-score-analysis.html#cb184-14" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;molecular_predictor&quot;</span> <span class="ot">=</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(EFS_Time, EFS_Status) <span class="sc">~</span> molecular_predictor, <span class="at">data =</span> data, <span class="at">x =</span> <span class="cn">TRUE</span>, <span class="at">y =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb184-15"><a href="brier-score-analysis.html#cb184-15" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;mayo_predictor&quot;</span> <span class="ot">=</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(EFS_Time, EFS_Status) <span class="sc">~</span> mayo_predictor, <span class="at">data =</span> data, <span class="at">x =</span> <span class="cn">TRUE</span>, <span class="at">y =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb184-16"><a href="brier-score-analysis.html#cb184-16" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb184-17"><a href="brier-score-analysis.html#cb184-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb184-18"><a href="brier-score-analysis.html#cb184-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate Brier scores for EFS</span></span>
+<span id="cb184-19"><a href="brier-score-analysis.html#cb184-19" aria-hidden="true" tabindex="-1"></a>brier_efs <span class="ot">&lt;-</span> <span class="fu">pec</span>(models_efs, <span class="at">data =</span> data, <span class="at">formula =</span> <span class="fu">Surv</span>(EFS_Time, EFS_Status) <span class="sc">~</span> <span class="dv">1</span>)</span>
+<span id="cb184-20"><a href="brier-score-analysis.html#cb184-20" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(brier_efs)</span></code></pre></div>
 <pre><code>## 
 ## Prediction error curves
 ## 
@@ -310,22 +303,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## gene4_signature               0.206
 ## molecular_predictor           0.206
 ## mayo_predictor                0.210</code></pre>
-<div class="sourceCode" id="cb495"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb495-1"><a href="brier-score-analysis.html#cb495-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot Brier scores for EFS</span></span>
-<span id="cb495-2"><a href="brier-score-analysis.html#cb495-2" aria-hidden="true" tabindex="-1"></a><span class="co"># pdf(&quot;../03.out/figure6/01.BrierScores_EFS.pdf&quot;, width = 4, height = 4.3)</span></span>
-<span id="cb495-3"><a href="brier-score-analysis.html#cb495-3" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">plot</span>(</span>
-<span id="cb495-4"><a href="brier-score-analysis.html#cb495-4" aria-hidden="true" tabindex="-1"></a>  brier_efs,</span>
-<span id="cb495-5"><a href="brier-score-analysis.html#cb495-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">3</span>),</span>
-<span id="cb495-6"><a href="brier-score-analysis.html#cb495-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;#E74342&quot;</span>, <span class="st">&quot;#3469AF&quot;</span>, <span class="st">&quot;#38AC6B&quot;</span>, <span class="st">&quot;#9A78B4&quot;</span>, <span class="st">&quot;#73C8EF&quot;</span>,<span class="st">&quot;#E5C494&quot;</span>),</span>
-<span id="cb495-7"><a href="brier-score-analysis.html#cb495-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">lwd =</span> <span class="fl">2.5</span>,</span>
-<span id="cb495-8"><a href="brier-score-analysis.html#cb495-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">&quot;Survival Time (years)&quot;</span>,</span>
-<span id="cb495-9"><a href="brier-score-analysis.html#cb495-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">&quot;Prediction Error (Brier Score)&quot;</span>,</span>
-<span id="cb495-10"><a href="brier-score-analysis.html#cb495-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">&quot;Brier Score for Event-Free Survival (EFS)&quot;</span>,</span>
-<span id="cb495-11"><a href="brier-score-analysis.html#cb495-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">legend =</span> <span class="cn">TRUE</span></span>
-<span id="cb495-12"><a href="brier-score-analysis.html#cb495-12" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb495-13"><a href="brier-score-analysis.html#cb495-13" aria-hidden="true" tabindex="-1"></a><span class="fu">grid</span>(<span class="at">col =</span> <span class="st">&quot;gray&quot;</span>, <span class="at">lty =</span> <span class="st">&quot;dotted&quot;</span>, <span class="at">lwd =</span> <span class="fl">0.8</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-69-1.png" width="672" /></p>
-<div class="sourceCode" id="cb496"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb496-1"><a href="brier-score-analysis.html#cb496-1" aria-hidden="true" tabindex="-1"></a><span class="co"># dev.off()</span></span>
-<span id="cb496-2"><a href="brier-score-analysis.html#cb496-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(out)</span></code></pre></div>
+<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="brier-score-analysis.html#cb186-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot Brier scores for EFS</span></span>
+<span id="cb186-2"><a href="brier-score-analysis.html#cb186-2" aria-hidden="true" tabindex="-1"></a><span class="co"># pdf(&quot;../03.out/figure6/01.BrierScores_EFS.pdf&quot;, width = 4, height = 4.3)</span></span>
+<span id="cb186-3"><a href="brier-score-analysis.html#cb186-3" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">plot</span>(</span>
+<span id="cb186-4"><a href="brier-score-analysis.html#cb186-4" aria-hidden="true" tabindex="-1"></a>  brier_efs,</span>
+<span id="cb186-5"><a href="brier-score-analysis.html#cb186-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">3</span>),</span>
+<span id="cb186-6"><a href="brier-score-analysis.html#cb186-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;#E74342&quot;</span>, <span class="st">&quot;#3469AF&quot;</span>, <span class="st">&quot;#38AC6B&quot;</span>, <span class="st">&quot;#9A78B4&quot;</span>, <span class="st">&quot;#73C8EF&quot;</span>,<span class="st">&quot;#E5C494&quot;</span>),</span>
+<span id="cb186-7"><a href="brier-score-analysis.html#cb186-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">lwd =</span> <span class="fl">2.5</span>,</span>
+<span id="cb186-8"><a href="brier-score-analysis.html#cb186-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">&quot;Survival Time (years)&quot;</span>,</span>
+<span id="cb186-9"><a href="brier-score-analysis.html#cb186-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">&quot;Prediction Error (Brier Score)&quot;</span>,</span>
+<span id="cb186-10"><a href="brier-score-analysis.html#cb186-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">&quot;Brier Score for Event-Free Survival (EFS)&quot;</span>,</span>
+<span id="cb186-11"><a href="brier-score-analysis.html#cb186-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">legend =</span> <span class="cn">TRUE</span></span>
+<span id="cb186-12"><a href="brier-score-analysis.html#cb186-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb186-13"><a href="brier-score-analysis.html#cb186-13" aria-hidden="true" tabindex="-1"></a><span class="fu">grid</span>(<span class="at">col =</span> <span class="st">&quot;gray&quot;</span>, <span class="at">lty =</span> <span class="st">&quot;dotted&quot;</span>, <span class="at">lwd =</span> <span class="fl">0.8</span>)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-70-1.png" width="672" /></p>
+<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="brier-score-analysis.html#cb187-1" aria-hidden="true" tabindex="-1"></a><span class="co"># dev.off()</span></span>
+<span id="cb187-2"><a href="brier-score-analysis.html#cb187-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(out)</span></code></pre></div>
 <pre><code>## 
 ## Prediction error curves
 ## 
@@ -365,20 +358,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## gene4_signature               0.206
 ## molecular_predictor           0.206
 ## mayo_predictor                0.210</code></pre>
-<div class="sourceCode" id="cb498"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb498-1"><a href="brier-score-analysis.html#cb498-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define models for Overall Survival (OS)</span></span>
-<span id="cb498-2"><a href="brier-score-analysis.html#cb498-2" aria-hidden="true" tabindex="-1"></a>models_os <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb498-3"><a href="brier-score-analysis.html#cb498-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;RF8&quot;</span> <span class="ot">=</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(OS_Time, OS_Status) <span class="sc">~</span> RF8.prob.CR, <span class="at">data =</span> data, <span class="at">x =</span> <span class="cn">TRUE</span>, <span class="at">y =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb498-4"><a href="brier-score-analysis.html#cb498-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;ELN2022&quot;</span> <span class="ot">=</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(OS_Time, OS_Status) <span class="sc">~</span> ELN2022, <span class="at">data =</span> data, <span class="at">x =</span> <span class="cn">TRUE</span>, <span class="at">y =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb498-5"><a href="brier-score-analysis.html#cb498-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;ELN2024&quot;</span> <span class="ot">=</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(EFS_Time, EFS_Status) <span class="sc">~</span> ELN2024, <span class="at">data =</span> data, <span class="at">x =</span> <span class="cn">TRUE</span>, <span class="at">y =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb498-6"><a href="brier-score-analysis.html#cb498-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;gene4_signature&quot;</span> <span class="ot">=</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(OS_Time, OS_Status) <span class="sc">~</span> gene4_signature, <span class="at">data =</span> data, <span class="at">x =</span> <span class="cn">TRUE</span>, <span class="at">y =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb498-7"><a href="brier-score-analysis.html#cb498-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;molecular_predictor&quot;</span> <span class="ot">=</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(OS_Time, OS_Status) <span class="sc">~</span> molecular_predictor, <span class="at">data =</span> data, <span class="at">x =</span> <span class="cn">TRUE</span>, <span class="at">y =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb498-8"><a href="brier-score-analysis.html#cb498-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;mayo_predictor&quot;</span> <span class="ot">=</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(OS_Time, OS_Status) <span class="sc">~</span> mayo_predictor, <span class="at">data =</span> data, <span class="at">x =</span> <span class="cn">TRUE</span>, <span class="at">y =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb498-9"><a href="brier-score-analysis.html#cb498-9" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb498-10"><a href="brier-score-analysis.html#cb498-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb498-11"><a href="brier-score-analysis.html#cb498-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate Brier scores for OS</span></span>
-<span id="cb498-12"><a href="brier-score-analysis.html#cb498-12" aria-hidden="true" tabindex="-1"></a>brier_os <span class="ot">&lt;-</span> <span class="fu">pec</span>(models_os, <span class="at">data =</span> data, <span class="at">formula =</span> <span class="fu">Surv</span>(OS_Time, OS_Status) <span class="sc">~</span> <span class="dv">1</span>)</span></code></pre></div>
-<pre><code>## No covariates  specified: Kaplan-Meier for censoring times used for weighting.</code></pre>
-<div class="sourceCode" id="cb500"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb500-1"><a href="brier-score-analysis.html#cb500-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(brier_os)</span></code></pre></div>
+<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="brier-score-analysis.html#cb189-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define models for Overall Survival (OS)</span></span>
+<span id="cb189-2"><a href="brier-score-analysis.html#cb189-2" aria-hidden="true" tabindex="-1"></a>models_os <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb189-3"><a href="brier-score-analysis.html#cb189-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;RF8&quot;</span> <span class="ot">=</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(OS_Time, OS_Status) <span class="sc">~</span> RF8.prob.CR, <span class="at">data =</span> data, <span class="at">x =</span> <span class="cn">TRUE</span>, <span class="at">y =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb189-4"><a href="brier-score-analysis.html#cb189-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;ELN2022&quot;</span> <span class="ot">=</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(OS_Time, OS_Status) <span class="sc">~</span> ELN2022, <span class="at">data =</span> data, <span class="at">x =</span> <span class="cn">TRUE</span>, <span class="at">y =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb189-5"><a href="brier-score-analysis.html#cb189-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;ELN2024&quot;</span> <span class="ot">=</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(EFS_Time, EFS_Status) <span class="sc">~</span> ELN2024, <span class="at">data =</span> data, <span class="at">x =</span> <span class="cn">TRUE</span>, <span class="at">y =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb189-6"><a href="brier-score-analysis.html#cb189-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;gene4_signature&quot;</span> <span class="ot">=</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(OS_Time, OS_Status) <span class="sc">~</span> gene4_signature, <span class="at">data =</span> data, <span class="at">x =</span> <span class="cn">TRUE</span>, <span class="at">y =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb189-7"><a href="brier-score-analysis.html#cb189-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;molecular_predictor&quot;</span> <span class="ot">=</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(OS_Time, OS_Status) <span class="sc">~</span> molecular_predictor, <span class="at">data =</span> data, <span class="at">x =</span> <span class="cn">TRUE</span>, <span class="at">y =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb189-8"><a href="brier-score-analysis.html#cb189-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;mayo_predictor&quot;</span> <span class="ot">=</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(OS_Time, OS_Status) <span class="sc">~</span> mayo_predictor, <span class="at">data =</span> data, <span class="at">x =</span> <span class="cn">TRUE</span>, <span class="at">y =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb189-9"><a href="brier-score-analysis.html#cb189-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb189-10"><a href="brier-score-analysis.html#cb189-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb189-11"><a href="brier-score-analysis.html#cb189-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate Brier scores for OS</span></span>
+<span id="cb189-12"><a href="brier-score-analysis.html#cb189-12" aria-hidden="true" tabindex="-1"></a>brier_os <span class="ot">&lt;-</span> <span class="fu">pec</span>(models_os, <span class="at">data =</span> data, <span class="at">formula =</span> <span class="fu">Surv</span>(OS_Time, OS_Status) <span class="sc">~</span> <span class="dv">1</span>)</span>
+<span id="cb189-13"><a href="brier-score-analysis.html#cb189-13" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(brier_os)</span></code></pre></div>
 <pre><code>## 
 ## Prediction error curves
 ## 
@@ -418,22 +410,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## gene4_signature               0.191
 ## molecular_predictor           0.190
 ## mayo_predictor                0.194</code></pre>
-<div class="sourceCode" id="cb502"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb502-1"><a href="brier-score-analysis.html#cb502-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot Brier scores for OS</span></span>
-<span id="cb502-2"><a href="brier-score-analysis.html#cb502-2" aria-hidden="true" tabindex="-1"></a><span class="co"># pdf(&quot;../03.out/figure6/01.BrierScores_OS.pdf&quot;, width = 4, height = 4.3)</span></span>
-<span id="cb502-3"><a href="brier-score-analysis.html#cb502-3" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">plot</span>(</span>
-<span id="cb502-4"><a href="brier-score-analysis.html#cb502-4" aria-hidden="true" tabindex="-1"></a>  brier_os,</span>
-<span id="cb502-5"><a href="brier-score-analysis.html#cb502-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">3</span>),</span>
-<span id="cb502-6"><a href="brier-score-analysis.html#cb502-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;#E74342&quot;</span>, <span class="st">&quot;#3469AF&quot;</span>, <span class="st">&quot;#38AC6B&quot;</span>, <span class="st">&quot;#9A78B4&quot;</span>, <span class="st">&quot;#73C8EF&quot;</span>,<span class="st">&quot;#E5C494&quot;</span>),</span>
-<span id="cb502-7"><a href="brier-score-analysis.html#cb502-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">lwd =</span> <span class="fl">2.5</span>,</span>
-<span id="cb502-8"><a href="brier-score-analysis.html#cb502-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">&quot;Survival Time (years)&quot;</span>,</span>
-<span id="cb502-9"><a href="brier-score-analysis.html#cb502-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">&quot;Prediction Error (Brier Score)&quot;</span>,</span>
-<span id="cb502-10"><a href="brier-score-analysis.html#cb502-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">&quot;Brier Score for Overall Survival (OS)&quot;</span>,</span>
-<span id="cb502-11"><a href="brier-score-analysis.html#cb502-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">legend =</span> <span class="cn">TRUE</span></span>
-<span id="cb502-12"><a href="brier-score-analysis.html#cb502-12" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb502-13"><a href="brier-score-analysis.html#cb502-13" aria-hidden="true" tabindex="-1"></a><span class="fu">grid</span>(<span class="at">col =</span> <span class="st">&quot;gray&quot;</span>, <span class="at">lty =</span> <span class="st">&quot;dotted&quot;</span>, <span class="at">lwd =</span> <span class="fl">0.8</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-69-2.png" width="672" /></p>
-<div class="sourceCode" id="cb503"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb503-1"><a href="brier-score-analysis.html#cb503-1" aria-hidden="true" tabindex="-1"></a><span class="co"># dev.off()</span></span>
-<span id="cb503-2"><a href="brier-score-analysis.html#cb503-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(out)</span></code></pre></div>
+<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="brier-score-analysis.html#cb191-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot Brier scores for OS</span></span>
+<span id="cb191-2"><a href="brier-score-analysis.html#cb191-2" aria-hidden="true" tabindex="-1"></a><span class="co"># pdf(&quot;../03.out/figure6/01.BrierScores_OS.pdf&quot;, width = 4, height = 4.3)</span></span>
+<span id="cb191-3"><a href="brier-score-analysis.html#cb191-3" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">plot</span>(</span>
+<span id="cb191-4"><a href="brier-score-analysis.html#cb191-4" aria-hidden="true" tabindex="-1"></a>  brier_os,</span>
+<span id="cb191-5"><a href="brier-score-analysis.html#cb191-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">3</span>),</span>
+<span id="cb191-6"><a href="brier-score-analysis.html#cb191-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;#E74342&quot;</span>, <span class="st">&quot;#3469AF&quot;</span>, <span class="st">&quot;#38AC6B&quot;</span>, <span class="st">&quot;#9A78B4&quot;</span>, <span class="st">&quot;#73C8EF&quot;</span>,<span class="st">&quot;#E5C494&quot;</span>),</span>
+<span id="cb191-7"><a href="brier-score-analysis.html#cb191-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">lwd =</span> <span class="fl">2.5</span>,</span>
+<span id="cb191-8"><a href="brier-score-analysis.html#cb191-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">&quot;Survival Time (years)&quot;</span>,</span>
+<span id="cb191-9"><a href="brier-score-analysis.html#cb191-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">&quot;Prediction Error (Brier Score)&quot;</span>,</span>
+<span id="cb191-10"><a href="brier-score-analysis.html#cb191-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">&quot;Brier Score for Overall Survival (OS)&quot;</span>,</span>
+<span id="cb191-11"><a href="brier-score-analysis.html#cb191-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">legend =</span> <span class="cn">TRUE</span></span>
+<span id="cb191-12"><a href="brier-score-analysis.html#cb191-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb191-13"><a href="brier-score-analysis.html#cb191-13" aria-hidden="true" tabindex="-1"></a><span class="fu">grid</span>(<span class="at">col =</span> <span class="st">&quot;gray&quot;</span>, <span class="at">lty =</span> <span class="st">&quot;dotted&quot;</span>, <span class="at">lwd =</span> <span class="fl">0.8</span>)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-70-2.png" width="672" /></p>
+<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="brier-score-analysis.html#cb192-1" aria-hidden="true" tabindex="-1"></a><span class="co"># dev.off()</span></span>
+<span id="cb192-2"><a href="brier-score-analysis.html#cb192-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(out)</span></code></pre></div>
 <pre><code>## 
 ## Prediction error curves
 ## 

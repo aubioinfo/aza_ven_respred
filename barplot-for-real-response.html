@@ -23,7 +23,7 @@
 <meta name="author" content="Peng Jin, Qiqi Jin, Kankan Wang" />
 
 
-<meta name="date" content="2025-07-18" />
+<meta name="date" content="2025-07-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -244,17 +244,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="barplot-for-real-response" class="section level2 hasAnchor" number="6.7">
 <h2><span class="header-section-number">6.7</span> Barplot for real response<a href="barplot-for-real-response.html#barplot-for-real-response" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb441"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb441-1"><a href="barplot-for-real-response.html#cb441-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggstatsplot)</span>
-<span id="cb441-2"><a href="barplot-for-real-response.html#cb441-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
-<span id="cb441-3"><a href="barplot-for-real-response.html#cb441-3" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;../03.out/figure5/multi-cohorts_4gene_data.csv&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb441-4"><a href="barplot-for-real-response.html#cb441-4" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggbarstats</span>(dat, <span class="at">y =</span> TP53, <span class="at">x =</span> Response_group, <span class="at">palette =</span> <span class="st">&quot;Paired&quot;</span>, <span class="at">label =</span> <span class="st">&quot;counts&quot;</span>)</span>
-<span id="cb441-5"><a href="barplot-for-real-response.html#cb441-5" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggbarstats</span>(dat, <span class="at">y =</span> DNMT3A, <span class="at">x =</span> Response_group, <span class="at">palette =</span> <span class="st">&quot;Paired&quot;</span>, <span class="at">label =</span> <span class="st">&quot;counts&quot;</span>)</span>
-<span id="cb441-6"><a href="barplot-for-real-response.html#cb441-6" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> <span class="fu">ggbarstats</span>(dat, <span class="at">y =</span> IDH2, <span class="at">x =</span> Response_group, <span class="at">palette =</span> <span class="st">&quot;Paired&quot;</span>, <span class="at">label =</span> <span class="st">&quot;counts&quot;</span>)</span>
-<span id="cb441-7"><a href="barplot-for-real-response.html#cb441-7" aria-hidden="true" tabindex="-1"></a>p4 <span class="ot">&lt;-</span> <span class="fu">ggbarstats</span>(dat, <span class="at">y =</span> CEBPA, <span class="at">x =</span> Response_group, <span class="at">palette =</span> <span class="st">&quot;Paired&quot;</span>, <span class="at">label =</span> <span class="st">&quot;counts&quot;</span>)</span>
-<span id="cb441-8"><a href="barplot-for-real-response.html#cb441-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb441-9"><a href="barplot-for-real-response.html#cb441-9" aria-hidden="true" tabindex="-1"></a>plots <span class="ot">&lt;-</span> p1<span class="sc">|</span>p2<span class="sc">|</span>p3<span class="sc">|</span>p4</span>
-<span id="cb441-10"><a href="barplot-for-real-response.html#cb441-10" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(plots)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-57-1.png" width="960" /></p>
+<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb168-1"><a href="barplot-for-real-response.html#cb168-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggstatsplot)</span>
+<span id="cb168-2"><a href="barplot-for-real-response.html#cb168-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb168-3"><a href="barplot-for-real-response.html#cb168-3" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;../03.out/figure5/multi-cohorts_4gene_data.csv&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb168-4"><a href="barplot-for-real-response.html#cb168-4" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggbarstats</span>(dat, <span class="at">y =</span> TP53, <span class="at">x =</span> Response_group, <span class="at">palette =</span> <span class="st">&quot;Paired&quot;</span>, <span class="at">label =</span> <span class="st">&quot;counts&quot;</span>)</span>
+<span id="cb168-5"><a href="barplot-for-real-response.html#cb168-5" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggbarstats</span>(dat, <span class="at">y =</span> DNMT3A, <span class="at">x =</span> Response_group, <span class="at">palette =</span> <span class="st">&quot;Paired&quot;</span>, <span class="at">label =</span> <span class="st">&quot;counts&quot;</span>)</span>
+<span id="cb168-6"><a href="barplot-for-real-response.html#cb168-6" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> <span class="fu">ggbarstats</span>(dat, <span class="at">y =</span> IDH2, <span class="at">x =</span> Response_group, <span class="at">palette =</span> <span class="st">&quot;Paired&quot;</span>, <span class="at">label =</span> <span class="st">&quot;counts&quot;</span>)</span>
+<span id="cb168-7"><a href="barplot-for-real-response.html#cb168-7" aria-hidden="true" tabindex="-1"></a>p4 <span class="ot">&lt;-</span> <span class="fu">ggbarstats</span>(dat, <span class="at">y =</span> CEBPA, <span class="at">x =</span> Response_group, <span class="at">palette =</span> <span class="st">&quot;Paired&quot;</span>, <span class="at">label =</span> <span class="st">&quot;counts&quot;</span>)</span>
+<span id="cb168-8"><a href="barplot-for-real-response.html#cb168-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb168-9"><a href="barplot-for-real-response.html#cb168-9" aria-hidden="true" tabindex="-1"></a>plots <span class="ot">&lt;-</span> p1<span class="sc">|</span>p2<span class="sc">|</span>p3<span class="sc">|</span>p4</span>
+<span id="cb168-10"><a href="barplot-for-real-response.html#cb168-10" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(plots)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-58-1.png" width="960" /></p>
 </div>
             </section>
 

@@ -23,7 +23,7 @@
 <meta name="author" content="Peng Jin, Qiqi Jin, Kankan Wang" />
 
 
-<meta name="date" content="2025-07-18" />
+<meta name="date" content="2025-07-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -244,60 +244,60 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="mutation-pairs" class="section level2 hasAnchor" number="6.2">
 <h2><span class="header-section-number">6.2</span> Mutation pairs<a href="mutation-pairs.html#mutation-pairs" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb401"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb401-1"><a href="mutation-pairs.html#cb401-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Obtain mutation pairs in AML patients</span></span>
-<span id="cb401-2"><a href="mutation-pairs.html#cb401-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb401-3"><a href="mutation-pairs.html#cb401-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
-<span id="cb401-4"><a href="mutation-pairs.html#cb401-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
-<span id="cb401-5"><a href="mutation-pairs.html#cb401-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb401-6"><a href="mutation-pairs.html#cb401-6" aria-hidden="true" tabindex="-1"></a>combos <span class="ot">&lt;-</span> <span class="fu">read_xlsx</span>(<span class="st">&quot;../03.out/figure5/mutations_pairs_rf8.xlsx&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb401-7"><a href="mutation-pairs.html#cb401-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">column_to_rownames</span>(<span class="at">var =</span> <span class="st">&quot;PatientID&quot;</span>)</span>
-<span id="cb401-8"><a href="mutation-pairs.html#cb401-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb401-9"><a href="mutation-pairs.html#cb401-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Select columns that contain &#39;mut&#39; and replace values</span></span>
-<span id="cb401-10"><a href="mutation-pairs.html#cb401-10" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> combos <span class="sc">%&gt;%</span></span>
-<span id="cb401-11"><a href="mutation-pairs.html#cb401-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">contains</span>(<span class="st">&quot;mut&quot;</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb401-12"><a href="mutation-pairs.html#cb401-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), <span class="sc">~</span> <span class="fu">replace_na</span>(<span class="fu">as.character</span>(.), <span class="st">&quot;NA&quot;</span>))) <span class="sc">%&gt;%</span></span>
-<span id="cb401-13"><a href="mutation-pairs.html#cb401-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># mutate(across(everything(), ~ recode(., &quot;Positive&quot; = &quot;1&quot;, &quot;Negative&quot; = &quot;0&quot;, &quot;NA&quot; = &quot;0&quot;))) %&gt;%</span></span>
-<span id="cb401-14"><a href="mutation-pairs.html#cb401-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), as.integer))</span>
-<span id="cb401-15"><a href="mutation-pairs.html#cb401-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb401-16"><a href="mutation-pairs.html#cb401-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Reorder by frequency and filter rows and columns</span></span>
-<span id="cb401-17"><a href="mutation-pairs.html#cb401-17" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
-<span id="cb401-18"><a href="mutation-pairs.html#cb401-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">order</span>(<span class="fu">colSums</span>(df), <span class="at">decreasing =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb401-19"><a href="mutation-pairs.html#cb401-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">rowSums</span>(.) <span class="sc">&gt;=</span> <span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb401-20"><a href="mutation-pairs.html#cb401-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">where</span>(<span class="sc">~</span> <span class="fu">sum</span>(.) <span class="sc">&gt;</span> <span class="dv">1</span>))</span>
-<span id="cb401-21"><a href="mutation-pairs.html#cb401-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb401-22"><a href="mutation-pairs.html#cb401-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate combinations of columns</span></span>
-<span id="cb401-23"><a href="mutation-pairs.html#cb401-23" aria-hidden="true" tabindex="-1"></a>combinations <span class="ot">&lt;-</span> <span class="fu">combn</span>(<span class="fu">colnames</span>(df), <span class="dv">2</span>)</span>
-<span id="cb401-24"><a href="mutation-pairs.html#cb401-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb401-25"><a href="mutation-pairs.html#cb401-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute product of column pairs and bind them together</span></span>
-<span id="cb401-26"><a href="mutation-pairs.html#cb401-26" aria-hidden="true" tabindex="-1"></a>df_comb <span class="ot">&lt;-</span> purrr<span class="sc">::</span><span class="fu">map_dfc</span>(<span class="fu">seq_len</span>(<span class="fu">ncol</span>(combinations)), <span class="cf">function</span>(i) {</span>
-<span id="cb401-27"><a href="mutation-pairs.html#cb401-27" aria-hidden="true" tabindex="-1"></a>  combo <span class="ot">&lt;-</span> combinations[, i]</span>
-<span id="cb401-28"><a href="mutation-pairs.html#cb401-28" aria-hidden="true" tabindex="-1"></a>  col1 <span class="ot">&lt;-</span> df[[combo[<span class="dv">1</span>]]]</span>
-<span id="cb401-29"><a href="mutation-pairs.html#cb401-29" aria-hidden="true" tabindex="-1"></a>  col2 <span class="ot">&lt;-</span> df[[combo[<span class="dv">2</span>]]]</span>
-<span id="cb401-30"><a href="mutation-pairs.html#cb401-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">setNames</span>(<span class="fu">as.data.frame</span>(col1 <span class="sc">*</span> col2), <span class="fu">paste</span>(combo, <span class="at">collapse =</span> <span class="st">&quot; + &quot;</span>))</span>
-<span id="cb401-31"><a href="mutation-pairs.html#cb401-31" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb401-32"><a href="mutation-pairs.html#cb401-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb401-33"><a href="mutation-pairs.html#cb401-33" aria-hidden="true" tabindex="-1"></a><span class="fu">row.names</span>(df_comb) <span class="ot">&lt;-</span> <span class="fu">row.names</span>(df)</span>
-<span id="cb401-34"><a href="mutation-pairs.html#cb401-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb401-35"><a href="mutation-pairs.html#cb401-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter columns by frequency and reset index</span></span>
-<span id="cb401-36"><a href="mutation-pairs.html#cb401-36" aria-hidden="true" tabindex="-1"></a>combo2 <span class="ot">&lt;-</span> df_comb <span class="sc">%&gt;%</span></span>
-<span id="cb401-37"><a href="mutation-pairs.html#cb401-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">where</span>(<span class="sc">~</span> <span class="fu">sum</span>(.) <span class="sc">&gt;</span> <span class="dv">1</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb401-38"><a href="mutation-pairs.html#cb401-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rownames_to_column</span>(<span class="at">var =</span> <span class="st">&quot;PatientID&quot;</span>)</span>
-<span id="cb401-39"><a href="mutation-pairs.html#cb401-39" aria-hidden="true" tabindex="-1"></a><span class="co"># write_csv(combo2, &quot;../03.out/figure5/Two_mutations_combination_riskScore_final.csv&quot;,</span></span>
-<span id="cb401-40"><a href="mutation-pairs.html#cb401-40" aria-hidden="true" tabindex="-1"></a><span class="co">#           col_names = TRUE)</span></span>
-<span id="cb401-41"><a href="mutation-pairs.html#cb401-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb401-42"><a href="mutation-pairs.html#cb401-42" aria-hidden="true" tabindex="-1"></a>combo2 <span class="ot">&lt;-</span> combo2 <span class="sc">%&gt;%</span> <span class="fu">gather</span>(<span class="sc">-</span>PatientID, <span class="at">key=</span><span class="st">&#39;Mutation&#39;</span>, <span class="at">value=</span><span class="st">&#39;Present&#39;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb401-43"><a href="mutation-pairs.html#cb401-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Present <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb401-44"><a href="mutation-pairs.html#cb401-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">dnmt3a_dup =</span> <span class="fu">if_else</span>((Mutation <span class="sc">%&gt;%</span> <span class="fu">str_detect</span>(<span class="st">&quot;DNMT3A </span><span class="sc">\\</span><span class="st">(&quot;</span>)) <span class="sc">&amp;</span> (Mutation <span class="sc">%&gt;%</span> <span class="fu">str_detect</span>(<span class="st">&quot;DNMT3A_mut&quot;</span>)), <span class="st">&#39;TRUE&#39;</span>, <span class="st">&#39;FALSE&#39;</span>),</span>
-<span id="cb401-45"><a href="mutation-pairs.html#cb401-45" aria-hidden="true" tabindex="-1"></a>         <span class="at">flt3_dup =</span> <span class="fu">if_else</span>((Mutation <span class="sc">%&gt;%</span> <span class="fu">str_detect</span>(<span class="st">&quot;FLT3 </span><span class="sc">\\</span><span class="st">(&quot;</span>)) <span class="sc">&amp;</span> (Mutation <span class="sc">%&gt;%</span> <span class="fu">str_detect</span>(<span class="st">&quot;FLT3_mut&quot;</span>)), <span class="st">&#39;TRUE&#39;</span>, <span class="st">&#39;FALSE&#39;</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb401-46"><a href="mutation-pairs.html#cb401-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>((dnmt3a_dup <span class="sc">==</span> <span class="st">&#39;FALSE&#39;</span>) <span class="sc">&amp;</span> (flt3_dup <span class="sc">==</span> <span class="st">&#39;FALSE&#39;</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb401-47"><a href="mutation-pairs.html#cb401-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>dnmt3a_dup, <span class="sc">-</span>flt3_dup) <span class="sc">%&gt;%</span></span>
-<span id="cb401-48"><a href="mutation-pairs.html#cb401-48" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Mutation =</span> Mutation <span class="sc">%&gt;%</span> <span class="fu">str_replace_all</span>(<span class="st">&#39;_mut&#39;</span>, <span class="st">&#39;&#39;</span>))</span>
-<span id="cb401-49"><a href="mutation-pairs.html#cb401-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb401-50"><a href="mutation-pairs.html#cb401-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb401-51"><a href="mutation-pairs.html#cb401-51" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> combo2 <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(Mutation) <span class="sc">%&gt;%</span></span>
-<span id="cb401-52"><a href="mutation-pairs.html#cb401-52" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Total =</span> <span class="fu">sum</span>(Present)) <span class="sc">%&gt;%</span></span>
-<span id="cb401-53"><a href="mutation-pairs.html#cb401-53" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(<span class="sc">-</span>Total) <span class="co">#%&gt;% head(50)</span></span>
-<span id="cb401-54"><a href="mutation-pairs.html#cb401-54" aria-hidden="true" tabindex="-1"></a>a</span></code></pre></div>
+<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="mutation-pairs.html#cb157-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Obtain mutation pairs in AML patients</span></span>
+<span id="cb157-2"><a href="mutation-pairs.html#cb157-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb157-3"><a href="mutation-pairs.html#cb157-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb157-4"><a href="mutation-pairs.html#cb157-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb157-5"><a href="mutation-pairs.html#cb157-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb157-6"><a href="mutation-pairs.html#cb157-6" aria-hidden="true" tabindex="-1"></a>combos <span class="ot">&lt;-</span> <span class="fu">read_xlsx</span>(<span class="st">&quot;../03.out/figure5/mutations_pairs_rf8.xlsx&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb157-7"><a href="mutation-pairs.html#cb157-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">column_to_rownames</span>(<span class="at">var =</span> <span class="st">&quot;PatientID&quot;</span>)</span>
+<span id="cb157-8"><a href="mutation-pairs.html#cb157-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb157-9"><a href="mutation-pairs.html#cb157-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Select columns that contain &#39;mut&#39; and replace values</span></span>
+<span id="cb157-10"><a href="mutation-pairs.html#cb157-10" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> combos <span class="sc">%&gt;%</span></span>
+<span id="cb157-11"><a href="mutation-pairs.html#cb157-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">contains</span>(<span class="st">&quot;mut&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb157-12"><a href="mutation-pairs.html#cb157-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), <span class="sc">~</span> <span class="fu">replace_na</span>(<span class="fu">as.character</span>(.), <span class="st">&quot;NA&quot;</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb157-13"><a href="mutation-pairs.html#cb157-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># mutate(across(everything(), ~ recode(., &quot;Positive&quot; = &quot;1&quot;, &quot;Negative&quot; = &quot;0&quot;, &quot;NA&quot; = &quot;0&quot;))) %&gt;%</span></span>
+<span id="cb157-14"><a href="mutation-pairs.html#cb157-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), as.integer))</span>
+<span id="cb157-15"><a href="mutation-pairs.html#cb157-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb157-16"><a href="mutation-pairs.html#cb157-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Reorder by frequency and filter rows and columns</span></span>
+<span id="cb157-17"><a href="mutation-pairs.html#cb157-17" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb157-18"><a href="mutation-pairs.html#cb157-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">order</span>(<span class="fu">colSums</span>(df), <span class="at">decreasing =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb157-19"><a href="mutation-pairs.html#cb157-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">rowSums</span>(.) <span class="sc">&gt;=</span> <span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb157-20"><a href="mutation-pairs.html#cb157-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">where</span>(<span class="sc">~</span> <span class="fu">sum</span>(.) <span class="sc">&gt;</span> <span class="dv">1</span>))</span>
+<span id="cb157-21"><a href="mutation-pairs.html#cb157-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb157-22"><a href="mutation-pairs.html#cb157-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate combinations of columns</span></span>
+<span id="cb157-23"><a href="mutation-pairs.html#cb157-23" aria-hidden="true" tabindex="-1"></a>combinations <span class="ot">&lt;-</span> <span class="fu">combn</span>(<span class="fu">colnames</span>(df), <span class="dv">2</span>)</span>
+<span id="cb157-24"><a href="mutation-pairs.html#cb157-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb157-25"><a href="mutation-pairs.html#cb157-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute product of column pairs and bind them together</span></span>
+<span id="cb157-26"><a href="mutation-pairs.html#cb157-26" aria-hidden="true" tabindex="-1"></a>df_comb <span class="ot">&lt;-</span> purrr<span class="sc">::</span><span class="fu">map_dfc</span>(<span class="fu">seq_len</span>(<span class="fu">ncol</span>(combinations)), <span class="cf">function</span>(i) {</span>
+<span id="cb157-27"><a href="mutation-pairs.html#cb157-27" aria-hidden="true" tabindex="-1"></a>  combo <span class="ot">&lt;-</span> combinations[, i]</span>
+<span id="cb157-28"><a href="mutation-pairs.html#cb157-28" aria-hidden="true" tabindex="-1"></a>  col1 <span class="ot">&lt;-</span> df[[combo[<span class="dv">1</span>]]]</span>
+<span id="cb157-29"><a href="mutation-pairs.html#cb157-29" aria-hidden="true" tabindex="-1"></a>  col2 <span class="ot">&lt;-</span> df[[combo[<span class="dv">2</span>]]]</span>
+<span id="cb157-30"><a href="mutation-pairs.html#cb157-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">setNames</span>(<span class="fu">as.data.frame</span>(col1 <span class="sc">*</span> col2), <span class="fu">paste</span>(combo, <span class="at">collapse =</span> <span class="st">&quot; + &quot;</span>))</span>
+<span id="cb157-31"><a href="mutation-pairs.html#cb157-31" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb157-32"><a href="mutation-pairs.html#cb157-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb157-33"><a href="mutation-pairs.html#cb157-33" aria-hidden="true" tabindex="-1"></a><span class="fu">row.names</span>(df_comb) <span class="ot">&lt;-</span> <span class="fu">row.names</span>(df)</span>
+<span id="cb157-34"><a href="mutation-pairs.html#cb157-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb157-35"><a href="mutation-pairs.html#cb157-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter columns by frequency and reset index</span></span>
+<span id="cb157-36"><a href="mutation-pairs.html#cb157-36" aria-hidden="true" tabindex="-1"></a>combo2 <span class="ot">&lt;-</span> df_comb <span class="sc">%&gt;%</span></span>
+<span id="cb157-37"><a href="mutation-pairs.html#cb157-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">where</span>(<span class="sc">~</span> <span class="fu">sum</span>(.) <span class="sc">&gt;</span> <span class="dv">1</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb157-38"><a href="mutation-pairs.html#cb157-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rownames_to_column</span>(<span class="at">var =</span> <span class="st">&quot;PatientID&quot;</span>)</span>
+<span id="cb157-39"><a href="mutation-pairs.html#cb157-39" aria-hidden="true" tabindex="-1"></a><span class="co"># write_csv(combo2, &quot;../03.out/figure5/Two_mutations_combination_riskScore_final.csv&quot;,</span></span>
+<span id="cb157-40"><a href="mutation-pairs.html#cb157-40" aria-hidden="true" tabindex="-1"></a><span class="co">#           col_names = TRUE)</span></span>
+<span id="cb157-41"><a href="mutation-pairs.html#cb157-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb157-42"><a href="mutation-pairs.html#cb157-42" aria-hidden="true" tabindex="-1"></a>combo2 <span class="ot">&lt;-</span> combo2 <span class="sc">%&gt;%</span> <span class="fu">gather</span>(<span class="sc">-</span>PatientID, <span class="at">key=</span><span class="st">&#39;Mutation&#39;</span>, <span class="at">value=</span><span class="st">&#39;Present&#39;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb157-43"><a href="mutation-pairs.html#cb157-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Present <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb157-44"><a href="mutation-pairs.html#cb157-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">dnmt3a_dup =</span> <span class="fu">if_else</span>((Mutation <span class="sc">%&gt;%</span> <span class="fu">str_detect</span>(<span class="st">&quot;DNMT3A </span><span class="sc">\\</span><span class="st">(&quot;</span>)) <span class="sc">&amp;</span> (Mutation <span class="sc">%&gt;%</span> <span class="fu">str_detect</span>(<span class="st">&quot;DNMT3A_mut&quot;</span>)), <span class="st">&#39;TRUE&#39;</span>, <span class="st">&#39;FALSE&#39;</span>),</span>
+<span id="cb157-45"><a href="mutation-pairs.html#cb157-45" aria-hidden="true" tabindex="-1"></a>         <span class="at">flt3_dup =</span> <span class="fu">if_else</span>((Mutation <span class="sc">%&gt;%</span> <span class="fu">str_detect</span>(<span class="st">&quot;FLT3 </span><span class="sc">\\</span><span class="st">(&quot;</span>)) <span class="sc">&amp;</span> (Mutation <span class="sc">%&gt;%</span> <span class="fu">str_detect</span>(<span class="st">&quot;FLT3_mut&quot;</span>)), <span class="st">&#39;TRUE&#39;</span>, <span class="st">&#39;FALSE&#39;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb157-46"><a href="mutation-pairs.html#cb157-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>((dnmt3a_dup <span class="sc">==</span> <span class="st">&#39;FALSE&#39;</span>) <span class="sc">&amp;</span> (flt3_dup <span class="sc">==</span> <span class="st">&#39;FALSE&#39;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb157-47"><a href="mutation-pairs.html#cb157-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>dnmt3a_dup, <span class="sc">-</span>flt3_dup) <span class="sc">%&gt;%</span></span>
+<span id="cb157-48"><a href="mutation-pairs.html#cb157-48" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Mutation =</span> Mutation <span class="sc">%&gt;%</span> <span class="fu">str_replace_all</span>(<span class="st">&#39;_mut&#39;</span>, <span class="st">&#39;&#39;</span>))</span>
+<span id="cb157-49"><a href="mutation-pairs.html#cb157-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb157-50"><a href="mutation-pairs.html#cb157-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb157-51"><a href="mutation-pairs.html#cb157-51" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> combo2 <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(Mutation) <span class="sc">%&gt;%</span></span>
+<span id="cb157-52"><a href="mutation-pairs.html#cb157-52" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Total =</span> <span class="fu">sum</span>(Present)) <span class="sc">%&gt;%</span></span>
+<span id="cb157-53"><a href="mutation-pairs.html#cb157-53" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(<span class="sc">-</span>Total) <span class="co">#%&gt;% head(50)</span></span>
+<span id="cb157-54"><a href="mutation-pairs.html#cb157-54" aria-hidden="true" tabindex="-1"></a>a</span></code></pre></div>
 <pre><code>## # A tibble: 175 × 2
 ##    Mutation          Total
 ##    &lt;chr&gt;             &lt;int&gt;
@@ -312,84 +312,68 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##  9 DNMT3A + TET2         9
 ## 10 NPM1 + TET2           8
 ## # ℹ 165 more rows</code></pre>
-<div class="sourceCode" id="cb403"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb403-1"><a href="mutation-pairs.html#cb403-1" aria-hidden="true" tabindex="-1"></a><span class="co"># write_csv(a, &quot;../03.out/figure5/Two_mutations_combination_Freq_riskScore_final.csv&quot;)</span></span>
-<span id="cb403-2"><a href="mutation-pairs.html#cb403-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb403-3"><a href="mutation-pairs.html#cb403-3" aria-hidden="true" tabindex="-1"></a><span class="do">## Plot mutation pairs</span></span>
-<span id="cb403-4"><a href="mutation-pairs.html#cb403-4" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;../03.out/figure5/Two_mutations_combination_riskScore_final.csv&quot;</span>,</span>
-<span id="cb403-5"><a href="mutation-pairs.html#cb403-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">header =</span> T, <span class="at">check.names =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb403-6"><a href="mutation-pairs.html#cb403-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb403-7"><a href="mutation-pairs.html#cb403-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize empty data frame for statistics</span></span>
-<span id="cb403-8"><a href="mutation-pairs.html#cb403-8" aria-hidden="true" tabindex="-1"></a>stat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>()</span>
-<span id="cb403-9"><a href="mutation-pairs.html#cb403-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb403-10"><a href="mutation-pairs.html#cb403-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate statistics for each mutation</span></span>
-<span id="cb403-11"><a href="mutation-pairs.html#cb403-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">3</span><span class="sc">:</span><span class="fu">ncol</span>(dat)) {</span>
-<span id="cb403-12"><a href="mutation-pairs.html#cb403-12" aria-hidden="true" tabindex="-1"></a>  tmp <span class="ot">&lt;-</span> dat[, <span class="fu">c</span>(<span class="dv">2</span>, i)]</span>
-<span id="cb403-13"><a href="mutation-pairs.html#cb403-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colnames</span>(tmp)[<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="st">&quot;Mutation&quot;</span></span>
-<span id="cb403-14"><a href="mutation-pairs.html#cb403-14" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb403-15"><a href="mutation-pairs.html#cb403-15" aria-hidden="true" tabindex="-1"></a>  tmp_0 <span class="ot">&lt;-</span> <span class="fu">filter</span>(tmp, Mutation <span class="sc">==</span> <span class="dv">0</span>)</span>
-<span id="cb403-16"><a href="mutation-pairs.html#cb403-16" aria-hidden="true" tabindex="-1"></a>  tmp_1 <span class="ot">&lt;-</span> <span class="fu">filter</span>(tmp, Mutation <span class="sc">==</span> <span class="dv">1</span>)</span>
-<span id="cb403-17"><a href="mutation-pairs.html#cb403-17" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb403-18"><a href="mutation-pairs.html#cb403-18" aria-hidden="true" tabindex="-1"></a>  testout <span class="ot">&lt;-</span> <span class="fu">wilcox.test</span>(tmp_0<span class="sc">$</span>RiskScore, tmp_1<span class="sc">$</span>RiskScore, <span class="at">alternative =</span> <span class="st">&quot;two.sided&quot;</span>)</span>
-<span id="cb403-19"><a href="mutation-pairs.html#cb403-19" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb403-20"><a href="mutation-pairs.html#cb403-20" aria-hidden="true" tabindex="-1"></a>  tmp_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb403-21"><a href="mutation-pairs.html#cb403-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">Negative_median =</span> <span class="fu">median</span>(tmp_0<span class="sc">$</span>RiskScore, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb403-22"><a href="mutation-pairs.html#cb403-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">Positive_median =</span> <span class="fu">median</span>(tmp_1<span class="sc">$</span>RiskScore, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb403-23"><a href="mutation-pairs.html#cb403-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">P.value =</span> testout<span class="sc">$</span>p.value,</span>
-<span id="cb403-24"><a href="mutation-pairs.html#cb403-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">Mutation =</span> <span class="fu">colnames</span>(dat)[i]</span>
-<span id="cb403-25"><a href="mutation-pairs.html#cb403-25" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb403-26"><a href="mutation-pairs.html#cb403-26" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb403-27"><a href="mutation-pairs.html#cb403-27" aria-hidden="true" tabindex="-1"></a>  stat <span class="ot">&lt;-</span> <span class="fu">rbind</span>(stat, tmp_data)</span>
-<span id="cb403-28"><a href="mutation-pairs.html#cb403-28" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb403-29"><a href="mutation-pairs.html#cb403-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb403-30"><a href="mutation-pairs.html#cb403-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Load frequency data and merge with statistics</span></span>
-<span id="cb403-31"><a href="mutation-pairs.html#cb403-31" aria-hidden="true" tabindex="-1"></a>freq <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;../03.out/figure5/Two_mutations_combination_Freq_riskScore_final.csv&quot;</span>)</span></code></pre></div>
-<pre><code>## Rows: 175 Columns: 2
-## ── Column specification ─────────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## chr (1): Mutation
-## dbl (1): Total
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<div class="sourceCode" id="cb405"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb405-1"><a href="mutation-pairs.html#cb405-1" aria-hidden="true" tabindex="-1"></a>stat <span class="ot">&lt;-</span> <span class="fu">merge</span>(stat, freq, <span class="at">by =</span> <span class="st">&quot;Mutation&quot;</span>)</span>
-<span id="cb405-2"><a href="mutation-pairs.html#cb405-2" aria-hidden="true" tabindex="-1"></a><span class="co"># write_csv(stat, &quot;../03.out/figure5/Two_mutations_Mut_vs.WT_stat.csv&quot;)</span></span></code></pre></div>
-<div class="sourceCode" id="cb406"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb406-1"><a href="mutation-pairs.html#cb406-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot two mutations</span></span>
-<span id="cb406-2"><a href="mutation-pairs.html#cb406-2" aria-hidden="true" tabindex="-1"></a>plot <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;../03.out/figure5/Two_mutations_Mut_vs.WT_stat.csv&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb406-3"><a href="mutation-pairs.html#cb406-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Total <span class="sc">&gt;=</span> <span class="dv">5</span>)</span></code></pre></div>
-<pre><code>## Rows: 165 Columns: 5
-## ── Column specification ─────────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## chr (1): Mutation
-## dbl (4): Negative_median, Positive_median, P.value, Total
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<div class="sourceCode" id="cb408"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb408-1"><a href="mutation-pairs.html#cb408-1" aria-hidden="true" tabindex="-1"></a>mutants <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span></span>
-<span id="cb408-2"><a href="mutation-pairs.html#cb408-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(RiskScore, <span class="fu">all_of</span>(plot<span class="sc">$</span>Mutation))</span>
-<span id="cb408-3"><a href="mutation-pairs.html#cb408-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb408-4"><a href="mutation-pairs.html#cb408-4" aria-hidden="true" tabindex="-1"></a>alteration <span class="ot">&lt;-</span> mutants <span class="sc">%&gt;%</span></span>
-<span id="cb408-5"><a href="mutation-pairs.html#cb408-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(<span class="at">key =</span> <span class="st">&#39;Alteration&#39;</span>, <span class="at">value =</span> <span class="st">&#39;Status&#39;</span>, <span class="sc">-</span>RiskScore) <span class="sc">%&gt;%</span></span>
-<span id="cb408-6"><a href="mutation-pairs.html#cb408-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Status <span class="sc">&gt;</span> <span class="dv">0</span>)</span>
-<span id="cb408-7"><a href="mutation-pairs.html#cb408-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb408-8"><a href="mutation-pairs.html#cb408-8" aria-hidden="true" tabindex="-1"></a>p9 <span class="ot">&lt;-</span> alteration <span class="sc">%&gt;%</span></span>
-<span id="cb408-9"><a href="mutation-pairs.html#cb408-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">fct_reorder</span>(Alteration, RiskScore), <span class="at">x =</span> RiskScore, <span class="at">fill =</span> <span class="fu">stat</span>(x))) <span class="sc">+</span></span>
-<span id="cb408-10"><a href="mutation-pairs.html#cb408-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density_ridges_gradient</span>(</span>
-<span id="cb408-11"><a href="mutation-pairs.html#cb408-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">jittered_points =</span> <span class="cn">TRUE</span>, <span class="at">scale =</span> <span class="fl">1.25</span>,</span>
-<span id="cb408-12"><a href="mutation-pairs.html#cb408-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="fu">position_points_jitter</span>(<span class="at">width =</span> <span class="fl">0.05</span>, <span class="at">height =</span> <span class="dv">0</span>),</span>
-<span id="cb408-13"><a href="mutation-pairs.html#cb408-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">point_shape =</span> <span class="st">&#39;|&#39;</span>, <span class="at">point_size =</span> <span class="dv">3</span>, <span class="at">point_alpha =</span> <span class="fl">0.3</span></span>
-<span id="cb408-14"><a href="mutation-pairs.html#cb408-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb408-15"><a href="mutation-pairs.html#cb408-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="at">low =</span> <span class="st">&quot;#01665E&quot;</span>, <span class="at">high =</span> <span class="st">&quot;#8C510A&quot;</span>, <span class="at">midpoint =</span> <span class="fl">0.5</span>, <span class="at">name =</span> <span class="st">&quot;&quot;</span>) <span class="sc">+</span></span>
-<span id="cb408-16"><a href="mutation-pairs.html#cb408-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_pubr</span>() <span class="sc">+</span></span>
-<span id="cb408-17"><a href="mutation-pairs.html#cb408-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&#39;&#39;</span>) <span class="sc">+</span></span>
-<span id="cb408-18"><a href="mutation-pairs.html#cb408-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&#39;Risk score&#39;</span>) <span class="sc">+</span></span>
-<span id="cb408-19"><a href="mutation-pairs.html#cb408-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb408-20"><a href="mutation-pairs.html#cb408-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">&#39;right&#39;</span>,</span>
-<span id="cb408-21"><a href="mutation-pairs.html#cb408-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">15</span>)</span>
-<span id="cb408-22"><a href="mutation-pairs.html#cb408-22" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb408-23"><a href="mutation-pairs.html#cb408-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb408-24"><a href="mutation-pairs.html#cb408-24" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p9)</span></code></pre></div>
-<pre><code>## Picking joint bandwidth of 0.111</code></pre>
-<p><img src="_main_files/figure-html/unnamed-chunk-51-1.png" width="672" /></p>
+<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="mutation-pairs.html#cb159-1" aria-hidden="true" tabindex="-1"></a><span class="co"># write_csv(a, &quot;../03.out/figure5/Two_mutations_combination_Freq_riskScore_final.csv&quot;)</span></span>
+<span id="cb159-2"><a href="mutation-pairs.html#cb159-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb159-3"><a href="mutation-pairs.html#cb159-3" aria-hidden="true" tabindex="-1"></a><span class="do">## Plot mutation pairs</span></span>
+<span id="cb159-4"><a href="mutation-pairs.html#cb159-4" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;../03.out/figure5/Two_mutations_combination_riskScore_final.csv&quot;</span>,</span>
+<span id="cb159-5"><a href="mutation-pairs.html#cb159-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">header =</span> T, <span class="at">check.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb159-6"><a href="mutation-pairs.html#cb159-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb159-7"><a href="mutation-pairs.html#cb159-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize empty data frame for statistics</span></span>
+<span id="cb159-8"><a href="mutation-pairs.html#cb159-8" aria-hidden="true" tabindex="-1"></a>stat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>()</span>
+<span id="cb159-9"><a href="mutation-pairs.html#cb159-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb159-10"><a href="mutation-pairs.html#cb159-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate statistics for each mutation</span></span>
+<span id="cb159-11"><a href="mutation-pairs.html#cb159-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">3</span><span class="sc">:</span><span class="fu">ncol</span>(dat)) {</span>
+<span id="cb159-12"><a href="mutation-pairs.html#cb159-12" aria-hidden="true" tabindex="-1"></a>  tmp <span class="ot">&lt;-</span> dat[, <span class="fu">c</span>(<span class="dv">2</span>, i)]</span>
+<span id="cb159-13"><a href="mutation-pairs.html#cb159-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colnames</span>(tmp)[<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="st">&quot;Mutation&quot;</span></span>
+<span id="cb159-14"><a href="mutation-pairs.html#cb159-14" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb159-15"><a href="mutation-pairs.html#cb159-15" aria-hidden="true" tabindex="-1"></a>  tmp_0 <span class="ot">&lt;-</span> <span class="fu">filter</span>(tmp, Mutation <span class="sc">==</span> <span class="dv">0</span>)</span>
+<span id="cb159-16"><a href="mutation-pairs.html#cb159-16" aria-hidden="true" tabindex="-1"></a>  tmp_1 <span class="ot">&lt;-</span> <span class="fu">filter</span>(tmp, Mutation <span class="sc">==</span> <span class="dv">1</span>)</span>
+<span id="cb159-17"><a href="mutation-pairs.html#cb159-17" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb159-18"><a href="mutation-pairs.html#cb159-18" aria-hidden="true" tabindex="-1"></a>  testout <span class="ot">&lt;-</span> <span class="fu">wilcox.test</span>(tmp_0<span class="sc">$</span>RiskScore, tmp_1<span class="sc">$</span>RiskScore, <span class="at">alternative =</span> <span class="st">&quot;two.sided&quot;</span>)</span>
+<span id="cb159-19"><a href="mutation-pairs.html#cb159-19" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb159-20"><a href="mutation-pairs.html#cb159-20" aria-hidden="true" tabindex="-1"></a>  tmp_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb159-21"><a href="mutation-pairs.html#cb159-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">Negative_median =</span> <span class="fu">median</span>(tmp_0<span class="sc">$</span>RiskScore, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb159-22"><a href="mutation-pairs.html#cb159-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">Positive_median =</span> <span class="fu">median</span>(tmp_1<span class="sc">$</span>RiskScore, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb159-23"><a href="mutation-pairs.html#cb159-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">P.value =</span> testout<span class="sc">$</span>p.value,</span>
+<span id="cb159-24"><a href="mutation-pairs.html#cb159-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">Mutation =</span> <span class="fu">colnames</span>(dat)[i]</span>
+<span id="cb159-25"><a href="mutation-pairs.html#cb159-25" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb159-26"><a href="mutation-pairs.html#cb159-26" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb159-27"><a href="mutation-pairs.html#cb159-27" aria-hidden="true" tabindex="-1"></a>  stat <span class="ot">&lt;-</span> <span class="fu">rbind</span>(stat, tmp_data)</span>
+<span id="cb159-28"><a href="mutation-pairs.html#cb159-28" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb159-29"><a href="mutation-pairs.html#cb159-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb159-30"><a href="mutation-pairs.html#cb159-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Load frequency data and merge with statistics</span></span>
+<span id="cb159-31"><a href="mutation-pairs.html#cb159-31" aria-hidden="true" tabindex="-1"></a>freq <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;../03.out/figure5/Two_mutations_combination_Freq_riskScore_final.csv&quot;</span>)</span>
+<span id="cb159-32"><a href="mutation-pairs.html#cb159-32" aria-hidden="true" tabindex="-1"></a>stat <span class="ot">&lt;-</span> <span class="fu">merge</span>(stat, freq, <span class="at">by =</span> <span class="st">&quot;Mutation&quot;</span>)</span>
+<span id="cb159-33"><a href="mutation-pairs.html#cb159-33" aria-hidden="true" tabindex="-1"></a><span class="co"># write_csv(stat, &quot;../03.out/figure5/Two_mutations_Mut_vs.WT_stat.csv&quot;)</span></span></code></pre></div>
+<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="mutation-pairs.html#cb160-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot two mutations</span></span>
+<span id="cb160-2"><a href="mutation-pairs.html#cb160-2" aria-hidden="true" tabindex="-1"></a>plot <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;../03.out/figure5/Two_mutations_Mut_vs.WT_stat.csv&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb160-3"><a href="mutation-pairs.html#cb160-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Total <span class="sc">&gt;=</span> <span class="dv">5</span>)</span>
+<span id="cb160-4"><a href="mutation-pairs.html#cb160-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb160-5"><a href="mutation-pairs.html#cb160-5" aria-hidden="true" tabindex="-1"></a>mutants <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span></span>
+<span id="cb160-6"><a href="mutation-pairs.html#cb160-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(RiskScore, <span class="fu">all_of</span>(plot<span class="sc">$</span>Mutation))</span>
+<span id="cb160-7"><a href="mutation-pairs.html#cb160-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb160-8"><a href="mutation-pairs.html#cb160-8" aria-hidden="true" tabindex="-1"></a>alteration <span class="ot">&lt;-</span> mutants <span class="sc">%&gt;%</span></span>
+<span id="cb160-9"><a href="mutation-pairs.html#cb160-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(<span class="at">key =</span> <span class="st">&#39;Alteration&#39;</span>, <span class="at">value =</span> <span class="st">&#39;Status&#39;</span>, <span class="sc">-</span>RiskScore) <span class="sc">%&gt;%</span></span>
+<span id="cb160-10"><a href="mutation-pairs.html#cb160-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Status <span class="sc">&gt;</span> <span class="dv">0</span>)</span>
+<span id="cb160-11"><a href="mutation-pairs.html#cb160-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb160-12"><a href="mutation-pairs.html#cb160-12" aria-hidden="true" tabindex="-1"></a>p9 <span class="ot">&lt;-</span> alteration <span class="sc">%&gt;%</span></span>
+<span id="cb160-13"><a href="mutation-pairs.html#cb160-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">fct_reorder</span>(Alteration, RiskScore), <span class="at">x =</span> RiskScore, <span class="at">fill =</span> <span class="fu">stat</span>(x))) <span class="sc">+</span></span>
+<span id="cb160-14"><a href="mutation-pairs.html#cb160-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density_ridges_gradient</span>(</span>
+<span id="cb160-15"><a href="mutation-pairs.html#cb160-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">jittered_points =</span> <span class="cn">TRUE</span>, <span class="at">scale =</span> <span class="fl">1.25</span>,</span>
+<span id="cb160-16"><a href="mutation-pairs.html#cb160-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="fu">position_points_jitter</span>(<span class="at">width =</span> <span class="fl">0.05</span>, <span class="at">height =</span> <span class="dv">0</span>),</span>
+<span id="cb160-17"><a href="mutation-pairs.html#cb160-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">point_shape =</span> <span class="st">&#39;|&#39;</span>, <span class="at">point_size =</span> <span class="dv">3</span>, <span class="at">point_alpha =</span> <span class="fl">0.3</span></span>
+<span id="cb160-18"><a href="mutation-pairs.html#cb160-18" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb160-19"><a href="mutation-pairs.html#cb160-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="at">low =</span> <span class="st">&quot;#01665E&quot;</span>, <span class="at">high =</span> <span class="st">&quot;#8C510A&quot;</span>, <span class="at">midpoint =</span> <span class="fl">0.5</span>, <span class="at">name =</span> <span class="st">&quot;&quot;</span>) <span class="sc">+</span></span>
+<span id="cb160-20"><a href="mutation-pairs.html#cb160-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_pubr</span>() <span class="sc">+</span></span>
+<span id="cb160-21"><a href="mutation-pairs.html#cb160-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&#39;&#39;</span>) <span class="sc">+</span></span>
+<span id="cb160-22"><a href="mutation-pairs.html#cb160-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&#39;Risk score&#39;</span>) <span class="sc">+</span></span>
+<span id="cb160-23"><a href="mutation-pairs.html#cb160-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb160-24"><a href="mutation-pairs.html#cb160-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">&#39;right&#39;</span>,</span>
+<span id="cb160-25"><a href="mutation-pairs.html#cb160-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">15</span>)</span>
+<span id="cb160-26"><a href="mutation-pairs.html#cb160-26" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb160-27"><a href="mutation-pairs.html#cb160-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb160-28"><a href="mutation-pairs.html#cb160-28" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p9)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-52-1.png" width="672" /></p>
 </div>
             </section>
 

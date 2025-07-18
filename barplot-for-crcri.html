@@ -23,7 +23,7 @@
 <meta name="author" content="Peng Jin, Qiqi Jin, Kankan Wang" />
 
 
-<meta name="date" content="2025-07-18" />
+<meta name="date" content="2025-07-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -244,38 +244,38 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="barplot-for-crcri" class="section level2 hasAnchor" number="7.7">
 <h2><span class="header-section-number">7.7</span> Barplot for CR/CRi<a href="barplot-for-crcri.html#barplot-for-crcri" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb517"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb517-1"><a href="barplot-for-crcri.html#cb517-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb517-2"><a href="barplot-for-crcri.html#cb517-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
-<span id="cb517-3"><a href="barplot-for-crcri.html#cb517-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
-<span id="cb517-4"><a href="barplot-for-crcri.html#cb517-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb517-5"><a href="barplot-for-crcri.html#cb517-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Load response data for Cohort 2</span></span>
-<span id="cb517-6"><a href="barplot-for-crcri.html#cb517-6" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;../03.out/figure6/RF8_Cohort2_survival.csv&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb517-7"><a href="barplot-for-crcri.html#cb517-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb517-8"><a href="barplot-for-crcri.html#cb517-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Create predicted groups based on RF8 probability tertiles</span></span>
-<span id="cb517-9"><a href="barplot-for-crcri.html#cb517-9" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Predicted_group <span class="ot">&lt;-</span> <span class="fu">cut</span>(data<span class="sc">$</span>RF8.prob.CR, </span>
-<span id="cb517-10"><a href="barplot-for-crcri.html#cb517-10" aria-hidden="true" tabindex="-1"></a>                            <span class="at">breaks =</span> <span class="fu">quantile</span>(data<span class="sc">$</span>RF8.prob.CR, <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.34</span>, <span class="fl">0.68</span>, <span class="dv">1</span>)),</span>
-<span id="cb517-11"><a href="barplot-for-crcri.html#cb517-11" aria-hidden="true" tabindex="-1"></a>                            <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;0-34%&quot;</span>, <span class="st">&quot;34-68%&quot;</span>, <span class="st">&quot;68-100%&quot;</span>),</span>
-<span id="cb517-12"><a href="barplot-for-crcri.html#cb517-12" aria-hidden="true" tabindex="-1"></a>                            <span class="at">include.lowest =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb517-13"><a href="barplot-for-crcri.html#cb517-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb517-14"><a href="barplot-for-crcri.html#cb517-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Summarize CR/CRi rates by predicted group</span></span>
-<span id="cb517-15"><a href="barplot-for-crcri.html#cb517-15" aria-hidden="true" tabindex="-1"></a>response_summary <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(Response <span class="sc">~</span> Predicted_group, data, <span class="cf">function</span>(x) {</span>
-<span id="cb517-16"><a href="barplot-for-crcri.html#cb517-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>(x <span class="sc">==</span> <span class="st">&quot;CR&quot;</span>) <span class="sc">*</span> <span class="dv">100</span></span>
-<span id="cb517-17"><a href="barplot-for-crcri.html#cb517-17" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb517-18"><a href="barplot-for-crcri.html#cb517-18" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(response_summary)[<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="st">&quot;CR_Percentage&quot;</span></span>
-<span id="cb517-19"><a href="barplot-for-crcri.html#cb517-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb517-20"><a href="barplot-for-crcri.html#cb517-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the barplot</span></span>
-<span id="cb517-21"><a href="barplot-for-crcri.html#cb517-21" aria-hidden="true" tabindex="-1"></a>p7 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(response_summary, <span class="fu">aes</span>(<span class="at">x =</span> Predicted_group, <span class="at">y =</span> CR_Percentage, <span class="at">fill =</span> Predicted_group)) <span class="sc">+</span></span>
-<span id="cb517-22"><a href="barplot-for-crcri.html#cb517-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="at">width =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
-<span id="cb517-23"><a href="barplot-for-crcri.html#cb517-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">paste0</span>(<span class="fu">round</span>(CR_Percentage, <span class="dv">1</span>), <span class="st">&quot;%&quot;</span>)), <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb517-24"><a href="barplot-for-crcri.html#cb517-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Groups stratified by RF8 scores&quot;</span>, <span class="at">y =</span> <span class="st">&quot;CR/CRi (%)&quot;</span>) <span class="sc">+</span></span>
-<span id="cb517-25"><a href="barplot-for-crcri.html#cb517-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="dv">0</span>, <span class="dv">100</span>) <span class="sc">+</span></span>
-<span id="cb517-26"><a href="barplot-for-crcri.html#cb517-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
-<span id="cb517-27"><a href="barplot-for-crcri.html#cb517-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>, <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">0</span>, <span class="at">hjust =</span> <span class="dv">1</span>)) </span>
-<span id="cb517-28"><a href="barplot-for-crcri.html#cb517-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb517-29"><a href="barplot-for-crcri.html#cb517-29" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p7)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-72-1.png" width="672" /></p>
-<div class="sourceCode" id="cb518"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb518-1"><a href="barplot-for-crcri.html#cb518-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the barplot</span></span>
-<span id="cb518-2"><a href="barplot-for-crcri.html#cb518-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ggsave(p7, filename = &quot;../03.out/figure6/04.barplot_CR_rate_tertiles.pdf&quot;, width = 5, height = 4)</span></span></code></pre></div>
+<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="barplot-for-crcri.html#cb200-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb200-2"><a href="barplot-for-crcri.html#cb200-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb200-3"><a href="barplot-for-crcri.html#cb200-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb200-4"><a href="barplot-for-crcri.html#cb200-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb200-5"><a href="barplot-for-crcri.html#cb200-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Load response data for Cohort 2</span></span>
+<span id="cb200-6"><a href="barplot-for-crcri.html#cb200-6" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;../03.out/figure6/RF8_Cohort2_survival.csv&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb200-7"><a href="barplot-for-crcri.html#cb200-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb200-8"><a href="barplot-for-crcri.html#cb200-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Create predicted groups based on RF8 probability tertiles</span></span>
+<span id="cb200-9"><a href="barplot-for-crcri.html#cb200-9" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>Predicted_group <span class="ot">&lt;-</span> <span class="fu">cut</span>(data<span class="sc">$</span>RF8.prob.CR, </span>
+<span id="cb200-10"><a href="barplot-for-crcri.html#cb200-10" aria-hidden="true" tabindex="-1"></a>                            <span class="at">breaks =</span> <span class="fu">quantile</span>(data<span class="sc">$</span>RF8.prob.CR, <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.34</span>, <span class="fl">0.68</span>, <span class="dv">1</span>)),</span>
+<span id="cb200-11"><a href="barplot-for-crcri.html#cb200-11" aria-hidden="true" tabindex="-1"></a>                            <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;0-34%&quot;</span>, <span class="st">&quot;34-68%&quot;</span>, <span class="st">&quot;68-100%&quot;</span>),</span>
+<span id="cb200-12"><a href="barplot-for-crcri.html#cb200-12" aria-hidden="true" tabindex="-1"></a>                            <span class="at">include.lowest =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb200-13"><a href="barplot-for-crcri.html#cb200-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb200-14"><a href="barplot-for-crcri.html#cb200-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Summarize CR/CRi rates by predicted group</span></span>
+<span id="cb200-15"><a href="barplot-for-crcri.html#cb200-15" aria-hidden="true" tabindex="-1"></a>response_summary <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(Response <span class="sc">~</span> Predicted_group, data, <span class="cf">function</span>(x) {</span>
+<span id="cb200-16"><a href="barplot-for-crcri.html#cb200-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>(x <span class="sc">==</span> <span class="st">&quot;CR&quot;</span>) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb200-17"><a href="barplot-for-crcri.html#cb200-17" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb200-18"><a href="barplot-for-crcri.html#cb200-18" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(response_summary)[<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="st">&quot;CR_Percentage&quot;</span></span>
+<span id="cb200-19"><a href="barplot-for-crcri.html#cb200-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb200-20"><a href="barplot-for-crcri.html#cb200-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the barplot</span></span>
+<span id="cb200-21"><a href="barplot-for-crcri.html#cb200-21" aria-hidden="true" tabindex="-1"></a>p7 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(response_summary, <span class="fu">aes</span>(<span class="at">x =</span> Predicted_group, <span class="at">y =</span> CR_Percentage, <span class="at">fill =</span> Predicted_group)) <span class="sc">+</span></span>
+<span id="cb200-22"><a href="barplot-for-crcri.html#cb200-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="at">width =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb200-23"><a href="barplot-for-crcri.html#cb200-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">paste0</span>(<span class="fu">round</span>(CR_Percentage, <span class="dv">1</span>), <span class="st">&quot;%&quot;</span>)), <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb200-24"><a href="barplot-for-crcri.html#cb200-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Groups stratified by RF8 scores&quot;</span>, <span class="at">y =</span> <span class="st">&quot;CR/CRi (%)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb200-25"><a href="barplot-for-crcri.html#cb200-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="dv">0</span>, <span class="dv">100</span>) <span class="sc">+</span></span>
+<span id="cb200-26"><a href="barplot-for-crcri.html#cb200-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb200-27"><a href="barplot-for-crcri.html#cb200-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>, <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">0</span>, <span class="at">hjust =</span> <span class="dv">1</span>)) </span>
+<span id="cb200-28"><a href="barplot-for-crcri.html#cb200-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb200-29"><a href="barplot-for-crcri.html#cb200-29" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p7)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-73-1.png" width="672" /></p>
+<div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb201-1"><a href="barplot-for-crcri.html#cb201-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the barplot</span></span>
+<span id="cb201-2"><a href="barplot-for-crcri.html#cb201-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ggsave(p7, filename = &quot;../03.out/figure6/04.barplot_CR_rate_tertiles.pdf&quot;, width = 5, height = 4)</span></span></code></pre></div>
 
 </div>
 <!-- </div> -->

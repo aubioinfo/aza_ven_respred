@@ -23,7 +23,7 @@
 <meta name="author" content="Peng Jin, Qiqi Jin, Kankan Wang" />
 
 
-<meta name="date" content="2025-07-18" />
+<meta name="date" content="2025-07-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -244,104 +244,87 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="fisher-test" class="section level2 hasAnchor" number="6.4">
 <h2><span class="header-section-number">6.4</span> Fisher test<a href="fisher-test.html#fisher-test" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb427"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb427-1"><a href="fisher-test.html#cb427-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb427-2"><a href="fisher-test.html#cb427-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb427-3"><a href="fisher-test.html#cb427-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggsci)</span>
-<span id="cb427-4"><a href="fisher-test.html#cb427-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scales)</span></code></pre></div>
-<pre><code>## 
-## Attaching package: &#39;scales&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:purrr&#39;:
-## 
-##     discard</code></pre>
-<pre><code>## The following object is masked from &#39;package:readr&#39;:
-## 
-##     col_factor</code></pre>
-<div class="sourceCode" id="cb431"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb431-1"><a href="fisher-test.html#cb431-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggbreak)</span></code></pre></div>
-<pre><code>## ggbreak v0.1.2
-## 
-## If you use ggbreak in published research, please cite the following paper:
-## 
-## S Xu, M Chen, T Feng, L Zhan, L Zhou, G Yu. Use ggbreak to effectively
-## utilize plotting space to deal with large datasets and outliers. Frontiers
-## in Genetics. 2021, 12:774846. doi: 10.3389/fgene.2021.774846</code></pre>
-<div class="sourceCode" id="cb433"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb433-1"><a href="fisher-test.html#cb433-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read input data</span></span>
-<span id="cb433-2"><a href="fisher-test.html#cb433-2" aria-hidden="true" tabindex="-1"></a>fisher.dat <span class="ot">&lt;-</span> <span class="fu">read_xlsx</span>(<span class="st">&quot;../03.out/figure5/rjaml_mutations_rf8.xlsx&quot;</span>)</span>
-<span id="cb433-3"><a href="fisher-test.html#cb433-3" aria-hidden="true" tabindex="-1"></a>mut_variables <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;RF8.prob.CR&quot;</span>, <span class="st">&quot;TP53&quot;</span>,   <span class="st">&quot;ASXL1&quot;</span>,    <span class="st">&quot;BCOR&quot;</span>, <span class="st">&quot;BCORL1&quot;</span>,</span>
-<span id="cb433-4"><a href="fisher-test.html#cb433-4" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;CBL&quot;</span>,   <span class="st">&quot;CEBPA&quot;</span>,    <span class="st">&quot;ETV6&quot;</span>, <span class="st">&quot;DDX41&quot;</span>,    <span class="st">&quot;DNMT3A&quot;</span>,   <span class="st">&quot;EZH2&quot;</span>, </span>
-<span id="cb433-5"><a href="fisher-test.html#cb433-5" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;FLT3-ITD&quot;</span>,  <span class="st">&quot;FLT3-TKD&quot;</span>, <span class="st">&quot;IDH1&quot;</span>, <span class="st">&quot;IDH2&quot;</span>, <span class="st">&quot;KRAS&quot;</span>, <span class="st">&quot;NF1&quot;</span>,<span class="st">&quot;NPM1&quot;</span>,</span>
-<span id="cb433-6"><a href="fisher-test.html#cb433-6" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;NRAS&quot;</span>,  <span class="st">&quot;PHF6&quot;</span>, <span class="st">&quot;PTPN11&quot;</span>,   <span class="st">&quot;RUNX1&quot;</span>,    <span class="st">&quot;SF3B1&quot;</span>,    <span class="st">&quot;SMC1A&quot;</span>,    <span class="st">&quot;SRSF2&quot;</span>,</span>
-<span id="cb433-7"><a href="fisher-test.html#cb433-7" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;STAG2&quot;</span>, <span class="st">&quot;TET2&quot;</span>, <span class="st">&quot;U2AF1&quot;</span>,    <span class="st">&quot;WT1&quot;</span>,  <span class="st">&quot;CBFB::MYH11&quot;</span>,  <span class="st">&quot;RUNX1::RUNX1T1&quot;</span></span>
-<span id="cb433-8"><a href="fisher-test.html#cb433-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb433-9"><a href="fisher-test.html#cb433-9" aria-hidden="true" tabindex="-1"></a>fisher.dat <span class="ot">&lt;-</span> fisher.dat[, mut_variables]</span>
-<span id="cb433-10"><a href="fisher-test.html#cb433-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Set options</span></span>
-<span id="cb433-11"><a href="fisher-test.html#cb433-11" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">scipen =</span> <span class="dv">100</span>)</span>
-<span id="cb433-12"><a href="fisher-test.html#cb433-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb433-13"><a href="fisher-test.html#cb433-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize matrix to store Fisher test results</span></span>
-<span id="cb433-14"><a href="fisher-test.html#cb433-14" aria-hidden="true" tabindex="-1"></a>stat1 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="cn">NA</span>, <span class="at">nrow =</span> <span class="fu">ncol</span>(fisher.dat) <span class="sc">-</span> <span class="dv">1</span>, <span class="at">ncol =</span> <span class="dv">4</span>)</span>
-<span id="cb433-15"><a href="fisher-test.html#cb433-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb433-16"><a href="fisher-test.html#cb433-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform Fisher test for each column (gene)</span></span>
-<span id="cb433-17"><a href="fisher-test.html#cb433-17" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">ncol</span>(fisher.dat)) {</span>
-<span id="cb433-18"><a href="fisher-test.html#cb433-18" aria-hidden="true" tabindex="-1"></a>  m1 <span class="ot">&lt;-</span> fisher.dat[, <span class="fu">c</span>(<span class="dv">1</span>, i)]</span>
-<span id="cb433-19"><a href="fisher-test.html#cb433-19" aria-hidden="true" tabindex="-1"></a>  m1 <span class="ot">&lt;-</span> m1[<span class="fu">complete.cases</span>(m1), ]</span>
-<span id="cb433-20"><a href="fisher-test.html#cb433-20" aria-hidden="true" tabindex="-1"></a>  m1<span class="sc">$</span>RF8.prob.CR <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(m1<span class="sc">$</span>RF8.prob.CR <span class="sc">&gt;=</span> <span class="fu">median</span>(m1<span class="sc">$</span>RF8.prob.CR), <span class="st">&quot;High&quot;</span>, <span class="st">&quot;Low&quot;</span>)</span>
-<span id="cb433-21"><a href="fisher-test.html#cb433-21" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb433-22"><a href="fisher-test.html#cb433-22" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Create contingency table</span></span>
-<span id="cb433-23"><a href="fisher-test.html#cb433-23" aria-hidden="true" tabindex="-1"></a>  m2 <span class="ot">&lt;-</span> <span class="fu">table</span>(m1)</span>
-<span id="cb433-24"><a href="fisher-test.html#cb433-24" aria-hidden="true" tabindex="-1"></a>  m3 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(m2[<span class="dv">1</span>], m2[<span class="dv">2</span>], m2[<span class="dv">3</span>], m2[<span class="dv">4</span>]), <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">nrow =</span> <span class="dv">2</span>)</span>
-<span id="cb433-25"><a href="fisher-test.html#cb433-25" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb433-26"><a href="fisher-test.html#cb433-26" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Perform Fisher test</span></span>
-<span id="cb433-27"><a href="fisher-test.html#cb433-27" aria-hidden="true" tabindex="-1"></a>  s1 <span class="ot">&lt;-</span> <span class="fu">fisher.test</span>(m3)</span>
-<span id="cb433-28"><a href="fisher-test.html#cb433-28" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb433-29"><a href="fisher-test.html#cb433-29" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Store results</span></span>
-<span id="cb433-30"><a href="fisher-test.html#cb433-30" aria-hidden="true" tabindex="-1"></a>  stat1[i <span class="sc">-</span> <span class="dv">1</span>, ] <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">round</span>(s1<span class="sc">$</span>p.value, <span class="dv">5</span>), <span class="fu">as.numeric</span>(<span class="fu">round</span>(s1<span class="sc">$</span>estimate, <span class="dv">3</span>)), <span class="fu">round</span>(s1<span class="sc">$</span>conf.int[<span class="dv">1</span>], <span class="dv">3</span>), <span class="fu">round</span>(s1<span class="sc">$</span>conf.int[<span class="dv">2</span>], <span class="dv">3</span>))</span>
-<span id="cb433-31"><a href="fisher-test.html#cb433-31" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb433-32"><a href="fisher-test.html#cb433-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb433-33"><a href="fisher-test.html#cb433-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert results to data frame and add gene names</span></span>
-<span id="cb433-34"><a href="fisher-test.html#cb433-34" aria-hidden="true" tabindex="-1"></a>stat1 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(stat1)</span>
-<span id="cb433-35"><a href="fisher-test.html#cb433-35" aria-hidden="true" tabindex="-1"></a>stat1<span class="sc">$</span>Gene <span class="ot">&lt;-</span> <span class="fu">colnames</span>(fisher.dat)[<span class="dv">2</span><span class="sc">:</span><span class="fu">ncol</span>(fisher.dat)]</span>
-<span id="cb433-36"><a href="fisher-test.html#cb433-36" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(stat1) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;P.value&quot;</span>, <span class="st">&quot;Odds_Ratio&quot;</span>, <span class="st">&quot;Lower95%&quot;</span>, <span class="st">&quot;Upper95%&quot;</span>, <span class="st">&quot;Gene&quot;</span>)</span>
-<span id="cb433-37"><a href="fisher-test.html#cb433-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb433-38"><a href="fisher-test.html#cb433-38" aria-hidden="true" tabindex="-1"></a><span class="co"># Reorder columns and sort by p-value</span></span>
-<span id="cb433-39"><a href="fisher-test.html#cb433-39" aria-hidden="true" tabindex="-1"></a>stat <span class="ot">&lt;-</span> stat1[, <span class="fu">c</span>(<span class="st">&quot;Gene&quot;</span>, <span class="st">&quot;P.value&quot;</span>, <span class="st">&quot;Odds_Ratio&quot;</span>, <span class="st">&quot;Lower95%&quot;</span>, <span class="st">&quot;Upper95%&quot;</span>)]</span>
-<span id="cb433-40"><a href="fisher-test.html#cb433-40" aria-hidden="true" tabindex="-1"></a>stat <span class="ot">&lt;-</span> stat[<span class="fu">order</span>(stat<span class="sc">$</span>P.value), ]</span>
-<span id="cb433-41"><a href="fisher-test.html#cb433-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb433-42"><a href="fisher-test.html#cb433-42" aria-hidden="true" tabindex="-1"></a><span class="co"># write.csv(stat, &quot;../03.out/figure5/Mutation_fisher_out.csv&quot;)</span></span></code></pre></div>
-<div class="sourceCode" id="cb434"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb434-1"><a href="fisher-test.html#cb434-1" aria-hidden="true" tabindex="-1"></a><span class="do">###################################</span></span>
-<span id="cb434-2"><a href="fisher-test.html#cb434-2" aria-hidden="true" tabindex="-1"></a><span class="do">######  dotplot Fisher test  ######</span></span>
-<span id="cb434-3"><a href="fisher-test.html#cb434-3" aria-hidden="true" tabindex="-1"></a><span class="do">###################################</span></span>
-<span id="cb434-4"><a href="fisher-test.html#cb434-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb434-5"><a href="fisher-test.html#cb434-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Read results data</span></span>
-<span id="cb434-6"><a href="fisher-test.html#cb434-6" aria-hidden="true" tabindex="-1"></a>tab <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;../03.out/figure5/Mutation_fisher_out.csv&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">row.names =</span> <span class="dv">1</span>, <span class="at">check.names =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb434-7"><a href="fisher-test.html#cb434-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb434-8"><a href="fisher-test.html#cb434-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Subset data for significant results</span></span>
-<span id="cb434-9"><a href="fisher-test.html#cb434-9" aria-hidden="true" tabindex="-1"></a>tab <span class="ot">&lt;-</span> <span class="fu">subset</span>(tab, P.value <span class="sc">&lt;</span> <span class="fl">0.05</span>)</span>
-<span id="cb434-10"><a href="fisher-test.html#cb434-10" aria-hidden="true" tabindex="-1"></a>tab <span class="ot">&lt;-</span> tab[<span class="fu">order</span>(tab<span class="sc">$</span>Odds_Ratio, <span class="at">decreasing =</span> <span class="cn">TRUE</span>), ]</span>
-<span id="cb434-11"><a href="fisher-test.html#cb434-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Order genes by odds ratio</span></span>
-<span id="cb434-12"><a href="fisher-test.html#cb434-12" aria-hidden="true" tabindex="-1"></a>tab<span class="sc">$</span>Gene <span class="ot">&lt;-</span> <span class="fu">factor</span>(tab<span class="sc">$</span>Gene, <span class="at">levels =</span> <span class="fu">rev</span>(tab<span class="sc">$</span>Gene))</span>
-<span id="cb434-13"><a href="fisher-test.html#cb434-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb434-14"><a href="fisher-test.html#cb434-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Create dot plot</span></span>
-<span id="cb434-15"><a href="fisher-test.html#cb434-15" aria-hidden="true" tabindex="-1"></a>forest <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> tab, <span class="fu">aes</span>(<span class="at">x =</span> Odds_Ratio, <span class="at">y =</span> Gene)) <span class="sc">+</span></span>
-<span id="cb434-16"><a href="fisher-test.html#cb434-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> <span class="sc">-</span><span class="fu">log2</span>(P.value), <span class="at">size =</span> <span class="fl">0.75</span>), <span class="at">shape =</span> <span class="dv">19</span>) <span class="sc">+</span></span>
-<span id="cb434-17"><a href="fisher-test.html#cb434-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbarh</span>(<span class="fu">aes</span>(<span class="at">xmin =</span> <span class="st">`</span><span class="at">Lower95%</span><span class="st">`</span>, <span class="at">xmax =</span> <span class="st">`</span><span class="at">Upper95%</span><span class="st">`</span>), <span class="at">height =</span> <span class="dv">0</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
-<span id="cb434-18"><a href="fisher-test.html#cb434-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">1</span>, <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
-<span id="cb434-19"><a href="fisher-test.html#cb434-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
-<span id="cb434-20"><a href="fisher-test.html#cb434-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Odds Ratio (OR)&quot;</span>, <span class="at">y =</span> <span class="st">&quot;&quot;</span>) <span class="sc">+</span></span>
-<span id="cb434-21"><a href="fisher-test.html#cb434-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb434-22"><a href="fisher-test.html#cb434-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">&quot;right&quot;</span>,</span>
-<span id="cb434-23"><a href="fisher-test.html#cb434-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.title =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb434-24"><a href="fisher-test.html#cb434-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">0</span>, <span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>),</span>
-<span id="cb434-25"><a href="fisher-test.html#cb434-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.major =</span> <span class="fu">element_line</span>(<span class="at">size =</span> <span class="fl">0.1</span>, <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">color =</span> <span class="st">&quot;grey&quot;</span>),</span>
-<span id="cb434-26"><a href="fisher-test.html#cb434-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.minor =</span> <span class="fu">element_line</span>(<span class="at">size =</span> <span class="fl">0.1</span>, <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">color =</span> <span class="st">&quot;grey&quot;</span>)</span>
-<span id="cb434-27"><a href="fisher-test.html#cb434-27" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
-<pre><code>## Warning: The `size` argument of `element_line()` is deprecated as of ggplot2 3.4.0.
-## ℹ Please use the `linewidth` argument instead.
-## This warning is displayed once every 8 hours.
-## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.</code></pre>
-<div class="sourceCode" id="cb436"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb436-1"><a href="fisher-test.html#cb436-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Customize plot color and scale</span></span>
-<span id="cb436-2"><a href="fisher-test.html#cb436-2" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> forest <span class="sc">+</span> <span class="fu">scale_color_gradient2</span>(<span class="at">low =</span> <span class="st">&quot;white&quot;</span>, <span class="at">mid =</span> <span class="st">&quot;white&quot;</span>, <span class="at">high =</span> <span class="st">&quot;#0072B5FF&quot;</span>) <span class="sc">+</span> <span class="fu">scale_x_log10</span>()</span>
-<span id="cb436-3"><a href="fisher-test.html#cb436-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb436-4"><a href="fisher-test.html#cb436-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p2)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-54-1.png" width="672" /></p>
+<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="fisher-test.html#cb162-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb162-2"><a href="fisher-test.html#cb162-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb162-3"><a href="fisher-test.html#cb162-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggsci)</span>
+<span id="cb162-4"><a href="fisher-test.html#cb162-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scales)</span>
+<span id="cb162-5"><a href="fisher-test.html#cb162-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggbreak)</span>
+<span id="cb162-6"><a href="fisher-test.html#cb162-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb162-7"><a href="fisher-test.html#cb162-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Read input data</span></span>
+<span id="cb162-8"><a href="fisher-test.html#cb162-8" aria-hidden="true" tabindex="-1"></a>fisher.dat <span class="ot">&lt;-</span> <span class="fu">read_xlsx</span>(<span class="st">&quot;../03.out/figure5/rjaml_mutations_rf8.xlsx&quot;</span>)</span>
+<span id="cb162-9"><a href="fisher-test.html#cb162-9" aria-hidden="true" tabindex="-1"></a>mut_variables <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;RF8.prob.CR&quot;</span>, <span class="st">&quot;TP53&quot;</span>,   <span class="st">&quot;ASXL1&quot;</span>,    <span class="st">&quot;BCOR&quot;</span>, <span class="st">&quot;BCORL1&quot;</span>,</span>
+<span id="cb162-10"><a href="fisher-test.html#cb162-10" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;CBL&quot;</span>,   <span class="st">&quot;CEBPA&quot;</span>,    <span class="st">&quot;ETV6&quot;</span>, <span class="st">&quot;DDX41&quot;</span>,    <span class="st">&quot;DNMT3A&quot;</span>,   <span class="st">&quot;EZH2&quot;</span>, </span>
+<span id="cb162-11"><a href="fisher-test.html#cb162-11" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;FLT3-ITD&quot;</span>,  <span class="st">&quot;FLT3-TKD&quot;</span>, <span class="st">&quot;IDH1&quot;</span>, <span class="st">&quot;IDH2&quot;</span>, <span class="st">&quot;KRAS&quot;</span>, <span class="st">&quot;NF1&quot;</span>,<span class="st">&quot;NPM1&quot;</span>,</span>
+<span id="cb162-12"><a href="fisher-test.html#cb162-12" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;NRAS&quot;</span>,  <span class="st">&quot;PHF6&quot;</span>, <span class="st">&quot;PTPN11&quot;</span>,   <span class="st">&quot;RUNX1&quot;</span>,    <span class="st">&quot;SF3B1&quot;</span>,    <span class="st">&quot;SMC1A&quot;</span>,    <span class="st">&quot;SRSF2&quot;</span>,</span>
+<span id="cb162-13"><a href="fisher-test.html#cb162-13" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;STAG2&quot;</span>, <span class="st">&quot;TET2&quot;</span>, <span class="st">&quot;U2AF1&quot;</span>,    <span class="st">&quot;WT1&quot;</span>,  <span class="st">&quot;CBFB::MYH11&quot;</span>,  <span class="st">&quot;RUNX1::RUNX1T1&quot;</span></span>
+<span id="cb162-14"><a href="fisher-test.html#cb162-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb162-15"><a href="fisher-test.html#cb162-15" aria-hidden="true" tabindex="-1"></a>fisher.dat <span class="ot">&lt;-</span> fisher.dat[, mut_variables]</span>
+<span id="cb162-16"><a href="fisher-test.html#cb162-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Set options</span></span>
+<span id="cb162-17"><a href="fisher-test.html#cb162-17" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">scipen =</span> <span class="dv">100</span>)</span>
+<span id="cb162-18"><a href="fisher-test.html#cb162-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb162-19"><a href="fisher-test.html#cb162-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize matrix to store Fisher test results</span></span>
+<span id="cb162-20"><a href="fisher-test.html#cb162-20" aria-hidden="true" tabindex="-1"></a>stat1 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="cn">NA</span>, <span class="at">nrow =</span> <span class="fu">ncol</span>(fisher.dat) <span class="sc">-</span> <span class="dv">1</span>, <span class="at">ncol =</span> <span class="dv">4</span>)</span>
+<span id="cb162-21"><a href="fisher-test.html#cb162-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb162-22"><a href="fisher-test.html#cb162-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform Fisher test for each column (gene)</span></span>
+<span id="cb162-23"><a href="fisher-test.html#cb162-23" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">ncol</span>(fisher.dat)) {</span>
+<span id="cb162-24"><a href="fisher-test.html#cb162-24" aria-hidden="true" tabindex="-1"></a>  m1 <span class="ot">&lt;-</span> fisher.dat[, <span class="fu">c</span>(<span class="dv">1</span>, i)]</span>
+<span id="cb162-25"><a href="fisher-test.html#cb162-25" aria-hidden="true" tabindex="-1"></a>  m1 <span class="ot">&lt;-</span> m1[<span class="fu">complete.cases</span>(m1), ]</span>
+<span id="cb162-26"><a href="fisher-test.html#cb162-26" aria-hidden="true" tabindex="-1"></a>  m1<span class="sc">$</span>RF8.prob.CR <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(m1<span class="sc">$</span>RF8.prob.CR <span class="sc">&gt;=</span> <span class="fu">median</span>(m1<span class="sc">$</span>RF8.prob.CR), <span class="st">&quot;High&quot;</span>, <span class="st">&quot;Low&quot;</span>)</span>
+<span id="cb162-27"><a href="fisher-test.html#cb162-27" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb162-28"><a href="fisher-test.html#cb162-28" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Create contingency table</span></span>
+<span id="cb162-29"><a href="fisher-test.html#cb162-29" aria-hidden="true" tabindex="-1"></a>  m2 <span class="ot">&lt;-</span> <span class="fu">table</span>(m1)</span>
+<span id="cb162-30"><a href="fisher-test.html#cb162-30" aria-hidden="true" tabindex="-1"></a>  m3 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(m2[<span class="dv">1</span>], m2[<span class="dv">2</span>], m2[<span class="dv">3</span>], m2[<span class="dv">4</span>]), <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">nrow =</span> <span class="dv">2</span>)</span>
+<span id="cb162-31"><a href="fisher-test.html#cb162-31" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb162-32"><a href="fisher-test.html#cb162-32" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Perform Fisher test</span></span>
+<span id="cb162-33"><a href="fisher-test.html#cb162-33" aria-hidden="true" tabindex="-1"></a>  s1 <span class="ot">&lt;-</span> <span class="fu">fisher.test</span>(m3)</span>
+<span id="cb162-34"><a href="fisher-test.html#cb162-34" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb162-35"><a href="fisher-test.html#cb162-35" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Store results</span></span>
+<span id="cb162-36"><a href="fisher-test.html#cb162-36" aria-hidden="true" tabindex="-1"></a>  stat1[i <span class="sc">-</span> <span class="dv">1</span>, ] <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">round</span>(s1<span class="sc">$</span>p.value, <span class="dv">5</span>), <span class="fu">as.numeric</span>(<span class="fu">round</span>(s1<span class="sc">$</span>estimate, <span class="dv">3</span>)), <span class="fu">round</span>(s1<span class="sc">$</span>conf.int[<span class="dv">1</span>], <span class="dv">3</span>), <span class="fu">round</span>(s1<span class="sc">$</span>conf.int[<span class="dv">2</span>], <span class="dv">3</span>))</span>
+<span id="cb162-37"><a href="fisher-test.html#cb162-37" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb162-38"><a href="fisher-test.html#cb162-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb162-39"><a href="fisher-test.html#cb162-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert results to data frame and add gene names</span></span>
+<span id="cb162-40"><a href="fisher-test.html#cb162-40" aria-hidden="true" tabindex="-1"></a>stat1 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(stat1)</span>
+<span id="cb162-41"><a href="fisher-test.html#cb162-41" aria-hidden="true" tabindex="-1"></a>stat1<span class="sc">$</span>Gene <span class="ot">&lt;-</span> <span class="fu">colnames</span>(fisher.dat)[<span class="dv">2</span><span class="sc">:</span><span class="fu">ncol</span>(fisher.dat)]</span>
+<span id="cb162-42"><a href="fisher-test.html#cb162-42" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(stat1) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;P.value&quot;</span>, <span class="st">&quot;Odds_Ratio&quot;</span>, <span class="st">&quot;Lower95%&quot;</span>, <span class="st">&quot;Upper95%&quot;</span>, <span class="st">&quot;Gene&quot;</span>)</span>
+<span id="cb162-43"><a href="fisher-test.html#cb162-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb162-44"><a href="fisher-test.html#cb162-44" aria-hidden="true" tabindex="-1"></a><span class="co"># Reorder columns and sort by p-value</span></span>
+<span id="cb162-45"><a href="fisher-test.html#cb162-45" aria-hidden="true" tabindex="-1"></a>stat <span class="ot">&lt;-</span> stat1[, <span class="fu">c</span>(<span class="st">&quot;Gene&quot;</span>, <span class="st">&quot;P.value&quot;</span>, <span class="st">&quot;Odds_Ratio&quot;</span>, <span class="st">&quot;Lower95%&quot;</span>, <span class="st">&quot;Upper95%&quot;</span>)]</span>
+<span id="cb162-46"><a href="fisher-test.html#cb162-46" aria-hidden="true" tabindex="-1"></a>stat <span class="ot">&lt;-</span> stat[<span class="fu">order</span>(stat<span class="sc">$</span>P.value), ]</span>
+<span id="cb162-47"><a href="fisher-test.html#cb162-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb162-48"><a href="fisher-test.html#cb162-48" aria-hidden="true" tabindex="-1"></a><span class="co"># write.csv(stat, &quot;../03.out/figure5/Mutation_fisher_out.csv&quot;)</span></span></code></pre></div>
+<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="fisher-test.html#cb163-1" aria-hidden="true" tabindex="-1"></a><span class="do">###################################</span></span>
+<span id="cb163-2"><a href="fisher-test.html#cb163-2" aria-hidden="true" tabindex="-1"></a><span class="do">######  dotplot Fisher test  ######</span></span>
+<span id="cb163-3"><a href="fisher-test.html#cb163-3" aria-hidden="true" tabindex="-1"></a><span class="do">###################################</span></span>
+<span id="cb163-4"><a href="fisher-test.html#cb163-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb163-5"><a href="fisher-test.html#cb163-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Read results data</span></span>
+<span id="cb163-6"><a href="fisher-test.html#cb163-6" aria-hidden="true" tabindex="-1"></a>tab <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;../03.out/figure5/Mutation_fisher_out.csv&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">row.names =</span> <span class="dv">1</span>, <span class="at">check.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb163-7"><a href="fisher-test.html#cb163-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb163-8"><a href="fisher-test.html#cb163-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Subset data for significant results</span></span>
+<span id="cb163-9"><a href="fisher-test.html#cb163-9" aria-hidden="true" tabindex="-1"></a>tab <span class="ot">&lt;-</span> <span class="fu">subset</span>(tab, P.value <span class="sc">&lt;</span> <span class="fl">0.05</span>)</span>
+<span id="cb163-10"><a href="fisher-test.html#cb163-10" aria-hidden="true" tabindex="-1"></a>tab <span class="ot">&lt;-</span> tab[<span class="fu">order</span>(tab<span class="sc">$</span>Odds_Ratio, <span class="at">decreasing =</span> <span class="cn">TRUE</span>), ]</span>
+<span id="cb163-11"><a href="fisher-test.html#cb163-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Order genes by odds ratio</span></span>
+<span id="cb163-12"><a href="fisher-test.html#cb163-12" aria-hidden="true" tabindex="-1"></a>tab<span class="sc">$</span>Gene <span class="ot">&lt;-</span> <span class="fu">factor</span>(tab<span class="sc">$</span>Gene, <span class="at">levels =</span> <span class="fu">rev</span>(tab<span class="sc">$</span>Gene))</span>
+<span id="cb163-13"><a href="fisher-test.html#cb163-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb163-14"><a href="fisher-test.html#cb163-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Create dot plot</span></span>
+<span id="cb163-15"><a href="fisher-test.html#cb163-15" aria-hidden="true" tabindex="-1"></a>forest <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> tab, <span class="fu">aes</span>(<span class="at">x =</span> Odds_Ratio, <span class="at">y =</span> Gene)) <span class="sc">+</span></span>
+<span id="cb163-16"><a href="fisher-test.html#cb163-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> <span class="sc">-</span><span class="fu">log2</span>(P.value), <span class="at">size =</span> <span class="fl">0.75</span>), <span class="at">shape =</span> <span class="dv">19</span>) <span class="sc">+</span></span>
+<span id="cb163-17"><a href="fisher-test.html#cb163-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbarh</span>(<span class="fu">aes</span>(<span class="at">xmin =</span> <span class="st">`</span><span class="at">Lower95%</span><span class="st">`</span>, <span class="at">xmax =</span> <span class="st">`</span><span class="at">Upper95%</span><span class="st">`</span>), <span class="at">height =</span> <span class="dv">0</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
+<span id="cb163-18"><a href="fisher-test.html#cb163-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">1</span>, <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
+<span id="cb163-19"><a href="fisher-test.html#cb163-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb163-20"><a href="fisher-test.html#cb163-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Odds Ratio (OR)&quot;</span>, <span class="at">y =</span> <span class="st">&quot;&quot;</span>) <span class="sc">+</span></span>
+<span id="cb163-21"><a href="fisher-test.html#cb163-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb163-22"><a href="fisher-test.html#cb163-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">&quot;right&quot;</span>,</span>
+<span id="cb163-23"><a href="fisher-test.html#cb163-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.title =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb163-24"><a href="fisher-test.html#cb163-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">0</span>, <span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>),</span>
+<span id="cb163-25"><a href="fisher-test.html#cb163-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.major =</span> <span class="fu">element_line</span>(<span class="at">size =</span> <span class="fl">0.1</span>, <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">color =</span> <span class="st">&quot;grey&quot;</span>),</span>
+<span id="cb163-26"><a href="fisher-test.html#cb163-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.minor =</span> <span class="fu">element_line</span>(<span class="at">size =</span> <span class="fl">0.1</span>, <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">color =</span> <span class="st">&quot;grey&quot;</span>)</span>
+<span id="cb163-27"><a href="fisher-test.html#cb163-27" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb163-28"><a href="fisher-test.html#cb163-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb163-29"><a href="fisher-test.html#cb163-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Customize plot color and scale</span></span>
+<span id="cb163-30"><a href="fisher-test.html#cb163-30" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> forest <span class="sc">+</span> <span class="fu">scale_color_gradient2</span>(<span class="at">low =</span> <span class="st">&quot;white&quot;</span>, <span class="at">mid =</span> <span class="st">&quot;white&quot;</span>, <span class="at">high =</span> <span class="st">&quot;#0072B5FF&quot;</span>) <span class="sc">+</span> <span class="fu">scale_x_log10</span>()</span>
+<span id="cb163-31"><a href="fisher-test.html#cb163-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb163-32"><a href="fisher-test.html#cb163-32" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p2)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-55-1.png" width="672" /></p>
 </div>
             </section>
 

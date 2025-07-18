@@ -23,7 +23,7 @@
 <meta name="author" content="Peng Jin, Qiqi Jin, Kankan Wang" />
 
 
-<meta name="date" content="2025-07-18" />
+<meta name="date" content="2025-07-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -244,27 +244,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="go-enrichment-dot-plot" class="section level2 hasAnchor" number="2.10">
 <h2><span class="header-section-number">2.10</span> GO Enrichment Dot Plot<a href="go-enrichment-dot-plot.html#go-enrichment-dot-plot" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="go-enrichment-dot-plot.html#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb72-2"><a href="go-enrichment-dot-plot.html#cb72-2" aria-hidden="true" tabindex="-1"></a>go_enrichment_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;../03.out/figure1/Metascape_DEGs_plot.csv&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb72-3"><a href="go-enrichment-dot-plot.html#cb72-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb72-4"><a href="go-enrichment-dot-plot.html#cb72-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Reorder factor levels based on GO description</span></span>
-<span id="cb72-5"><a href="go-enrichment-dot-plot.html#cb72-5" aria-hidden="true" tabindex="-1"></a>go_enrichment_data<span class="sc">$</span>Description <span class="ot">&lt;-</span> <span class="fu">factor</span>(go_enrichment_data<span class="sc">$</span>Description, <span class="at">levels =</span> <span class="fu">rev</span>(go_enrichment_data<span class="sc">$</span>Description))</span>
-<span id="cb72-6"><a href="go-enrichment-dot-plot.html#cb72-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb72-7"><a href="go-enrichment-dot-plot.html#cb72-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate dot plot for GO enrichment results</span></span>
-<span id="cb72-8"><a href="go-enrichment-dot-plot.html#cb72-8" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(go_enrichment_data, <span class="fu">aes</span>(<span class="at">x =</span> <span class="cn">NA</span>, <span class="at">y =</span> Description, <span class="at">color =</span> Z.score, <span class="at">size =</span> negLogP)) <span class="sc">+</span> </span>
-<span id="cb72-9"><a href="go-enrichment-dot-plot.html#cb72-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">stroke =</span> <span class="dv">1</span>) <span class="sc">+</span> </span>
-<span id="cb72-10"><a href="go-enrichment-dot-plot.html#cb72-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;&quot;</span>, <span class="at">y =</span> <span class="st">&quot;&quot;</span>) <span class="sc">+</span></span>
-<span id="cb72-11"><a href="go-enrichment-dot-plot.html#cb72-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
-<span id="cb72-12"><a href="go-enrichment-dot-plot.html#cb72-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_gradient</span>(<span class="at">low =</span> <span class="st">&quot;#DADAEB&quot;</span>, <span class="at">high =</span> <span class="st">&quot;#7582c1&quot;</span>) <span class="sc">+</span></span>
-<span id="cb72-13"><a href="go-enrichment-dot-plot.html#cb72-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_size</span>(<span class="st">&quot;negLogP&quot;</span>, <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">18</span>), <span class="at">range =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">6</span>)) <span class="sc">+</span></span>
-<span id="cb72-14"><a href="go-enrichment-dot-plot.html#cb72-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb72-15"><a href="go-enrichment-dot-plot.html#cb72-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>))</span>
-<span id="cb72-16"><a href="go-enrichment-dot-plot.html#cb72-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb72-17"><a href="go-enrichment-dot-plot.html#cb72-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Display plot</span></span>
-<span id="cb72-18"><a href="go-enrichment-dot-plot.html#cb72-18" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
-<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="go-enrichment-dot-plot.html#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Save plot to file</span></span>
-<span id="cb73-2"><a href="go-enrichment-dot-plot.html#cb73-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ggsave(p, filename = &quot;figure1/Out_DEGs_enrichment_dotplot.pdf&quot;, width = 4, height = 5)</span></span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="go-enrichment-dot-plot.html#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb23-2"><a href="go-enrichment-dot-plot.html#cb23-2" aria-hidden="true" tabindex="-1"></a>go_enrichment_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;../03.out/figure1/Metascape_DEGs_plot.csv&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb23-3"><a href="go-enrichment-dot-plot.html#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="go-enrichment-dot-plot.html#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Reorder factor levels based on GO description</span></span>
+<span id="cb23-5"><a href="go-enrichment-dot-plot.html#cb23-5" aria-hidden="true" tabindex="-1"></a>go_enrichment_data<span class="sc">$</span>Description <span class="ot">&lt;-</span> <span class="fu">factor</span>(go_enrichment_data<span class="sc">$</span>Description, <span class="at">levels =</span> <span class="fu">rev</span>(go_enrichment_data<span class="sc">$</span>Description))</span>
+<span id="cb23-6"><a href="go-enrichment-dot-plot.html#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-7"><a href="go-enrichment-dot-plot.html#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate dot plot for GO enrichment results</span></span>
+<span id="cb23-8"><a href="go-enrichment-dot-plot.html#cb23-8" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(go_enrichment_data, <span class="fu">aes</span>(<span class="at">x =</span> <span class="cn">NA</span>, <span class="at">y =</span> Description, <span class="at">color =</span> Z.score, <span class="at">size =</span> negLogP)) <span class="sc">+</span> </span>
+<span id="cb23-9"><a href="go-enrichment-dot-plot.html#cb23-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">stroke =</span> <span class="dv">1</span>) <span class="sc">+</span> </span>
+<span id="cb23-10"><a href="go-enrichment-dot-plot.html#cb23-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;&quot;</span>, <span class="at">y =</span> <span class="st">&quot;&quot;</span>) <span class="sc">+</span></span>
+<span id="cb23-11"><a href="go-enrichment-dot-plot.html#cb23-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb23-12"><a href="go-enrichment-dot-plot.html#cb23-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_gradient</span>(<span class="at">low =</span> <span class="st">&quot;#DADAEB&quot;</span>, <span class="at">high =</span> <span class="st">&quot;#7582c1&quot;</span>) <span class="sc">+</span></span>
+<span id="cb23-13"><a href="go-enrichment-dot-plot.html#cb23-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_size</span>(<span class="st">&quot;negLogP&quot;</span>, <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">18</span>), <span class="at">range =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">6</span>)) <span class="sc">+</span></span>
+<span id="cb23-14"><a href="go-enrichment-dot-plot.html#cb23-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb23-15"><a href="go-enrichment-dot-plot.html#cb23-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>))</span>
+<span id="cb23-16"><a href="go-enrichment-dot-plot.html#cb23-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-17"><a href="go-enrichment-dot-plot.html#cb23-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Display plot</span></span>
+<span id="cb23-18"><a href="go-enrichment-dot-plot.html#cb23-18" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-11-1.png" width="672" /></p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="go-enrichment-dot-plot.html#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Save plot to file</span></span>
+<span id="cb24-2"><a href="go-enrichment-dot-plot.html#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ggsave(p, filename = &quot;figure1/Out_DEGs_enrichment_dotplot.pdf&quot;, width = 4, height = 5)</span></span></code></pre></div>
 
 </div>
 <!-- </div> -->

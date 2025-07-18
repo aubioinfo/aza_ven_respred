@@ -23,7 +23,7 @@
 <meta name="author" content="Peng Jin, Qiqi Jin, Kankan Wang" />
 
 
-<meta name="date" content="2025-07-18" />
+<meta name="date" content="2025-07-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -244,140 +244,90 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="complexheatmap-for-mutation" class="section level2 hasAnchor" number="6.3">
 <h2><span class="header-section-number">6.3</span> Complexheatmap for mutation<a href="complexheatmap-for-mutation.html#complexheatmap-for-mutation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb410"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb410-1"><a href="complexheatmap-for-mutation.html#cb410-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ComplexHeatmap)</span></code></pre></div>
-<pre><code>## ========================================
-## ComplexHeatmap version 2.10.0
-## Bioconductor page: http://bioconductor.org/packages/ComplexHeatmap/
-## Github page: https://github.com/jokergoo/ComplexHeatmap
-## Documentation: http://jokergoo.github.io/ComplexHeatmap-reference
-## 
-## If you use it in published research, please cite:
-## Gu, Z. Complex heatmaps reveal patterns and correlations in multidimensional 
-##   genomic data. Bioinformatics 2016.
-## 
-## The new InteractiveComplexHeatmap package can directly export static 
-## complex heatmaps into an interactive Shiny app with zero effort. Have a try!
-## 
-## This message can be suppressed by:
-##   suppressPackageStartupMessages(library(ComplexHeatmap))
-## ========================================
-## ! pheatmap() has been masked by ComplexHeatmap::pheatmap(). Most of the arguments
-##    in the original pheatmap() are identically supported in the new function. You 
-##    can still use the original function by explicitly calling pheatmap::pheatmap().</code></pre>
-<pre><code>## 
-## Attaching package: &#39;ComplexHeatmap&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:plotly&#39;:
-## 
-##     add_heatmap</code></pre>
-<pre><code>## The following object is masked from &#39;package:pheatmap&#39;:
-## 
-##     pheatmap</code></pre>
-<div class="sourceCode" id="cb415"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb415-1"><a href="complexheatmap-for-mutation.html#cb415-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(circlize)</span></code></pre></div>
-<pre><code>## ========================================
-## circlize version 0.4.16
-## CRAN page: https://cran.r-project.org/package=circlize
-## Github page: https://github.com/jokergoo/circlize
-## Documentation: https://jokergoo.github.io/circlize_book/book/
-## 
-## If you use it in published research, please cite:
-## Gu, Z. circlize implements and enhances circular visualization
-##   in R. Bioinformatics 2014.
-## 
-## This message can be suppressed by:
-##   suppressPackageStartupMessages(library(circlize))
-## ========================================</code></pre>
-<pre><code>## 
-## Attaching package: &#39;circlize&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:graph&#39;:
-## 
-##     degree</code></pre>
-<div class="sourceCode" id="cb419"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb419-1"><a href="complexheatmap-for-mutation.html#cb419-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb419-2"><a href="complexheatmap-for-mutation.html#cb419-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
-<span id="cb419-3"><a href="complexheatmap-for-mutation.html#cb419-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RColorBrewer)</span>
-<span id="cb419-4"><a href="complexheatmap-for-mutation.html#cb419-4" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read_xlsx</span>(<span class="st">&quot;../03.out/figure5/rjaml_mutations_rf8.xlsx&quot;</span>)</span>
-<span id="cb419-5"><a href="complexheatmap-for-mutation.html#cb419-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Define clinical and mutation variables</span></span>
-<span id="cb419-6"><a href="complexheatmap-for-mutation.html#cb419-6" aria-hidden="true" tabindex="-1"></a>clinic_variables <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;PatientID&quot;</span>, <span class="st">&quot;Group&quot;</span>, <span class="st">&quot;Age&quot;</span>, <span class="st">&quot;BM_blast&quot;</span>, <span class="st">&quot;Gender&quot;</span>, </span>
-<span id="cb419-7"><a href="complexheatmap-for-mutation.html#cb419-7" aria-hidden="true" tabindex="-1"></a>                      <span class="st">&quot;Secondary_AML&quot;</span>, <span class="st">&quot;Complex_Karyotype&quot;</span>, <span class="st">&quot;ELN&quot;</span>)</span>
-<span id="cb419-8"><a href="complexheatmap-for-mutation.html#cb419-8" aria-hidden="true" tabindex="-1"></a>mut_variables <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;PatientID&quot;</span>, <span class="st">&quot;Group&quot;</span>, <span class="st">&quot;TP53&quot;</span>,    <span class="st">&quot;ASXL1&quot;</span>,    <span class="st">&quot;BCOR&quot;</span>, <span class="st">&quot;BCORL1&quot;</span>,</span>
-<span id="cb419-9"><a href="complexheatmap-for-mutation.html#cb419-9" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;CBL&quot;</span>,   <span class="st">&quot;CEBPA&quot;</span>,    <span class="st">&quot;ETV6&quot;</span>, <span class="st">&quot;DDX41&quot;</span>,    <span class="st">&quot;DNMT3A&quot;</span>,   <span class="st">&quot;EZH2&quot;</span>, </span>
-<span id="cb419-10"><a href="complexheatmap-for-mutation.html#cb419-10" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;FLT3-ITD&quot;</span>,  <span class="st">&quot;FLT3-TKD&quot;</span>, <span class="st">&quot;IDH1&quot;</span>, <span class="st">&quot;IDH2&quot;</span>, <span class="st">&quot;KRAS&quot;</span>, <span class="st">&quot;NF1&quot;</span>,<span class="st">&quot;NPM1&quot;</span>,</span>
-<span id="cb419-11"><a href="complexheatmap-for-mutation.html#cb419-11" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;NRAS&quot;</span>,  <span class="st">&quot;PHF6&quot;</span>, <span class="st">&quot;PTPN11&quot;</span>,   <span class="st">&quot;RUNX1&quot;</span>,    <span class="st">&quot;SF3B1&quot;</span>,    <span class="st">&quot;SMC1A&quot;</span>,    <span class="st">&quot;SRSF2&quot;</span>,</span>
-<span id="cb419-12"><a href="complexheatmap-for-mutation.html#cb419-12" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;STAG2&quot;</span>, <span class="st">&quot;TET2&quot;</span>, <span class="st">&quot;U2AF1&quot;</span>,    <span class="st">&quot;WT1&quot;</span>,  <span class="st">&quot;CBFB::MYH11&quot;</span>,  <span class="st">&quot;RUNX1::RUNX1T1&quot;</span></span>
-<span id="cb419-13"><a href="complexheatmap-for-mutation.html#cb419-13" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb419-14"><a href="complexheatmap-for-mutation.html#cb419-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb419-15"><a href="complexheatmap-for-mutation.html#cb419-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract clinical and mutation data</span></span>
-<span id="cb419-16"><a href="complexheatmap-for-mutation.html#cb419-16" aria-hidden="true" tabindex="-1"></a>clinical_data <span class="ot">&lt;-</span> data[, clinic_variables]</span>
-<span id="cb419-17"><a href="complexheatmap-for-mutation.html#cb419-17" aria-hidden="true" tabindex="-1"></a>mutation_data <span class="ot">&lt;-</span> data[, mut_variables]</span>
-<span id="cb419-18"><a href="complexheatmap-for-mutation.html#cb419-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb419-19"><a href="complexheatmap-for-mutation.html#cb419-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Set PatientID as row names and remove from both mutation and clinical data</span></span>
-<span id="cb419-20"><a href="complexheatmap-for-mutation.html#cb419-20" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(mutation_data) <span class="ot">&lt;-</span> mutation_data<span class="sc">$</span>PatientID</span></code></pre></div>
-<pre><code>## Warning: Setting row names on a tibble is deprecated.</code></pre>
-<div class="sourceCode" id="cb421"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb421-1"><a href="complexheatmap-for-mutation.html#cb421-1" aria-hidden="true" tabindex="-1"></a>mutation_data <span class="ot">&lt;-</span> mutation_data[, <span class="sc">-</span><span class="dv">1</span>]  <span class="co"># Remove PatientID column from mutation data</span></span>
-<span id="cb421-2"><a href="complexheatmap-for-mutation.html#cb421-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb421-3"><a href="complexheatmap-for-mutation.html#cb421-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(clinical_data) <span class="ot">&lt;-</span> clinical_data<span class="sc">$</span>PatientID</span></code></pre></div>
-<pre><code>## Warning: Setting row names on a tibble is deprecated.</code></pre>
-<div class="sourceCode" id="cb423"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb423-1"><a href="complexheatmap-for-mutation.html#cb423-1" aria-hidden="true" tabindex="-1"></a>clinical_data <span class="ot">&lt;-</span> clinical_data[, <span class="sc">-</span><span class="dv">1</span>]  <span class="co"># Remove PatientID column from clinical data</span></span>
-<span id="cb423-2"><a href="complexheatmap-for-mutation.html#cb423-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb423-3"><a href="complexheatmap-for-mutation.html#cb423-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract mutation matrix and transpose it</span></span>
-<span id="cb423-4"><a href="complexheatmap-for-mutation.html#cb423-4" aria-hidden="true" tabindex="-1"></a>mutation_matrix <span class="ot">&lt;-</span> mutation_data[, <span class="sc">-</span><span class="dv">1</span>]  <span class="co"># Remove Response column</span></span>
-<span id="cb423-5"><a href="complexheatmap-for-mutation.html#cb423-5" aria-hidden="true" tabindex="-1"></a>mutation_binary <span class="ot">&lt;-</span> <span class="fu">apply</span>(mutation_matrix, <span class="dv">2</span>, <span class="cf">function</span>(x) <span class="fu">ifelse</span>(x <span class="sc">==</span> <span class="dv">1</span>, <span class="st">&quot;Mutation&quot;</span>, <span class="st">&quot;&quot;</span>))</span>
-<span id="cb423-6"><a href="complexheatmap-for-mutation.html#cb423-6" aria-hidden="true" tabindex="-1"></a>mutation_binary_transposed <span class="ot">&lt;-</span> <span class="fu">t</span>(mutation_binary)</span>
-<span id="cb423-7"><a href="complexheatmap-for-mutation.html#cb423-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb423-8"><a href="complexheatmap-for-mutation.html#cb423-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Define custom colors for clinical variables</span></span>
-<span id="cb423-9"><a href="complexheatmap-for-mutation.html#cb423-9" aria-hidden="true" tabindex="-1"></a>col_age <span class="ot">&lt;-</span> <span class="fu">colorRamp2</span>(<span class="fu">c</span>(<span class="dv">40</span>, <span class="dv">80</span>), <span class="fu">c</span>(<span class="st">&quot;#F7F7F7&quot;</span>, <span class="st">&quot;#E69F00&quot;</span>))</span>
-<span id="cb423-10"><a href="complexheatmap-for-mutation.html#cb423-10" aria-hidden="true" tabindex="-1"></a>col_blast <span class="ot">&lt;-</span> <span class="fu">colorRamp2</span>(<span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">100</span>), <span class="fu">c</span>(<span class="st">&quot;#F7F7F7&quot;</span>, <span class="st">&quot;#56B4E9&quot;</span>))</span>
-<span id="cb423-11"><a href="complexheatmap-for-mutation.html#cb423-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb423-12"><a href="complexheatmap-for-mutation.html#cb423-12" aria-hidden="true" tabindex="-1"></a>clinical_annotation <span class="ot">&lt;-</span> <span class="fu">HeatmapAnnotation</span>(</span>
-<span id="cb423-13"><a href="complexheatmap-for-mutation.html#cb423-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">Group =</span> clinical_data<span class="sc">$</span>Group,</span>
-<span id="cb423-14"><a href="complexheatmap-for-mutation.html#cb423-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">Age =</span> clinical_data<span class="sc">$</span>Age,</span>
-<span id="cb423-15"><a href="complexheatmap-for-mutation.html#cb423-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">BM_blast =</span> clinical_data<span class="sc">$</span>BM_blast,</span>
-<span id="cb423-16"><a href="complexheatmap-for-mutation.html#cb423-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">Gender =</span> clinical_data<span class="sc">$</span>Gender,</span>
-<span id="cb423-17"><a href="complexheatmap-for-mutation.html#cb423-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">Secondary_AML =</span> clinical_data<span class="sc">$</span>Secondary_AML, </span>
-<span id="cb423-18"><a href="complexheatmap-for-mutation.html#cb423-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">Complex_Karyotype =</span> clinical_data<span class="sc">$</span>Complex_Karyotype, </span>
-<span id="cb423-19"><a href="complexheatmap-for-mutation.html#cb423-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">ELN =</span> clinical_data<span class="sc">$</span>ELN, </span>
-<span id="cb423-20"><a href="complexheatmap-for-mutation.html#cb423-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">show_annotation_name =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb423-21"><a href="complexheatmap-for-mutation.html#cb423-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="fu">list</span>(</span>
-<span id="cb423-22"><a href="complexheatmap-for-mutation.html#cb423-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">Age =</span> col_age,</span>
-<span id="cb423-23"><a href="complexheatmap-for-mutation.html#cb423-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">BM_blast =</span> col_blast,</span>
-<span id="cb423-24"><a href="complexheatmap-for-mutation.html#cb423-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">Gender =</span> <span class="fu">c</span>(<span class="st">&quot;0&quot;</span> <span class="ot">=</span> <span class="st">&quot;#F0E442&quot;</span>, <span class="st">&quot;1&quot;</span> <span class="ot">=</span> <span class="st">&quot;#0072B2&quot;</span>),</span>
-<span id="cb423-25"><a href="complexheatmap-for-mutation.html#cb423-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">Secondary_AML =</span> <span class="fu">c</span>(<span class="st">&quot;0&quot;</span> <span class="ot">=</span> <span class="st">&quot;#56B4E9&quot;</span>, <span class="st">&quot;1&quot;</span> <span class="ot">=</span> <span class="st">&quot;#E69F00&quot;</span>),</span>
-<span id="cb423-26"><a href="complexheatmap-for-mutation.html#cb423-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">Complex_Karyotype =</span> <span class="fu">c</span>(<span class="st">&quot;0&quot;</span> <span class="ot">=</span> <span class="st">&quot;#999999&quot;</span>, <span class="st">&quot;1&quot;</span> <span class="ot">=</span> <span class="st">&quot;#D55E00&quot;</span>),</span>
-<span id="cb423-27"><a href="complexheatmap-for-mutation.html#cb423-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">ELN =</span> <span class="fu">c</span>(<span class="st">&quot;Favorable&quot;</span> <span class="ot">=</span> <span class="st">&quot;#7c9d97&quot;</span>, <span class="st">&quot;Intermediate&quot;</span> <span class="ot">=</span> <span class="st">&quot;#9cb0c3&quot;</span>, <span class="st">&quot;Adverse&quot;</span> <span class="ot">=</span> <span class="st">&quot;#e9b383&quot;</span>),</span>
-<span id="cb423-28"><a href="complexheatmap-for-mutation.html#cb423-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">Group =</span> <span class="fu">c</span>(<span class="st">&quot;High&quot;</span> <span class="ot">=</span> <span class="st">&quot;#7c9d97&quot;</span>, <span class="st">&quot;Low&quot;</span> <span class="ot">=</span> <span class="st">&quot;#e9b383&quot;</span>)</span>
-<span id="cb423-29"><a href="complexheatmap-for-mutation.html#cb423-29" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb423-30"><a href="complexheatmap-for-mutation.html#cb423-30" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb423-31"><a href="complexheatmap-for-mutation.html#cb423-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb423-32"><a href="complexheatmap-for-mutation.html#cb423-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Define alteration function</span></span>
-<span id="cb423-33"><a href="complexheatmap-for-mutation.html#cb423-33" aria-hidden="true" tabindex="-1"></a>alter_fun <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb423-34"><a href="complexheatmap-for-mutation.html#cb423-34" aria-hidden="true" tabindex="-1"></a>  <span class="at">background =</span> <span class="cf">function</span>(x, y, w, h) {</span>
-<span id="cb423-35"><a href="complexheatmap-for-mutation.html#cb423-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">grid.rect</span>(x, y, w <span class="sc">-</span> <span class="fu">unit</span>(<span class="fl">0.5</span>, <span class="st">&quot;mm&quot;</span>), h <span class="sc">-</span> <span class="fu">unit</span>(<span class="dv">1</span>, <span class="st">&quot;mm&quot;</span>), <span class="at">gp =</span> <span class="fu">gpar</span>(<span class="at">fill =</span> <span class="st">&#39;#ebebe1ff&#39;</span>, <span class="at">col =</span> <span class="cn">NA</span>))</span>
-<span id="cb423-36"><a href="complexheatmap-for-mutation.html#cb423-36" aria-hidden="true" tabindex="-1"></a>  }, </span>
-<span id="cb423-37"><a href="complexheatmap-for-mutation.html#cb423-37" aria-hidden="true" tabindex="-1"></a>  <span class="at">Mutation =</span> <span class="cf">function</span>(x, y, w, h) {</span>
-<span id="cb423-38"><a href="complexheatmap-for-mutation.html#cb423-38" aria-hidden="true" tabindex="-1"></a>    <span class="fu">grid.rect</span>(x, y, w <span class="sc">-</span> <span class="fu">unit</span>(<span class="fl">0.5</span>, <span class="st">&quot;mm&quot;</span>), h <span class="sc">-</span> <span class="fu">unit</span>(<span class="dv">1</span>, <span class="st">&quot;mm&quot;</span>), <span class="at">gp =</span> <span class="fu">gpar</span>(<span class="at">fill =</span> <span class="st">&quot;#377EB8&quot;</span>, <span class="at">col =</span> <span class="cn">NA</span>))  <span class="co"># Mutation = Dark Blue</span></span>
-<span id="cb423-39"><a href="complexheatmap-for-mutation.html#cb423-39" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb423-40"><a href="complexheatmap-for-mutation.html#cb423-40" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb423-41"><a href="complexheatmap-for-mutation.html#cb423-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb423-42"><a href="complexheatmap-for-mutation.html#cb423-42" aria-hidden="true" tabindex="-1"></a><span class="co"># Color function for mutation heatmap</span></span>
-<span id="cb423-43"><a href="complexheatmap-for-mutation.html#cb423-43" aria-hidden="true" tabindex="-1"></a>col <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Mutation&quot;</span> <span class="ot">=</span> <span class="st">&quot;#377EB8&quot;</span>)</span>
-<span id="cb423-44"><a href="complexheatmap-for-mutation.html#cb423-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb423-45"><a href="complexheatmap-for-mutation.html#cb423-45" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate oncoPrint heatmap</span></span>
-<span id="cb423-46"><a href="complexheatmap-for-mutation.html#cb423-46" aria-hidden="true" tabindex="-1"></a><span class="co"># pdf(&quot;../03.out/figure5/03.oncoplot_map.pdf&quot;, width = 16, height = 9.5)</span></span>
-<span id="cb423-47"><a href="complexheatmap-for-mutation.html#cb423-47" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">oncoPrint</span>(</span>
-<span id="cb423-48"><a href="complexheatmap-for-mutation.html#cb423-48" aria-hidden="true" tabindex="-1"></a>  mutation_binary_transposed,</span>
-<span id="cb423-49"><a href="complexheatmap-for-mutation.html#cb423-49" aria-hidden="true" tabindex="-1"></a>  <span class="at">alter_fun =</span> alter_fun,</span>
-<span id="cb423-50"><a href="complexheatmap-for-mutation.html#cb423-50" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> col,</span>
-<span id="cb423-51"><a href="complexheatmap-for-mutation.html#cb423-51" aria-hidden="true" tabindex="-1"></a>  <span class="at">column_split =</span> clinical_data<span class="sc">$</span>Group,  <span class="co"># Split columns by Response (CR/CRi vs Non-CR/CRi)</span></span>
-<span id="cb423-52"><a href="complexheatmap-for-mutation.html#cb423-52" aria-hidden="true" tabindex="-1"></a>  <span class="at">bottom_annotation =</span> clinical_annotation,  <span class="co"># Add clinical annotations to the heatmap</span></span>
-<span id="cb423-53"><a href="complexheatmap-for-mutation.html#cb423-53" aria-hidden="true" tabindex="-1"></a>  <span class="at">show_column_names =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb423-54"><a href="complexheatmap-for-mutation.html#cb423-54" aria-hidden="true" tabindex="-1"></a>  <span class="at">show_row_names =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb423-55"><a href="complexheatmap-for-mutation.html#cb423-55" aria-hidden="true" tabindex="-1"></a>  <span class="at">heatmap_legend_param =</span> <span class="fu">list</span>(<span class="at">title =</span> <span class="st">&quot;Alterations&quot;</span>)</span>
-<span id="cb423-56"><a href="complexheatmap-for-mutation.html#cb423-56" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
-<pre><code>## All mutation types: Mutation.</code></pre>
-<pre><code>## `alter_fun` is assumed vectorizable. If it does not generate correct plot,
-## please set `alter_fun_is_vectorized = FALSE` in `oncoPrint()`.</code></pre>
-<div class="sourceCode" id="cb426"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb426-1"><a href="complexheatmap-for-mutation.html#cb426-1" aria-hidden="true" tabindex="-1"></a><span class="co"># dev.off()</span></span>
-<span id="cb426-2"><a href="complexheatmap-for-mutation.html#cb426-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(out)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-52-1.png" width="672" /></p>
+<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="complexheatmap-for-mutation.html#cb161-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ComplexHeatmap)</span>
+<span id="cb161-2"><a href="complexheatmap-for-mutation.html#cb161-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(circlize)</span>
+<span id="cb161-3"><a href="complexheatmap-for-mutation.html#cb161-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb161-4"><a href="complexheatmap-for-mutation.html#cb161-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb161-5"><a href="complexheatmap-for-mutation.html#cb161-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RColorBrewer)</span>
+<span id="cb161-6"><a href="complexheatmap-for-mutation.html#cb161-6" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read_xlsx</span>(<span class="st">&quot;../03.out/figure5/rjaml_mutations_rf8.xlsx&quot;</span>)</span>
+<span id="cb161-7"><a href="complexheatmap-for-mutation.html#cb161-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Define clinical and mutation variables</span></span>
+<span id="cb161-8"><a href="complexheatmap-for-mutation.html#cb161-8" aria-hidden="true" tabindex="-1"></a>clinic_variables <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;PatientID&quot;</span>, <span class="st">&quot;Group&quot;</span>, <span class="st">&quot;Age&quot;</span>, <span class="st">&quot;BM_blast&quot;</span>, <span class="st">&quot;Gender&quot;</span>, </span>
+<span id="cb161-9"><a href="complexheatmap-for-mutation.html#cb161-9" aria-hidden="true" tabindex="-1"></a>                      <span class="st">&quot;Secondary_AML&quot;</span>, <span class="st">&quot;Complex_Karyotype&quot;</span>, <span class="st">&quot;ELN&quot;</span>)</span>
+<span id="cb161-10"><a href="complexheatmap-for-mutation.html#cb161-10" aria-hidden="true" tabindex="-1"></a>mut_variables <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;PatientID&quot;</span>, <span class="st">&quot;Group&quot;</span>, <span class="st">&quot;TP53&quot;</span>,    <span class="st">&quot;ASXL1&quot;</span>,    <span class="st">&quot;BCOR&quot;</span>, <span class="st">&quot;BCORL1&quot;</span>,</span>
+<span id="cb161-11"><a href="complexheatmap-for-mutation.html#cb161-11" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;CBL&quot;</span>,   <span class="st">&quot;CEBPA&quot;</span>,    <span class="st">&quot;ETV6&quot;</span>, <span class="st">&quot;DDX41&quot;</span>,    <span class="st">&quot;DNMT3A&quot;</span>,   <span class="st">&quot;EZH2&quot;</span>, </span>
+<span id="cb161-12"><a href="complexheatmap-for-mutation.html#cb161-12" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;FLT3-ITD&quot;</span>,  <span class="st">&quot;FLT3-TKD&quot;</span>, <span class="st">&quot;IDH1&quot;</span>, <span class="st">&quot;IDH2&quot;</span>, <span class="st">&quot;KRAS&quot;</span>, <span class="st">&quot;NF1&quot;</span>,<span class="st">&quot;NPM1&quot;</span>,</span>
+<span id="cb161-13"><a href="complexheatmap-for-mutation.html#cb161-13" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;NRAS&quot;</span>,  <span class="st">&quot;PHF6&quot;</span>, <span class="st">&quot;PTPN11&quot;</span>,   <span class="st">&quot;RUNX1&quot;</span>,    <span class="st">&quot;SF3B1&quot;</span>,    <span class="st">&quot;SMC1A&quot;</span>,    <span class="st">&quot;SRSF2&quot;</span>,</span>
+<span id="cb161-14"><a href="complexheatmap-for-mutation.html#cb161-14" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;STAG2&quot;</span>, <span class="st">&quot;TET2&quot;</span>, <span class="st">&quot;U2AF1&quot;</span>,    <span class="st">&quot;WT1&quot;</span>,  <span class="st">&quot;CBFB::MYH11&quot;</span>,  <span class="st">&quot;RUNX1::RUNX1T1&quot;</span></span>
+<span id="cb161-15"><a href="complexheatmap-for-mutation.html#cb161-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb161-16"><a href="complexheatmap-for-mutation.html#cb161-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb161-17"><a href="complexheatmap-for-mutation.html#cb161-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract clinical and mutation data</span></span>
+<span id="cb161-18"><a href="complexheatmap-for-mutation.html#cb161-18" aria-hidden="true" tabindex="-1"></a>clinical_data <span class="ot">&lt;-</span> data[, clinic_variables]</span>
+<span id="cb161-19"><a href="complexheatmap-for-mutation.html#cb161-19" aria-hidden="true" tabindex="-1"></a>mutation_data <span class="ot">&lt;-</span> data[, mut_variables]</span>
+<span id="cb161-20"><a href="complexheatmap-for-mutation.html#cb161-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb161-21"><a href="complexheatmap-for-mutation.html#cb161-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Set PatientID as row names and remove from both mutation and clinical data</span></span>
+<span id="cb161-22"><a href="complexheatmap-for-mutation.html#cb161-22" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(mutation_data) <span class="ot">&lt;-</span> mutation_data<span class="sc">$</span>PatientID</span>
+<span id="cb161-23"><a href="complexheatmap-for-mutation.html#cb161-23" aria-hidden="true" tabindex="-1"></a>mutation_data <span class="ot">&lt;-</span> mutation_data[, <span class="sc">-</span><span class="dv">1</span>]  <span class="co"># Remove PatientID column from mutation data</span></span>
+<span id="cb161-24"><a href="complexheatmap-for-mutation.html#cb161-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb161-25"><a href="complexheatmap-for-mutation.html#cb161-25" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(clinical_data) <span class="ot">&lt;-</span> clinical_data<span class="sc">$</span>PatientID</span>
+<span id="cb161-26"><a href="complexheatmap-for-mutation.html#cb161-26" aria-hidden="true" tabindex="-1"></a>clinical_data <span class="ot">&lt;-</span> clinical_data[, <span class="sc">-</span><span class="dv">1</span>]  <span class="co"># Remove PatientID column from clinical data</span></span>
+<span id="cb161-27"><a href="complexheatmap-for-mutation.html#cb161-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb161-28"><a href="complexheatmap-for-mutation.html#cb161-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract mutation matrix and transpose it</span></span>
+<span id="cb161-29"><a href="complexheatmap-for-mutation.html#cb161-29" aria-hidden="true" tabindex="-1"></a>mutation_matrix <span class="ot">&lt;-</span> mutation_data[, <span class="sc">-</span><span class="dv">1</span>]  <span class="co"># Remove Response column</span></span>
+<span id="cb161-30"><a href="complexheatmap-for-mutation.html#cb161-30" aria-hidden="true" tabindex="-1"></a>mutation_binary <span class="ot">&lt;-</span> <span class="fu">apply</span>(mutation_matrix, <span class="dv">2</span>, <span class="cf">function</span>(x) <span class="fu">ifelse</span>(x <span class="sc">==</span> <span class="dv">1</span>, <span class="st">&quot;Mutation&quot;</span>, <span class="st">&quot;&quot;</span>))</span>
+<span id="cb161-31"><a href="complexheatmap-for-mutation.html#cb161-31" aria-hidden="true" tabindex="-1"></a>mutation_binary_transposed <span class="ot">&lt;-</span> <span class="fu">t</span>(mutation_binary)</span>
+<span id="cb161-32"><a href="complexheatmap-for-mutation.html#cb161-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb161-33"><a href="complexheatmap-for-mutation.html#cb161-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Define custom colors for clinical variables</span></span>
+<span id="cb161-34"><a href="complexheatmap-for-mutation.html#cb161-34" aria-hidden="true" tabindex="-1"></a>col_age <span class="ot">&lt;-</span> <span class="fu">colorRamp2</span>(<span class="fu">c</span>(<span class="dv">40</span>, <span class="dv">80</span>), <span class="fu">c</span>(<span class="st">&quot;#F7F7F7&quot;</span>, <span class="st">&quot;#E69F00&quot;</span>))</span>
+<span id="cb161-35"><a href="complexheatmap-for-mutation.html#cb161-35" aria-hidden="true" tabindex="-1"></a>col_blast <span class="ot">&lt;-</span> <span class="fu">colorRamp2</span>(<span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">100</span>), <span class="fu">c</span>(<span class="st">&quot;#F7F7F7&quot;</span>, <span class="st">&quot;#56B4E9&quot;</span>))</span>
+<span id="cb161-36"><a href="complexheatmap-for-mutation.html#cb161-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb161-37"><a href="complexheatmap-for-mutation.html#cb161-37" aria-hidden="true" tabindex="-1"></a>clinical_annotation <span class="ot">&lt;-</span> <span class="fu">HeatmapAnnotation</span>(</span>
+<span id="cb161-38"><a href="complexheatmap-for-mutation.html#cb161-38" aria-hidden="true" tabindex="-1"></a>  <span class="at">Group =</span> clinical_data<span class="sc">$</span>Group,</span>
+<span id="cb161-39"><a href="complexheatmap-for-mutation.html#cb161-39" aria-hidden="true" tabindex="-1"></a>  <span class="at">Age =</span> clinical_data<span class="sc">$</span>Age,</span>
+<span id="cb161-40"><a href="complexheatmap-for-mutation.html#cb161-40" aria-hidden="true" tabindex="-1"></a>  <span class="at">BM_blast =</span> clinical_data<span class="sc">$</span>BM_blast,</span>
+<span id="cb161-41"><a href="complexheatmap-for-mutation.html#cb161-41" aria-hidden="true" tabindex="-1"></a>  <span class="at">Gender =</span> clinical_data<span class="sc">$</span>Gender,</span>
+<span id="cb161-42"><a href="complexheatmap-for-mutation.html#cb161-42" aria-hidden="true" tabindex="-1"></a>  <span class="at">Secondary_AML =</span> clinical_data<span class="sc">$</span>Secondary_AML, </span>
+<span id="cb161-43"><a href="complexheatmap-for-mutation.html#cb161-43" aria-hidden="true" tabindex="-1"></a>  <span class="at">Complex_Karyotype =</span> clinical_data<span class="sc">$</span>Complex_Karyotype, </span>
+<span id="cb161-44"><a href="complexheatmap-for-mutation.html#cb161-44" aria-hidden="true" tabindex="-1"></a>  <span class="at">ELN =</span> clinical_data<span class="sc">$</span>ELN, </span>
+<span id="cb161-45"><a href="complexheatmap-for-mutation.html#cb161-45" aria-hidden="true" tabindex="-1"></a>  <span class="at">show_annotation_name =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb161-46"><a href="complexheatmap-for-mutation.html#cb161-46" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="fu">list</span>(</span>
+<span id="cb161-47"><a href="complexheatmap-for-mutation.html#cb161-47" aria-hidden="true" tabindex="-1"></a>    <span class="at">Age =</span> col_age,</span>
+<span id="cb161-48"><a href="complexheatmap-for-mutation.html#cb161-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">BM_blast =</span> col_blast,</span>
+<span id="cb161-49"><a href="complexheatmap-for-mutation.html#cb161-49" aria-hidden="true" tabindex="-1"></a>    <span class="at">Gender =</span> <span class="fu">c</span>(<span class="st">&quot;0&quot;</span> <span class="ot">=</span> <span class="st">&quot;#F0E442&quot;</span>, <span class="st">&quot;1&quot;</span> <span class="ot">=</span> <span class="st">&quot;#0072B2&quot;</span>),</span>
+<span id="cb161-50"><a href="complexheatmap-for-mutation.html#cb161-50" aria-hidden="true" tabindex="-1"></a>    <span class="at">Secondary_AML =</span> <span class="fu">c</span>(<span class="st">&quot;0&quot;</span> <span class="ot">=</span> <span class="st">&quot;#56B4E9&quot;</span>, <span class="st">&quot;1&quot;</span> <span class="ot">=</span> <span class="st">&quot;#E69F00&quot;</span>),</span>
+<span id="cb161-51"><a href="complexheatmap-for-mutation.html#cb161-51" aria-hidden="true" tabindex="-1"></a>    <span class="at">Complex_Karyotype =</span> <span class="fu">c</span>(<span class="st">&quot;0&quot;</span> <span class="ot">=</span> <span class="st">&quot;#999999&quot;</span>, <span class="st">&quot;1&quot;</span> <span class="ot">=</span> <span class="st">&quot;#D55E00&quot;</span>),</span>
+<span id="cb161-52"><a href="complexheatmap-for-mutation.html#cb161-52" aria-hidden="true" tabindex="-1"></a>    <span class="at">ELN =</span> <span class="fu">c</span>(<span class="st">&quot;Favorable&quot;</span> <span class="ot">=</span> <span class="st">&quot;#7c9d97&quot;</span>, <span class="st">&quot;Intermediate&quot;</span> <span class="ot">=</span> <span class="st">&quot;#9cb0c3&quot;</span>, <span class="st">&quot;Adverse&quot;</span> <span class="ot">=</span> <span class="st">&quot;#e9b383&quot;</span>),</span>
+<span id="cb161-53"><a href="complexheatmap-for-mutation.html#cb161-53" aria-hidden="true" tabindex="-1"></a>    <span class="at">Group =</span> <span class="fu">c</span>(<span class="st">&quot;High&quot;</span> <span class="ot">=</span> <span class="st">&quot;#7c9d97&quot;</span>, <span class="st">&quot;Low&quot;</span> <span class="ot">=</span> <span class="st">&quot;#e9b383&quot;</span>)</span>
+<span id="cb161-54"><a href="complexheatmap-for-mutation.html#cb161-54" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb161-55"><a href="complexheatmap-for-mutation.html#cb161-55" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb161-56"><a href="complexheatmap-for-mutation.html#cb161-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb161-57"><a href="complexheatmap-for-mutation.html#cb161-57" aria-hidden="true" tabindex="-1"></a><span class="co"># Define alteration function</span></span>
+<span id="cb161-58"><a href="complexheatmap-for-mutation.html#cb161-58" aria-hidden="true" tabindex="-1"></a>alter_fun <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb161-59"><a href="complexheatmap-for-mutation.html#cb161-59" aria-hidden="true" tabindex="-1"></a>  <span class="at">background =</span> <span class="cf">function</span>(x, y, w, h) {</span>
+<span id="cb161-60"><a href="complexheatmap-for-mutation.html#cb161-60" aria-hidden="true" tabindex="-1"></a>    <span class="fu">grid.rect</span>(x, y, w <span class="sc">-</span> <span class="fu">unit</span>(<span class="fl">0.5</span>, <span class="st">&quot;mm&quot;</span>), h <span class="sc">-</span> <span class="fu">unit</span>(<span class="dv">1</span>, <span class="st">&quot;mm&quot;</span>), <span class="at">gp =</span> <span class="fu">gpar</span>(<span class="at">fill =</span> <span class="st">&#39;#ebebe1ff&#39;</span>, <span class="at">col =</span> <span class="cn">NA</span>))</span>
+<span id="cb161-61"><a href="complexheatmap-for-mutation.html#cb161-61" aria-hidden="true" tabindex="-1"></a>  }, </span>
+<span id="cb161-62"><a href="complexheatmap-for-mutation.html#cb161-62" aria-hidden="true" tabindex="-1"></a>  <span class="at">Mutation =</span> <span class="cf">function</span>(x, y, w, h) {</span>
+<span id="cb161-63"><a href="complexheatmap-for-mutation.html#cb161-63" aria-hidden="true" tabindex="-1"></a>    <span class="fu">grid.rect</span>(x, y, w <span class="sc">-</span> <span class="fu">unit</span>(<span class="fl">0.5</span>, <span class="st">&quot;mm&quot;</span>), h <span class="sc">-</span> <span class="fu">unit</span>(<span class="dv">1</span>, <span class="st">&quot;mm&quot;</span>), <span class="at">gp =</span> <span class="fu">gpar</span>(<span class="at">fill =</span> <span class="st">&quot;#377EB8&quot;</span>, <span class="at">col =</span> <span class="cn">NA</span>))  <span class="co"># Mutation = Dark Blue</span></span>
+<span id="cb161-64"><a href="complexheatmap-for-mutation.html#cb161-64" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb161-65"><a href="complexheatmap-for-mutation.html#cb161-65" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb161-66"><a href="complexheatmap-for-mutation.html#cb161-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb161-67"><a href="complexheatmap-for-mutation.html#cb161-67" aria-hidden="true" tabindex="-1"></a><span class="co"># Color function for mutation heatmap</span></span>
+<span id="cb161-68"><a href="complexheatmap-for-mutation.html#cb161-68" aria-hidden="true" tabindex="-1"></a>col <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Mutation&quot;</span> <span class="ot">=</span> <span class="st">&quot;#377EB8&quot;</span>)</span>
+<span id="cb161-69"><a href="complexheatmap-for-mutation.html#cb161-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb161-70"><a href="complexheatmap-for-mutation.html#cb161-70" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate oncoPrint heatmap</span></span>
+<span id="cb161-71"><a href="complexheatmap-for-mutation.html#cb161-71" aria-hidden="true" tabindex="-1"></a><span class="co"># pdf(&quot;../03.out/figure5/03.oncoplot_map.pdf&quot;, width = 16, height = 9.5)</span></span>
+<span id="cb161-72"><a href="complexheatmap-for-mutation.html#cb161-72" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">oncoPrint</span>(</span>
+<span id="cb161-73"><a href="complexheatmap-for-mutation.html#cb161-73" aria-hidden="true" tabindex="-1"></a>  mutation_binary_transposed,</span>
+<span id="cb161-74"><a href="complexheatmap-for-mutation.html#cb161-74" aria-hidden="true" tabindex="-1"></a>  <span class="at">alter_fun =</span> alter_fun,</span>
+<span id="cb161-75"><a href="complexheatmap-for-mutation.html#cb161-75" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> col,</span>
+<span id="cb161-76"><a href="complexheatmap-for-mutation.html#cb161-76" aria-hidden="true" tabindex="-1"></a>  <span class="at">column_split =</span> clinical_data<span class="sc">$</span>Group,  <span class="co"># Split columns by Response (CR/CRi vs Non-CR/CRi)</span></span>
+<span id="cb161-77"><a href="complexheatmap-for-mutation.html#cb161-77" aria-hidden="true" tabindex="-1"></a>  <span class="at">bottom_annotation =</span> clinical_annotation,  <span class="co"># Add clinical annotations to the heatmap</span></span>
+<span id="cb161-78"><a href="complexheatmap-for-mutation.html#cb161-78" aria-hidden="true" tabindex="-1"></a>  <span class="at">show_column_names =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb161-79"><a href="complexheatmap-for-mutation.html#cb161-79" aria-hidden="true" tabindex="-1"></a>  <span class="at">show_row_names =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb161-80"><a href="complexheatmap-for-mutation.html#cb161-80" aria-hidden="true" tabindex="-1"></a>  <span class="at">heatmap_legend_param =</span> <span class="fu">list</span>(<span class="at">title =</span> <span class="st">&quot;Alterations&quot;</span>)</span>
+<span id="cb161-81"><a href="complexheatmap-for-mutation.html#cb161-81" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb161-82"><a href="complexheatmap-for-mutation.html#cb161-82" aria-hidden="true" tabindex="-1"></a><span class="co"># dev.off()</span></span>
+<span id="cb161-83"><a href="complexheatmap-for-mutation.html#cb161-83" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(out)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-53-1.png" width="672" /></p>
 </div>
             </section>
 

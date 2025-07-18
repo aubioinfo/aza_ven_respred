@@ -23,7 +23,7 @@
 <meta name="author" content="Peng Jin, Qiqi Jin, Kankan Wang" />
 
 
-<meta name="date" content="2025-07-18" />
+<meta name="date" content="2025-07-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -244,42 +244,40 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="violin-and-boxplots-for-response-probability-rf8" class="section level2 hasAnchor" number="4.11">
 <h2><span class="header-section-number">4.11</span> Violin and Boxplots for Response Probability (RF8)<a href="violin-and-boxplots-for-response-probability-rf8.html#violin-and-boxplots-for-response-probability-rf8" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb326"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb326-1"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb326-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb326-2"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb326-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reshape2)</span>
-<span id="cb326-3"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb326-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggpubr)</span>
-<span id="cb326-4"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb326-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
-<span id="cb326-5"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb326-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb326-6"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb326-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a function to generate plots for each dataset</span></span>
-<span id="cb326-7"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb326-7" aria-hidden="true" tabindex="-1"></a>generate_plot <span class="ot">&lt;-</span> <span class="cf">function</span>(file_path, dataset_label) {</span>
-<span id="cb326-8"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb326-8" aria-hidden="true" tabindex="-1"></a>  data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(file_path, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">row.names =</span> <span class="dv">1</span>)</span>
-<span id="cb326-9"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb326-9" aria-hidden="true" tabindex="-1"></a>  data<span class="sc">$</span>dataset <span class="ot">&lt;-</span> dataset_label</span>
-<span id="cb326-10"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb326-10" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb326-11"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb326-11" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> Response, <span class="at">y =</span> RF8.prob.CR, <span class="at">fill =</span> Response)) <span class="sc">+</span></span>
-<span id="cb326-12"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb326-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_violin</span>(<span class="at">trim =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb326-13"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb326-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_boxplot</span>(<span class="at">width =</span> <span class="fl">0.1</span>, <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="fl">0.9</span>), <span class="at">outlier.shape =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
-<span id="cb326-14"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb326-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;#93C89A&quot;</span>, <span class="st">&quot;#FFCC98&quot;</span>)) <span class="sc">+</span></span>
-<span id="cb326-15"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb326-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(.<span class="sc">~</span> dataset) <span class="sc">+</span></span>
-<span id="cb326-16"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb326-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;&quot;</span>,</span>
-<span id="cb326-17"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb326-17" aria-hidden="true" tabindex="-1"></a>         <span class="at">x =</span> <span class="st">&quot;True Response&quot;</span>,</span>
-<span id="cb326-18"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb326-18" aria-hidden="true" tabindex="-1"></a>         <span class="at">y =</span> <span class="st">&quot;Response probability (RF8)&quot;</span>) <span class="sc">+</span></span>
-<span id="cb326-19"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb326-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
-<span id="cb326-20"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb326-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>) <span class="sc">+</span></span>
-<span id="cb326-21"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb326-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stat_compare_means</span>(<span class="fu">aes</span>(<span class="at">label =</span> ..p.format..), <span class="at">comparisons =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">&quot;CR&quot;</span>, <span class="st">&quot;NonCR&quot;</span>)))</span>
-<span id="cb326-22"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb326-22" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb326-23"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb326-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(p)</span>
-<span id="cb326-24"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb326-24" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb326-25"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb326-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb326-26"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb326-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate plots for each dataset</span></span>
-<span id="cb326-27"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb326-27" aria-hidden="true" tabindex="-1"></a>p4 <span class="ot">&lt;-</span> <span class="fu">generate_plot</span>(<span class="st">&quot;../03.out/figure3/RF8_RJAML_cohort1_test.csv&quot;</span>, <span class="st">&quot;Test set&quot;</span>)</span>
-<span id="cb326-28"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb326-28" aria-hidden="true" tabindex="-1"></a>p5 <span class="ot">&lt;-</span> <span class="fu">generate_plot</span>(<span class="st">&quot;../03.out/figure3/RF8_RJAML_cohort1_entire.csv&quot;</span>, <span class="st">&quot;Entire set&quot;</span>)</span>
-<span id="cb326-29"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb326-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb326-30"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb326-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine all plots into a single layout using patchwork</span></span>
-<span id="cb326-31"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb326-31" aria-hidden="true" tabindex="-1"></a>plots <span class="ot">&lt;-</span> p4 <span class="sc">|</span> p5 </span>
-<span id="cb326-32"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb326-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb326-33"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb326-33" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(plots)</span></code></pre></div>
-<pre><code>## Warning in wilcox.test.default(c(0.94, 0.82, 0.8, 0.66, 0.84, 0.9, 0.78, : cannot
-## compute exact p-value with ties</code></pre>
-<p><img src="_main_files/figure-html/unnamed-chunk-35-1.png" width="672" /></p>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb110-2"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb110-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reshape2)</span>
+<span id="cb110-3"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb110-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggpubr)</span>
+<span id="cb110-4"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb110-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb110-5"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb110-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb110-6"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb110-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a function to generate plots for each dataset</span></span>
+<span id="cb110-7"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb110-7" aria-hidden="true" tabindex="-1"></a>generate_plot <span class="ot">&lt;-</span> <span class="cf">function</span>(file_path, dataset_label) {</span>
+<span id="cb110-8"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb110-8" aria-hidden="true" tabindex="-1"></a>  data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(file_path, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">row.names =</span> <span class="dv">1</span>)</span>
+<span id="cb110-9"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb110-9" aria-hidden="true" tabindex="-1"></a>  data<span class="sc">$</span>dataset <span class="ot">&lt;-</span> dataset_label</span>
+<span id="cb110-10"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb110-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb110-11"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb110-11" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> Response, <span class="at">y =</span> RF8.prob.CR, <span class="at">fill =</span> Response)) <span class="sc">+</span></span>
+<span id="cb110-12"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb110-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_violin</span>(<span class="at">trim =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb110-13"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb110-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_boxplot</span>(<span class="at">width =</span> <span class="fl">0.1</span>, <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="fl">0.9</span>), <span class="at">outlier.shape =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
+<span id="cb110-14"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb110-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;#93C89A&quot;</span>, <span class="st">&quot;#FFCC98&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb110-15"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb110-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(.<span class="sc">~</span> dataset) <span class="sc">+</span></span>
+<span id="cb110-16"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb110-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;&quot;</span>,</span>
+<span id="cb110-17"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb110-17" aria-hidden="true" tabindex="-1"></a>         <span class="at">x =</span> <span class="st">&quot;True Response&quot;</span>,</span>
+<span id="cb110-18"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb110-18" aria-hidden="true" tabindex="-1"></a>         <span class="at">y =</span> <span class="st">&quot;Response probability (RF8)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb110-19"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb110-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb110-20"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb110-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>) <span class="sc">+</span></span>
+<span id="cb110-21"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb110-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stat_compare_means</span>(<span class="fu">aes</span>(<span class="at">label =</span> ..p.format..), <span class="at">comparisons =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">&quot;CR&quot;</span>, <span class="st">&quot;NonCR&quot;</span>)))</span>
+<span id="cb110-22"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb110-22" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb110-23"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb110-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(p)</span>
+<span id="cb110-24"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb110-24" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb110-25"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb110-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb110-26"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb110-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate plots for each dataset</span></span>
+<span id="cb110-27"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb110-27" aria-hidden="true" tabindex="-1"></a>p4 <span class="ot">&lt;-</span> <span class="fu">generate_plot</span>(<span class="st">&quot;../03.out/figure3/RF8_RJAML_cohort1_test.csv&quot;</span>, <span class="st">&quot;Test set&quot;</span>)</span>
+<span id="cb110-28"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb110-28" aria-hidden="true" tabindex="-1"></a>p5 <span class="ot">&lt;-</span> <span class="fu">generate_plot</span>(<span class="st">&quot;../03.out/figure3/RF8_RJAML_cohort1_entire.csv&quot;</span>, <span class="st">&quot;Entire set&quot;</span>)</span>
+<span id="cb110-29"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb110-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb110-30"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb110-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine all plots into a single layout using patchwork</span></span>
+<span id="cb110-31"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb110-31" aria-hidden="true" tabindex="-1"></a>plots <span class="ot">&lt;-</span> p4 <span class="sc">|</span> p5 </span>
+<span id="cb110-32"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb110-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb110-33"><a href="violin-and-boxplots-for-response-probability-rf8.html#cb110-33" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(plots)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-36-1.png" width="672" /></p>
 </div>
             </section>
 

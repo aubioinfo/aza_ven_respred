@@ -23,7 +23,7 @@
 <meta name="author" content="Peng Jin, Qiqi Jin, Kankan Wang" />
 
 
-<meta name="date" content="2025-07-18" />
+<meta name="date" content="2025-07-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -244,52 +244,52 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="model-performance-plot" class="section level2 hasAnchor" number="4.4">
 <h2><span class="header-section-number">4.4</span> Model Performance Plot<a href="model-performance-plot.html#model-performance-plot" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb307"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb307-1"><a href="model-performance-plot.html#cb307-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb307-2"><a href="model-performance-plot.html#cb307-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb307-3"><a href="model-performance-plot.html#cb307-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RColorBrewer)</span>
-<span id="cb307-4"><a href="model-performance-plot.html#cb307-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb307-5"><a href="model-performance-plot.html#cb307-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the results</span></span>
-<span id="cb307-6"><a href="model-performance-plot.html#cb307-6" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;../03.out/figure3/ML_Results_GeneExp.csv&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">row.names =</span> <span class="dv">1</span>, <span class="at">check.names =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb307-7"><a href="model-performance-plot.html#cb307-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb307-8"><a href="model-performance-plot.html#cb307-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Melt the data for ggplot</span></span>
-<span id="cb307-9"><a href="model-performance-plot.html#cb307-9" aria-hidden="true" tabindex="-1"></a>melted_data <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
-<span id="cb307-10"><a href="model-performance-plot.html#cb307-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(classif.auc, classif.acc), </span>
-<span id="cb307-11"><a href="model-performance-plot.html#cb307-11" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">&quot;metric&quot;</span>, </span>
-<span id="cb307-12"><a href="model-performance-plot.html#cb307-12" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">&quot;value&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb307-13"><a href="model-performance-plot.html#cb307-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">learner_id =</span> <span class="fu">toupper</span>(<span class="fu">gsub</span>(<span class="st">&quot;classif.&quot;</span>, <span class="st">&quot;&quot;</span>, learner_id)),</span>
-<span id="cb307-14"><a href="model-performance-plot.html#cb307-14" aria-hidden="true" tabindex="-1"></a>         <span class="at">metric =</span> <span class="fu">toupper</span>(<span class="fu">gsub</span>(<span class="st">&quot;classif.&quot;</span>, <span class="st">&quot;&quot;</span>, metric)))</span>
-<span id="cb307-15"><a href="model-performance-plot.html#cb307-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb307-16"><a href="model-performance-plot.html#cb307-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter out non-finite values</span></span>
-<span id="cb307-17"><a href="model-performance-plot.html#cb307-17" aria-hidden="true" tabindex="-1"></a>melted_data <span class="ot">&lt;-</span> melted_data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="fu">is.finite</span>(value))</span>
-<span id="cb307-18"><a href="model-performance-plot.html#cb307-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb307-19"><a href="model-performance-plot.html#cb307-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the median AUC for sorting</span></span>
-<span id="cb307-20"><a href="model-performance-plot.html#cb307-20" aria-hidden="true" tabindex="-1"></a>median_auc <span class="ot">&lt;-</span> melted_data <span class="sc">%&gt;%</span></span>
-<span id="cb307-21"><a href="model-performance-plot.html#cb307-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(metric <span class="sc">==</span> <span class="st">&quot;AUC&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb307-22"><a href="model-performance-plot.html#cb307-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(learner_id) <span class="sc">%&gt;%</span></span>
-<span id="cb307-23"><a href="model-performance-plot.html#cb307-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">median_value =</span> <span class="fu">mean</span>(value, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb307-24"><a href="model-performance-plot.html#cb307-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(median_value)) <span class="sc">%&gt;%</span></span>
-<span id="cb307-25"><a href="model-performance-plot.html#cb307-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(learner_id)</span>
-<span id="cb307-26"><a href="model-performance-plot.html#cb307-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb307-27"><a href="model-performance-plot.html#cb307-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Update factor levels</span></span>
-<span id="cb307-28"><a href="model-performance-plot.html#cb307-28" aria-hidden="true" tabindex="-1"></a>melted_data<span class="sc">$</span>learner_id <span class="ot">&lt;-</span> <span class="fu">factor</span>(melted_data<span class="sc">$</span>learner_id, <span class="at">levels =</span> median_auc)</span>
-<span id="cb307-29"><a href="model-performance-plot.html#cb307-29" aria-hidden="true" tabindex="-1"></a>melted_data<span class="sc">$</span>metric <span class="ot">&lt;-</span> <span class="fu">factor</span>(melted_data<span class="sc">$</span>metric, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;AUC&quot;</span>, <span class="st">&quot;ACC&quot;</span>))</span>
-<span id="cb307-30"><a href="model-performance-plot.html#cb307-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb307-31"><a href="model-performance-plot.html#cb307-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Define color palette</span></span>
-<span id="cb307-32"><a href="model-performance-plot.html#cb307-32" aria-hidden="true" tabindex="-1"></a>palette_colors <span class="ot">&lt;-</span> <span class="fu">colorRampPalette</span>(<span class="fu">rev</span>(<span class="fu">brewer.pal</span>(<span class="dv">6</span>, <span class="st">&quot;Blues&quot;</span>)))(<span class="fu">length</span>(<span class="fu">unique</span>(melted_data<span class="sc">$</span>learner_id)))</span>
-<span id="cb307-33"><a href="model-performance-plot.html#cb307-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb307-34"><a href="model-performance-plot.html#cb307-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Create boxplot</span></span>
-<span id="cb307-35"><a href="model-performance-plot.html#cb307-35" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(melted_data, <span class="fu">aes</span>(<span class="at">x =</span> learner_id, <span class="at">y =</span> value, <span class="at">fill =</span> learner_id)) <span class="sc">+</span></span>
-<span id="cb307-36"><a href="model-performance-plot.html#cb307-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
-<span id="cb307-37"><a href="model-performance-plot.html#cb307-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun =</span> mean, <span class="at">geom =</span> <span class="st">&quot;text&quot;</span>, <span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">round</span>(<span class="fu">after_stat</span>(y), <span class="dv">3</span>)), </span>
-<span id="cb307-38"><a href="model-performance-plot.html#cb307-38" aria-hidden="true" tabindex="-1"></a>               <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.5</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">size =</span> <span class="fl">3.5</span>) <span class="sc">+</span> </span>
-<span id="cb307-39"><a href="model-performance-plot.html#cb307-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(.<span class="sc">~</span>metric, <span class="at">ncol =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb307-40"><a href="model-performance-plot.html#cb307-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> palette_colors) <span class="sc">+</span></span>
-<span id="cb307-41"><a href="model-performance-plot.html#cb307-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;&quot;</span>, <span class="at">x =</span> <span class="st">&quot;&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Model Performance&quot;</span>) <span class="sc">+</span></span>
-<span id="cb307-42"><a href="model-performance-plot.html#cb307-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
-<span id="cb307-43"><a href="model-performance-plot.html#cb307-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>, </span>
-<span id="cb307-44"><a href="model-performance-plot.html#cb307-44" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span>
-<span id="cb307-45"><a href="model-performance-plot.html#cb307-45" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="model-performance-plot.html#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb93-2"><a href="model-performance-plot.html#cb93-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb93-3"><a href="model-performance-plot.html#cb93-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RColorBrewer)</span>
+<span id="cb93-4"><a href="model-performance-plot.html#cb93-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb93-5"><a href="model-performance-plot.html#cb93-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the results</span></span>
+<span id="cb93-6"><a href="model-performance-plot.html#cb93-6" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;../03.out/figure3/ML_Results_GeneExp.csv&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">row.names =</span> <span class="dv">1</span>, <span class="at">check.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb93-7"><a href="model-performance-plot.html#cb93-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb93-8"><a href="model-performance-plot.html#cb93-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Melt the data for ggplot</span></span>
+<span id="cb93-9"><a href="model-performance-plot.html#cb93-9" aria-hidden="true" tabindex="-1"></a>melted_data <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb93-10"><a href="model-performance-plot.html#cb93-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(classif.auc, classif.acc), </span>
+<span id="cb93-11"><a href="model-performance-plot.html#cb93-11" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">&quot;metric&quot;</span>, </span>
+<span id="cb93-12"><a href="model-performance-plot.html#cb93-12" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">&quot;value&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb93-13"><a href="model-performance-plot.html#cb93-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">learner_id =</span> <span class="fu">toupper</span>(<span class="fu">gsub</span>(<span class="st">&quot;classif.&quot;</span>, <span class="st">&quot;&quot;</span>, learner_id)),</span>
+<span id="cb93-14"><a href="model-performance-plot.html#cb93-14" aria-hidden="true" tabindex="-1"></a>         <span class="at">metric =</span> <span class="fu">toupper</span>(<span class="fu">gsub</span>(<span class="st">&quot;classif.&quot;</span>, <span class="st">&quot;&quot;</span>, metric)))</span>
+<span id="cb93-15"><a href="model-performance-plot.html#cb93-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb93-16"><a href="model-performance-plot.html#cb93-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter out non-finite values</span></span>
+<span id="cb93-17"><a href="model-performance-plot.html#cb93-17" aria-hidden="true" tabindex="-1"></a>melted_data <span class="ot">&lt;-</span> melted_data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="fu">is.finite</span>(value))</span>
+<span id="cb93-18"><a href="model-performance-plot.html#cb93-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb93-19"><a href="model-performance-plot.html#cb93-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the median AUC for sorting</span></span>
+<span id="cb93-20"><a href="model-performance-plot.html#cb93-20" aria-hidden="true" tabindex="-1"></a>median_auc <span class="ot">&lt;-</span> melted_data <span class="sc">%&gt;%</span></span>
+<span id="cb93-21"><a href="model-performance-plot.html#cb93-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(metric <span class="sc">==</span> <span class="st">&quot;AUC&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb93-22"><a href="model-performance-plot.html#cb93-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(learner_id) <span class="sc">%&gt;%</span></span>
+<span id="cb93-23"><a href="model-performance-plot.html#cb93-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">median_value =</span> <span class="fu">mean</span>(value, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb93-24"><a href="model-performance-plot.html#cb93-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(median_value)) <span class="sc">%&gt;%</span></span>
+<span id="cb93-25"><a href="model-performance-plot.html#cb93-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(learner_id)</span>
+<span id="cb93-26"><a href="model-performance-plot.html#cb93-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb93-27"><a href="model-performance-plot.html#cb93-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Update factor levels</span></span>
+<span id="cb93-28"><a href="model-performance-plot.html#cb93-28" aria-hidden="true" tabindex="-1"></a>melted_data<span class="sc">$</span>learner_id <span class="ot">&lt;-</span> <span class="fu">factor</span>(melted_data<span class="sc">$</span>learner_id, <span class="at">levels =</span> median_auc)</span>
+<span id="cb93-29"><a href="model-performance-plot.html#cb93-29" aria-hidden="true" tabindex="-1"></a>melted_data<span class="sc">$</span>metric <span class="ot">&lt;-</span> <span class="fu">factor</span>(melted_data<span class="sc">$</span>metric, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;AUC&quot;</span>, <span class="st">&quot;ACC&quot;</span>))</span>
+<span id="cb93-30"><a href="model-performance-plot.html#cb93-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb93-31"><a href="model-performance-plot.html#cb93-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Define color palette</span></span>
+<span id="cb93-32"><a href="model-performance-plot.html#cb93-32" aria-hidden="true" tabindex="-1"></a>palette_colors <span class="ot">&lt;-</span> <span class="fu">colorRampPalette</span>(<span class="fu">rev</span>(<span class="fu">brewer.pal</span>(<span class="dv">6</span>, <span class="st">&quot;Blues&quot;</span>)))(<span class="fu">length</span>(<span class="fu">unique</span>(melted_data<span class="sc">$</span>learner_id)))</span>
+<span id="cb93-33"><a href="model-performance-plot.html#cb93-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb93-34"><a href="model-performance-plot.html#cb93-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Create boxplot</span></span>
+<span id="cb93-35"><a href="model-performance-plot.html#cb93-35" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(melted_data, <span class="fu">aes</span>(<span class="at">x =</span> learner_id, <span class="at">y =</span> value, <span class="at">fill =</span> learner_id)) <span class="sc">+</span></span>
+<span id="cb93-36"><a href="model-performance-plot.html#cb93-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb93-37"><a href="model-performance-plot.html#cb93-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun =</span> mean, <span class="at">geom =</span> <span class="st">&quot;text&quot;</span>, <span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">round</span>(<span class="fu">after_stat</span>(y), <span class="dv">3</span>)), </span>
+<span id="cb93-38"><a href="model-performance-plot.html#cb93-38" aria-hidden="true" tabindex="-1"></a>               <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.5</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">size =</span> <span class="fl">3.5</span>) <span class="sc">+</span> </span>
+<span id="cb93-39"><a href="model-performance-plot.html#cb93-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(.<span class="sc">~</span>metric, <span class="at">ncol =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb93-40"><a href="model-performance-plot.html#cb93-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> palette_colors) <span class="sc">+</span></span>
+<span id="cb93-41"><a href="model-performance-plot.html#cb93-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;&quot;</span>, <span class="at">x =</span> <span class="st">&quot;&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Model Performance&quot;</span>) <span class="sc">+</span></span>
+<span id="cb93-42"><a href="model-performance-plot.html#cb93-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb93-43"><a href="model-performance-plot.html#cb93-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>, </span>
+<span id="cb93-44"><a href="model-performance-plot.html#cb93-44" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span>
+<span id="cb93-45"><a href="model-performance-plot.html#cb93-45" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-29-1.png" width="672" /></p>
 </div>
             </section>
 

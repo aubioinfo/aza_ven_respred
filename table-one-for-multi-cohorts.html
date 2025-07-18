@@ -23,7 +23,7 @@
 <meta name="author" content="Peng Jin, Qiqi Jin, Kankan Wang" />
 
 
-<meta name="date" content="2025-07-18" />
+<meta name="date" content="2025-07-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -244,22 +244,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="table-one-for-multi-cohorts" class="section level2 hasAnchor" number="6.6">
 <h2><span class="header-section-number">6.6</span> Table one for multi-cohorts<a href="table-one-for-multi-cohorts.html#table-one-for-multi-cohorts" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb438"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb438-1"><a href="table-one-for-multi-cohorts.html#cb438-1" aria-hidden="true" tabindex="-1"></a><span class="do">####################################</span></span>
-<span id="cb438-2"><a href="table-one-for-multi-cohorts.html#cb438-2" aria-hidden="true" tabindex="-1"></a><span class="do">### Table one for multi-cohorts</span></span>
-<span id="cb438-3"><a href="table-one-for-multi-cohorts.html#cb438-3" aria-hidden="true" tabindex="-1"></a><span class="do">####################################</span></span>
-<span id="cb438-4"><a href="table-one-for-multi-cohorts.html#cb438-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tableone)</span>
-<span id="cb438-5"><a href="table-one-for-multi-cohorts.html#cb438-5" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;../03.out/figure5/multi-cohorts_4gene_Clinicaldata.csv&quot;</span>,</span>
-<span id="cb438-6"><a href="table-one-for-multi-cohorts.html#cb438-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">header =</span> T, <span class="at">check.names =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb438-7"><a href="table-one-for-multi-cohorts.html#cb438-7" aria-hidden="true" tabindex="-1"></a>myVars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Age&quot;</span>, <span class="st">&quot;Gender&quot;</span>, <span class="st">&quot;Secondary_AML&quot;</span>, <span class="st">&quot;Complex_Karyotype&quot;</span>, </span>
-<span id="cb438-8"><a href="table-one-for-multi-cohorts.html#cb438-8" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;FLT3-ITD&quot;</span>, <span class="st">&quot;NPM1&quot;</span>, <span class="st">&quot;KRAS&quot;</span>, <span class="st">&quot;NRAS&quot;</span>, <span class="st">&quot;CEBPA&quot;</span>, <span class="st">&quot;DNMT3A&quot;</span>,</span>
-<span id="cb438-9"><a href="table-one-for-multi-cohorts.html#cb438-9" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;IDH2&quot;</span>, <span class="st">&quot;TP53&quot;</span>)</span>
-<span id="cb438-10"><a href="table-one-for-multi-cohorts.html#cb438-10" aria-hidden="true" tabindex="-1"></a>catVars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Gender&quot;</span>, <span class="st">&quot;Secondary_AML&quot;</span>, <span class="st">&quot;Complex_Karyotype&quot;</span>,</span>
-<span id="cb438-11"><a href="table-one-for-multi-cohorts.html#cb438-11" aria-hidden="true" tabindex="-1"></a>             <span class="st">&quot;FLT3-ITD&quot;</span>, <span class="st">&quot;NPM1&quot;</span>, <span class="st">&quot;KRAS&quot;</span>, <span class="st">&quot;NRAS&quot;</span>, <span class="st">&quot;CEBPA&quot;</span>, <span class="st">&quot;DNMT3A&quot;</span>,</span>
-<span id="cb438-12"><a href="table-one-for-multi-cohorts.html#cb438-12" aria-hidden="true" tabindex="-1"></a>             <span class="st">&quot;IDH2&quot;</span>, <span class="st">&quot;TP53&quot;</span>)</span>
-<span id="cb438-13"><a href="table-one-for-multi-cohorts.html#cb438-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb438-14"><a href="table-one-for-multi-cohorts.html#cb438-14" aria-hidden="true" tabindex="-1"></a>tab <span class="ot">&lt;-</span> <span class="fu">CreateTableOne</span>(<span class="at">vars =</span> myVars, <span class="at">strata =</span> <span class="fu">c</span>(<span class="st">&quot;Response_group&quot;</span>, <span class="st">&quot;Cohort&quot;</span>),</span>
-<span id="cb438-15"><a href="table-one-for-multi-cohorts.html#cb438-15" aria-hidden="true" tabindex="-1"></a>                      <span class="at">addOverall =</span> <span class="cn">TRUE</span>, <span class="at">data =</span> data, <span class="at">factorVars =</span> catVars)</span>
-<span id="cb438-16"><a href="table-one-for-multi-cohorts.html#cb438-16" aria-hidden="true" tabindex="-1"></a>tab2 <span class="ot">&lt;-</span> <span class="fu">print</span>(tab, <span class="at">showAllLevels =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="table-one-for-multi-cohorts.html#cb165-1" aria-hidden="true" tabindex="-1"></a><span class="do">####################################</span></span>
+<span id="cb165-2"><a href="table-one-for-multi-cohorts.html#cb165-2" aria-hidden="true" tabindex="-1"></a><span class="do">### Table one for multi-cohorts</span></span>
+<span id="cb165-3"><a href="table-one-for-multi-cohorts.html#cb165-3" aria-hidden="true" tabindex="-1"></a><span class="do">####################################</span></span>
+<span id="cb165-4"><a href="table-one-for-multi-cohorts.html#cb165-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tableone)</span>
+<span id="cb165-5"><a href="table-one-for-multi-cohorts.html#cb165-5" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;../03.out/figure5/multi-cohorts_4gene_Clinicaldata.csv&quot;</span>,</span>
+<span id="cb165-6"><a href="table-one-for-multi-cohorts.html#cb165-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">header =</span> T, <span class="at">check.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb165-7"><a href="table-one-for-multi-cohorts.html#cb165-7" aria-hidden="true" tabindex="-1"></a>myVars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Age&quot;</span>, <span class="st">&quot;Gender&quot;</span>, <span class="st">&quot;Secondary_AML&quot;</span>, <span class="st">&quot;Complex_Karyotype&quot;</span>, </span>
+<span id="cb165-8"><a href="table-one-for-multi-cohorts.html#cb165-8" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;FLT3-ITD&quot;</span>, <span class="st">&quot;NPM1&quot;</span>, <span class="st">&quot;KRAS&quot;</span>, <span class="st">&quot;NRAS&quot;</span>, <span class="st">&quot;CEBPA&quot;</span>, <span class="st">&quot;DNMT3A&quot;</span>,</span>
+<span id="cb165-9"><a href="table-one-for-multi-cohorts.html#cb165-9" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;IDH2&quot;</span>, <span class="st">&quot;TP53&quot;</span>)</span>
+<span id="cb165-10"><a href="table-one-for-multi-cohorts.html#cb165-10" aria-hidden="true" tabindex="-1"></a>catVars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Gender&quot;</span>, <span class="st">&quot;Secondary_AML&quot;</span>, <span class="st">&quot;Complex_Karyotype&quot;</span>,</span>
+<span id="cb165-11"><a href="table-one-for-multi-cohorts.html#cb165-11" aria-hidden="true" tabindex="-1"></a>             <span class="st">&quot;FLT3-ITD&quot;</span>, <span class="st">&quot;NPM1&quot;</span>, <span class="st">&quot;KRAS&quot;</span>, <span class="st">&quot;NRAS&quot;</span>, <span class="st">&quot;CEBPA&quot;</span>, <span class="st">&quot;DNMT3A&quot;</span>,</span>
+<span id="cb165-12"><a href="table-one-for-multi-cohorts.html#cb165-12" aria-hidden="true" tabindex="-1"></a>             <span class="st">&quot;IDH2&quot;</span>, <span class="st">&quot;TP53&quot;</span>)</span>
+<span id="cb165-13"><a href="table-one-for-multi-cohorts.html#cb165-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb165-14"><a href="table-one-for-multi-cohorts.html#cb165-14" aria-hidden="true" tabindex="-1"></a>tab <span class="ot">&lt;-</span> <span class="fu">CreateTableOne</span>(<span class="at">vars =</span> myVars, <span class="at">strata =</span> <span class="fu">c</span>(<span class="st">&quot;Response_group&quot;</span>, <span class="st">&quot;Cohort&quot;</span>),</span>
+<span id="cb165-15"><a href="table-one-for-multi-cohorts.html#cb165-15" aria-hidden="true" tabindex="-1"></a>                      <span class="at">addOverall =</span> <span class="cn">TRUE</span>, <span class="at">data =</span> data, <span class="at">factorVars =</span> catVars)</span>
+<span id="cb165-16"><a href="table-one-for-multi-cohorts.html#cb165-16" aria-hidden="true" tabindex="-1"></a>tab2 <span class="ot">&lt;-</span> <span class="fu">print</span>(tab, <span class="at">showAllLevels =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>##                        Stratified by Response_group:Cohort
 ##                         level  Overall       CR/CRi:Daniel A. Pollyea_2018_NM
 ##   n                              427            29                           
@@ -400,7 +400,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##                            48 (85.7)                  
 ##   TP53 (%)                 12 (21.4)        0.068     
 ##                            44 (78.6)</code></pre>
-<div class="sourceCode" id="cb440"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb440-1"><a href="table-one-for-multi-cohorts.html#cb440-1" aria-hidden="true" tabindex="-1"></a><span class="co"># write.csv(tab2, file = &quot;../03.out/figure5/multi-cohorts_4gene_Clinicaldata_out.csv&quot;)</span></span></code></pre></div>
+<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="table-one-for-multi-cohorts.html#cb167-1" aria-hidden="true" tabindex="-1"></a><span class="co"># write.csv(tab2, file = &quot;../03.out/figure5/multi-cohorts_4gene_Clinicaldata_out.csv&quot;)</span></span></code></pre></div>
 </div>
             </section>
 

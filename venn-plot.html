@@ -23,7 +23,7 @@
 <meta name="author" content="Peng Jin, Qiqi Jin, Kankan Wang" />
 
 
-<meta name="date" content="2025-07-18" />
+<meta name="date" content="2025-07-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -244,113 +244,113 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="venn-plot" class="section level2 hasAnchor" number="3.5">
 <h2><span class="header-section-number">3.5</span> Venn plot<a href="venn-plot.html#venn-plot" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="venn-plot.html#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggvenn)</span>
-<span id="cb92-2"><a href="venn-plot.html#cb92-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
-<span id="cb92-3"><a href="venn-plot.html#cb92-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to create Venn diagram and perform hypergeometric test</span></span>
-<span id="cb92-4"><a href="venn-plot.html#cb92-4" aria-hidden="true" tabindex="-1"></a>create_venn_plot <span class="ot">&lt;-</span> <span class="cf">function</span>(gene_list1, gene_list2, labels, colors, N) {</span>
-<span id="cb92-5"><a href="venn-plot.html#cb92-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Convert to vectors and remove NAs and duplicates</span></span>
-<span id="cb92-6"><a href="venn-plot.html#cb92-6" aria-hidden="true" tabindex="-1"></a>  gene_list1 <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(<span class="fu">unique</span>(<span class="fu">as.vector</span>(gene_list1)))</span>
-<span id="cb92-7"><a href="venn-plot.html#cb92-7" aria-hidden="true" tabindex="-1"></a>  gene_list2 <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(<span class="fu">unique</span>(<span class="fu">as.vector</span>(gene_list2)))</span>
-<span id="cb92-8"><a href="venn-plot.html#cb92-8" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb92-9"><a href="venn-plot.html#cb92-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Print the lengths of the gene lists</span></span>
-<span id="cb92-10"><a href="venn-plot.html#cb92-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;Length of&quot;</span>, labels[<span class="dv">1</span>], <span class="st">&quot;:&quot;</span>, <span class="fu">length</span>(gene_list1), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb92-11"><a href="venn-plot.html#cb92-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;Length of&quot;</span>, labels[<span class="dv">2</span>], <span class="st">&quot;:&quot;</span>, <span class="fu">length</span>(gene_list2), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb92-12"><a href="venn-plot.html#cb92-12" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb92-13"><a href="venn-plot.html#cb92-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Check if gene lists are not empty</span></span>
-<span id="cb92-14"><a href="venn-plot.html#cb92-14" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">length</span>(gene_list1) <span class="sc">==</span> <span class="dv">0</span> <span class="sc">||</span> <span class="fu">length</span>(gene_list2) <span class="sc">==</span> <span class="dv">0</span>) {</span>
-<span id="cb92-15"><a href="venn-plot.html#cb92-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">warning</span>(<span class="st">&quot;One or both gene lists are empty. Cannot create Venn diagram.&quot;</span>)</span>
-<span id="cb92-16"><a href="venn-plot.html#cb92-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="cn">NULL</span>)</span>
-<span id="cb92-17"><a href="venn-plot.html#cb92-17" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb92-18"><a href="venn-plot.html#cb92-18" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb92-19"><a href="venn-plot.html#cb92-19" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Create a list of gene sets and assign names</span></span>
-<span id="cb92-20"><a href="venn-plot.html#cb92-20" aria-hidden="true" tabindex="-1"></a>  gene_lists <span class="ot">&lt;-</span> <span class="fu">list</span>(gene_list1, gene_list2)</span>
-<span id="cb92-21"><a href="venn-plot.html#cb92-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(gene_lists) <span class="ot">&lt;-</span> labels</span>
-<span id="cb92-22"><a href="venn-plot.html#cb92-22" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb92-23"><a href="venn-plot.html#cb92-23" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Create Venn diagram</span></span>
-<span id="cb92-24"><a href="venn-plot.html#cb92-24" aria-hidden="true" tabindex="-1"></a>  venn_plot <span class="ot">&lt;-</span> <span class="fu">ggvenn</span>(</span>
-<span id="cb92-25"><a href="venn-plot.html#cb92-25" aria-hidden="true" tabindex="-1"></a>    gene_lists,</span>
-<span id="cb92-26"><a href="venn-plot.html#cb92-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill_color =</span> colors,</span>
-<span id="cb92-27"><a href="venn-plot.html#cb92-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">stroke_size =</span> <span class="fl">0.5</span>,</span>
-<span id="cb92-28"><a href="venn-plot.html#cb92-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_name_size =</span> <span class="dv">4</span>,</span>
-<span id="cb92-29"><a href="venn-plot.html#cb92-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">auto_scale =</span> <span class="cn">FALSE</span></span>
-<span id="cb92-30"><a href="venn-plot.html#cb92-30" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb92-31"><a href="venn-plot.html#cb92-31" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb92-32"><a href="venn-plot.html#cb92-32" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Calculate sizes and overlap</span></span>
-<span id="cb92-33"><a href="venn-plot.html#cb92-33" aria-hidden="true" tabindex="-1"></a>  geneset1_size <span class="ot">&lt;-</span> <span class="fu">length</span>(gene_list1)</span>
-<span id="cb92-34"><a href="venn-plot.html#cb92-34" aria-hidden="true" tabindex="-1"></a>  geneset2_size <span class="ot">&lt;-</span> <span class="fu">length</span>(gene_list2)</span>
-<span id="cb92-35"><a href="venn-plot.html#cb92-35" aria-hidden="true" tabindex="-1"></a>  overlap <span class="ot">&lt;-</span> <span class="fu">length</span>(<span class="fu">intersect</span>(gene_list1, gene_list2))</span>
-<span id="cb92-36"><a href="venn-plot.html#cb92-36" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb92-37"><a href="venn-plot.html#cb92-37" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Print overlap information</span></span>
-<span id="cb92-38"><a href="venn-plot.html#cb92-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;Overlap between&quot;</span>, labels[<span class="dv">1</span>], <span class="st">&quot;and&quot;</span>, labels[<span class="dv">2</span>], <span class="st">&quot;:&quot;</span>, overlap, <span class="st">&quot;genes</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb92-39"><a href="venn-plot.html#cb92-39" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb92-40"><a href="venn-plot.html#cb92-40" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Perform hypergeometric test</span></span>
-<span id="cb92-41"><a href="venn-plot.html#cb92-41" aria-hidden="true" tabindex="-1"></a>  p_value <span class="ot">&lt;-</span> <span class="fu">phyper</span>(</span>
-<span id="cb92-42"><a href="venn-plot.html#cb92-42" aria-hidden="true" tabindex="-1"></a>    overlap <span class="sc">-</span> <span class="dv">1</span>,</span>
-<span id="cb92-43"><a href="venn-plot.html#cb92-43" aria-hidden="true" tabindex="-1"></a>    geneset2_size,</span>
-<span id="cb92-44"><a href="venn-plot.html#cb92-44" aria-hidden="true" tabindex="-1"></a>    N <span class="sc">-</span> geneset2_size,</span>
-<span id="cb92-45"><a href="venn-plot.html#cb92-45" aria-hidden="true" tabindex="-1"></a>    geneset1_size,</span>
-<span id="cb92-46"><a href="venn-plot.html#cb92-46" aria-hidden="true" tabindex="-1"></a>    <span class="at">lower.tail =</span> <span class="cn">FALSE</span></span>
-<span id="cb92-47"><a href="venn-plot.html#cb92-47" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb92-48"><a href="venn-plot.html#cb92-48" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb92-49"><a href="venn-plot.html#cb92-49" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Add p-value annotation to the plot</span></span>
-<span id="cb92-50"><a href="venn-plot.html#cb92-50" aria-hidden="true" tabindex="-1"></a>  venn_plot <span class="ot">&lt;-</span> venn_plot <span class="sc">+</span> <span class="fu">annotate</span>(</span>
-<span id="cb92-51"><a href="venn-plot.html#cb92-51" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;text&quot;</span>,</span>
-<span id="cb92-52"><a href="venn-plot.html#cb92-52" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="dv">0</span>,</span>
-<span id="cb92-53"><a href="venn-plot.html#cb92-53" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="dv">1</span>,</span>
-<span id="cb92-54"><a href="venn-plot.html#cb92-54" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="fu">paste0</span>(<span class="st">&quot;P-value = &quot;</span>, <span class="fu">signif</span>(p_value, <span class="dv">3</span>)),</span>
-<span id="cb92-55"><a href="venn-plot.html#cb92-55" aria-hidden="true" tabindex="-1"></a>    <span class="at">colour =</span> <span class="st">&quot;black&quot;</span></span>
-<span id="cb92-56"><a href="venn-plot.html#cb92-56" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb92-57"><a href="venn-plot.html#cb92-57" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb92-58"><a href="venn-plot.html#cb92-58" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Return the plot</span></span>
-<span id="cb92-59"><a href="venn-plot.html#cb92-59" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(venn_plot)</span>
-<span id="cb92-60"><a href="venn-plot.html#cb92-60" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb92-61"><a href="venn-plot.html#cb92-61" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb92-62"><a href="venn-plot.html#cb92-62" aria-hidden="true" tabindex="-1"></a><span class="co"># Define total number of genes in the background (e.g., human genome)</span></span>
-<span id="cb92-63"><a href="venn-plot.html#cb92-63" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">20000</span></span>
-<span id="cb92-64"><a href="venn-plot.html#cb92-64" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb92-65"><a href="venn-plot.html#cb92-65" aria-hidden="true" tabindex="-1"></a><span class="do">## Gene lists for DEGs</span></span>
-<span id="cb92-66"><a href="venn-plot.html#cb92-66" aria-hidden="true" tabindex="-1"></a>degs_list1 <span class="ot">&lt;-</span> degs1<span class="sc">$</span>Symbol</span>
-<span id="cb92-67"><a href="venn-plot.html#cb92-67" aria-hidden="true" tabindex="-1"></a>degs_list2 <span class="ot">&lt;-</span> degs2<span class="sc">$</span>Symbol</span>
-<span id="cb92-68"><a href="venn-plot.html#cb92-68" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb92-69"><a href="venn-plot.html#cb92-69" aria-hidden="true" tabindex="-1"></a><span class="do">## Labels and colors for DEGs</span></span>
-<span id="cb92-70"><a href="venn-plot.html#cb92-70" aria-hidden="true" tabindex="-1"></a>labels_degs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;AZA+VEN (Ex vivo)&quot;</span>, <span class="st">&quot;AZA+VEN (In vivo)&quot;</span>)</span>
-<span id="cb92-71"><a href="venn-plot.html#cb92-71" aria-hidden="true" tabindex="-1"></a>colors_degs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;#868686FF&quot;</span>, <span class="st">&quot;#CD534CFF&quot;</span>)</span>
-<span id="cb92-72"><a href="venn-plot.html#cb92-72" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb92-73"><a href="venn-plot.html#cb92-73" aria-hidden="true" tabindex="-1"></a>p0 <span class="ot">&lt;-</span> <span class="fu">create_venn_plot</span>(degs_list1, degs_list2, labels_degs, colors_degs, N)</span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="venn-plot.html#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggvenn)</span>
+<span id="cb37-2"><a href="venn-plot.html#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb37-3"><a href="venn-plot.html#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to create Venn diagram and perform hypergeometric test</span></span>
+<span id="cb37-4"><a href="venn-plot.html#cb37-4" aria-hidden="true" tabindex="-1"></a>create_venn_plot <span class="ot">&lt;-</span> <span class="cf">function</span>(gene_list1, gene_list2, labels, colors, N) {</span>
+<span id="cb37-5"><a href="venn-plot.html#cb37-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Convert to vectors and remove NAs and duplicates</span></span>
+<span id="cb37-6"><a href="venn-plot.html#cb37-6" aria-hidden="true" tabindex="-1"></a>  gene_list1 <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(<span class="fu">unique</span>(<span class="fu">as.vector</span>(gene_list1)))</span>
+<span id="cb37-7"><a href="venn-plot.html#cb37-7" aria-hidden="true" tabindex="-1"></a>  gene_list2 <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(<span class="fu">unique</span>(<span class="fu">as.vector</span>(gene_list2)))</span>
+<span id="cb37-8"><a href="venn-plot.html#cb37-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb37-9"><a href="venn-plot.html#cb37-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Print the lengths of the gene lists</span></span>
+<span id="cb37-10"><a href="venn-plot.html#cb37-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;Length of&quot;</span>, labels[<span class="dv">1</span>], <span class="st">&quot;:&quot;</span>, <span class="fu">length</span>(gene_list1), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb37-11"><a href="venn-plot.html#cb37-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;Length of&quot;</span>, labels[<span class="dv">2</span>], <span class="st">&quot;:&quot;</span>, <span class="fu">length</span>(gene_list2), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb37-12"><a href="venn-plot.html#cb37-12" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb37-13"><a href="venn-plot.html#cb37-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Check if gene lists are not empty</span></span>
+<span id="cb37-14"><a href="venn-plot.html#cb37-14" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">length</span>(gene_list1) <span class="sc">==</span> <span class="dv">0</span> <span class="sc">||</span> <span class="fu">length</span>(gene_list2) <span class="sc">==</span> <span class="dv">0</span>) {</span>
+<span id="cb37-15"><a href="venn-plot.html#cb37-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">warning</span>(<span class="st">&quot;One or both gene lists are empty. Cannot create Venn diagram.&quot;</span>)</span>
+<span id="cb37-16"><a href="venn-plot.html#cb37-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="cn">NULL</span>)</span>
+<span id="cb37-17"><a href="venn-plot.html#cb37-17" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb37-18"><a href="venn-plot.html#cb37-18" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb37-19"><a href="venn-plot.html#cb37-19" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Create a list of gene sets and assign names</span></span>
+<span id="cb37-20"><a href="venn-plot.html#cb37-20" aria-hidden="true" tabindex="-1"></a>  gene_lists <span class="ot">&lt;-</span> <span class="fu">list</span>(gene_list1, gene_list2)</span>
+<span id="cb37-21"><a href="venn-plot.html#cb37-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(gene_lists) <span class="ot">&lt;-</span> labels</span>
+<span id="cb37-22"><a href="venn-plot.html#cb37-22" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb37-23"><a href="venn-plot.html#cb37-23" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Create Venn diagram</span></span>
+<span id="cb37-24"><a href="venn-plot.html#cb37-24" aria-hidden="true" tabindex="-1"></a>  venn_plot <span class="ot">&lt;-</span> <span class="fu">ggvenn</span>(</span>
+<span id="cb37-25"><a href="venn-plot.html#cb37-25" aria-hidden="true" tabindex="-1"></a>    gene_lists,</span>
+<span id="cb37-26"><a href="venn-plot.html#cb37-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill_color =</span> colors,</span>
+<span id="cb37-27"><a href="venn-plot.html#cb37-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">stroke_size =</span> <span class="fl">0.5</span>,</span>
+<span id="cb37-28"><a href="venn-plot.html#cb37-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_name_size =</span> <span class="dv">4</span>,</span>
+<span id="cb37-29"><a href="venn-plot.html#cb37-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">auto_scale =</span> <span class="cn">FALSE</span></span>
+<span id="cb37-30"><a href="venn-plot.html#cb37-30" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb37-31"><a href="venn-plot.html#cb37-31" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb37-32"><a href="venn-plot.html#cb37-32" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Calculate sizes and overlap</span></span>
+<span id="cb37-33"><a href="venn-plot.html#cb37-33" aria-hidden="true" tabindex="-1"></a>  geneset1_size <span class="ot">&lt;-</span> <span class="fu">length</span>(gene_list1)</span>
+<span id="cb37-34"><a href="venn-plot.html#cb37-34" aria-hidden="true" tabindex="-1"></a>  geneset2_size <span class="ot">&lt;-</span> <span class="fu">length</span>(gene_list2)</span>
+<span id="cb37-35"><a href="venn-plot.html#cb37-35" aria-hidden="true" tabindex="-1"></a>  overlap <span class="ot">&lt;-</span> <span class="fu">length</span>(<span class="fu">intersect</span>(gene_list1, gene_list2))</span>
+<span id="cb37-36"><a href="venn-plot.html#cb37-36" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb37-37"><a href="venn-plot.html#cb37-37" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Print overlap information</span></span>
+<span id="cb37-38"><a href="venn-plot.html#cb37-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;Overlap between&quot;</span>, labels[<span class="dv">1</span>], <span class="st">&quot;and&quot;</span>, labels[<span class="dv">2</span>], <span class="st">&quot;:&quot;</span>, overlap, <span class="st">&quot;genes</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb37-39"><a href="venn-plot.html#cb37-39" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb37-40"><a href="venn-plot.html#cb37-40" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Perform hypergeometric test</span></span>
+<span id="cb37-41"><a href="venn-plot.html#cb37-41" aria-hidden="true" tabindex="-1"></a>  p_value <span class="ot">&lt;-</span> <span class="fu">phyper</span>(</span>
+<span id="cb37-42"><a href="venn-plot.html#cb37-42" aria-hidden="true" tabindex="-1"></a>    overlap <span class="sc">-</span> <span class="dv">1</span>,</span>
+<span id="cb37-43"><a href="venn-plot.html#cb37-43" aria-hidden="true" tabindex="-1"></a>    geneset2_size,</span>
+<span id="cb37-44"><a href="venn-plot.html#cb37-44" aria-hidden="true" tabindex="-1"></a>    N <span class="sc">-</span> geneset2_size,</span>
+<span id="cb37-45"><a href="venn-plot.html#cb37-45" aria-hidden="true" tabindex="-1"></a>    geneset1_size,</span>
+<span id="cb37-46"><a href="venn-plot.html#cb37-46" aria-hidden="true" tabindex="-1"></a>    <span class="at">lower.tail =</span> <span class="cn">FALSE</span></span>
+<span id="cb37-47"><a href="venn-plot.html#cb37-47" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb37-48"><a href="venn-plot.html#cb37-48" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb37-49"><a href="venn-plot.html#cb37-49" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Add p-value annotation to the plot</span></span>
+<span id="cb37-50"><a href="venn-plot.html#cb37-50" aria-hidden="true" tabindex="-1"></a>  venn_plot <span class="ot">&lt;-</span> venn_plot <span class="sc">+</span> <span class="fu">annotate</span>(</span>
+<span id="cb37-51"><a href="venn-plot.html#cb37-51" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;text&quot;</span>,</span>
+<span id="cb37-52"><a href="venn-plot.html#cb37-52" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="dv">0</span>,</span>
+<span id="cb37-53"><a href="venn-plot.html#cb37-53" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="dv">1</span>,</span>
+<span id="cb37-54"><a href="venn-plot.html#cb37-54" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="fu">paste0</span>(<span class="st">&quot;P-value = &quot;</span>, <span class="fu">signif</span>(p_value, <span class="dv">3</span>)),</span>
+<span id="cb37-55"><a href="venn-plot.html#cb37-55" aria-hidden="true" tabindex="-1"></a>    <span class="at">colour =</span> <span class="st">&quot;black&quot;</span></span>
+<span id="cb37-56"><a href="venn-plot.html#cb37-56" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb37-57"><a href="venn-plot.html#cb37-57" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb37-58"><a href="venn-plot.html#cb37-58" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Return the plot</span></span>
+<span id="cb37-59"><a href="venn-plot.html#cb37-59" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(venn_plot)</span>
+<span id="cb37-60"><a href="venn-plot.html#cb37-60" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb37-61"><a href="venn-plot.html#cb37-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-62"><a href="venn-plot.html#cb37-62" aria-hidden="true" tabindex="-1"></a><span class="co"># Define total number of genes in the background (e.g., human genome)</span></span>
+<span id="cb37-63"><a href="venn-plot.html#cb37-63" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">20000</span></span>
+<span id="cb37-64"><a href="venn-plot.html#cb37-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-65"><a href="venn-plot.html#cb37-65" aria-hidden="true" tabindex="-1"></a><span class="do">## Gene lists for DEGs</span></span>
+<span id="cb37-66"><a href="venn-plot.html#cb37-66" aria-hidden="true" tabindex="-1"></a>degs_list1 <span class="ot">&lt;-</span> degs1<span class="sc">$</span>Symbol</span>
+<span id="cb37-67"><a href="venn-plot.html#cb37-67" aria-hidden="true" tabindex="-1"></a>degs_list2 <span class="ot">&lt;-</span> degs2<span class="sc">$</span>Symbol</span>
+<span id="cb37-68"><a href="venn-plot.html#cb37-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-69"><a href="venn-plot.html#cb37-69" aria-hidden="true" tabindex="-1"></a><span class="do">## Labels and colors for DEGs</span></span>
+<span id="cb37-70"><a href="venn-plot.html#cb37-70" aria-hidden="true" tabindex="-1"></a>labels_degs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;AZA+VEN (Ex vivo)&quot;</span>, <span class="st">&quot;AZA+VEN (In vivo)&quot;</span>)</span>
+<span id="cb37-71"><a href="venn-plot.html#cb37-71" aria-hidden="true" tabindex="-1"></a>colors_degs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;#868686FF&quot;</span>, <span class="st">&quot;#CD534CFF&quot;</span>)</span>
+<span id="cb37-72"><a href="venn-plot.html#cb37-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-73"><a href="venn-plot.html#cb37-73" aria-hidden="true" tabindex="-1"></a>p0 <span class="ot">&lt;-</span> <span class="fu">create_venn_plot</span>(degs_list1, degs_list2, labels_degs, colors_degs, N)</span></code></pre></div>
 <pre><code>## Length of AZA+VEN (Ex vivo) : 1626 
 ## Length of AZA+VEN (In vivo) : 1115 
 ## Overlap between AZA+VEN (Ex vivo) and AZA+VEN (In vivo) : 130 genes</code></pre>
-<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="venn-plot.html#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Gene lists for up-regulated genes</span></span>
-<span id="cb94-2"><a href="venn-plot.html#cb94-2" aria-hidden="true" tabindex="-1"></a>degs_up_list1 <span class="ot">&lt;-</span> degs_up<span class="sc">$</span>Symbol</span>
-<span id="cb94-3"><a href="venn-plot.html#cb94-3" aria-hidden="true" tabindex="-1"></a>degs_up_list2 <span class="ot">&lt;-</span> degs_up2<span class="sc">$</span>Symbol</span>
-<span id="cb94-4"><a href="venn-plot.html#cb94-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb94-5"><a href="venn-plot.html#cb94-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Labels and colors for up-regulated genes</span></span>
-<span id="cb94-6"><a href="venn-plot.html#cb94-6" aria-hidden="true" tabindex="-1"></a>labels_up <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;AZA+VEN (Ex vivo) UP&quot;</span>, <span class="st">&quot;AZA+VEN (In vivo) UP&quot;</span>)</span>
-<span id="cb94-7"><a href="venn-plot.html#cb94-7" aria-hidden="true" tabindex="-1"></a>colors_up <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;#0073C2FF&quot;</span>, <span class="st">&quot;#EFC000FF&quot;</span>)</span>
-<span id="cb94-8"><a href="venn-plot.html#cb94-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb94-9"><a href="venn-plot.html#cb94-9" aria-hidden="true" tabindex="-1"></a><span class="do">## Create up-regulated gene Venn diagram</span></span>
-<span id="cb94-10"><a href="venn-plot.html#cb94-10" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">create_venn_plot</span>(degs_up_list1, degs_up_list2, labels_up, colors_up, N)</span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="venn-plot.html#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Gene lists for up-regulated genes</span></span>
+<span id="cb39-2"><a href="venn-plot.html#cb39-2" aria-hidden="true" tabindex="-1"></a>degs_up_list1 <span class="ot">&lt;-</span> degs_up<span class="sc">$</span>Symbol</span>
+<span id="cb39-3"><a href="venn-plot.html#cb39-3" aria-hidden="true" tabindex="-1"></a>degs_up_list2 <span class="ot">&lt;-</span> degs_up2<span class="sc">$</span>Symbol</span>
+<span id="cb39-4"><a href="venn-plot.html#cb39-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-5"><a href="venn-plot.html#cb39-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Labels and colors for up-regulated genes</span></span>
+<span id="cb39-6"><a href="venn-plot.html#cb39-6" aria-hidden="true" tabindex="-1"></a>labels_up <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;AZA+VEN (Ex vivo) UP&quot;</span>, <span class="st">&quot;AZA+VEN (In vivo) UP&quot;</span>)</span>
+<span id="cb39-7"><a href="venn-plot.html#cb39-7" aria-hidden="true" tabindex="-1"></a>colors_up <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;#0073C2FF&quot;</span>, <span class="st">&quot;#EFC000FF&quot;</span>)</span>
+<span id="cb39-8"><a href="venn-plot.html#cb39-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-9"><a href="venn-plot.html#cb39-9" aria-hidden="true" tabindex="-1"></a><span class="do">## Create up-regulated gene Venn diagram</span></span>
+<span id="cb39-10"><a href="venn-plot.html#cb39-10" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">create_venn_plot</span>(degs_up_list1, degs_up_list2, labels_up, colors_up, N)</span></code></pre></div>
 <pre><code>## Length of AZA+VEN (Ex vivo) UP : 411 
 ## Length of AZA+VEN (In vivo) UP : 523 
 ## Overlap between AZA+VEN (Ex vivo) UP and AZA+VEN (In vivo) UP : 14 genes</code></pre>
-<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="venn-plot.html#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Gene lists for down-regulated genes</span></span>
-<span id="cb96-2"><a href="venn-plot.html#cb96-2" aria-hidden="true" tabindex="-1"></a>degs_down_list1 <span class="ot">&lt;-</span> degs_down<span class="sc">$</span>Symbol</span>
-<span id="cb96-3"><a href="venn-plot.html#cb96-3" aria-hidden="true" tabindex="-1"></a>degs_down_list2 <span class="ot">&lt;-</span> degs_down2<span class="sc">$</span>Symbol</span>
-<span id="cb96-4"><a href="venn-plot.html#cb96-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb96-5"><a href="venn-plot.html#cb96-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Labels and colors for down-regulated genes</span></span>
-<span id="cb96-6"><a href="venn-plot.html#cb96-6" aria-hidden="true" tabindex="-1"></a>labels_down <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;AZA+VEN (Ex vivo) DN&quot;</span>, <span class="st">&quot;AZA+VEN (In vivo) DN&quot;</span>)</span>
-<span id="cb96-7"><a href="venn-plot.html#cb96-7" aria-hidden="true" tabindex="-1"></a>colors_down <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;#868686FF&quot;</span>, <span class="st">&quot;#CD534CFF&quot;</span>)</span>
-<span id="cb96-8"><a href="venn-plot.html#cb96-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb96-9"><a href="venn-plot.html#cb96-9" aria-hidden="true" tabindex="-1"></a><span class="do">## Create down-regulated gene Venn diagram</span></span>
-<span id="cb96-10"><a href="venn-plot.html#cb96-10" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">create_venn_plot</span>(degs_down_list1, degs_down_list2, labels_down, colors_down, N)</span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="venn-plot.html#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Gene lists for down-regulated genes</span></span>
+<span id="cb41-2"><a href="venn-plot.html#cb41-2" aria-hidden="true" tabindex="-1"></a>degs_down_list1 <span class="ot">&lt;-</span> degs_down<span class="sc">$</span>Symbol</span>
+<span id="cb41-3"><a href="venn-plot.html#cb41-3" aria-hidden="true" tabindex="-1"></a>degs_down_list2 <span class="ot">&lt;-</span> degs_down2<span class="sc">$</span>Symbol</span>
+<span id="cb41-4"><a href="venn-plot.html#cb41-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-5"><a href="venn-plot.html#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Labels and colors for down-regulated genes</span></span>
+<span id="cb41-6"><a href="venn-plot.html#cb41-6" aria-hidden="true" tabindex="-1"></a>labels_down <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;AZA+VEN (Ex vivo) DN&quot;</span>, <span class="st">&quot;AZA+VEN (In vivo) DN&quot;</span>)</span>
+<span id="cb41-7"><a href="venn-plot.html#cb41-7" aria-hidden="true" tabindex="-1"></a>colors_down <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;#868686FF&quot;</span>, <span class="st">&quot;#CD534CFF&quot;</span>)</span>
+<span id="cb41-8"><a href="venn-plot.html#cb41-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-9"><a href="venn-plot.html#cb41-9" aria-hidden="true" tabindex="-1"></a><span class="do">## Create down-regulated gene Venn diagram</span></span>
+<span id="cb41-10"><a href="venn-plot.html#cb41-10" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">create_venn_plot</span>(degs_down_list1, degs_down_list2, labels_down, colors_down, N)</span></code></pre></div>
 <pre><code>## Length of AZA+VEN (Ex vivo) DN : 1215 
 ## Length of AZA+VEN (In vivo) DN : 593 
 ## Overlap between AZA+VEN (Ex vivo) DN and AZA+VEN (In vivo) DN : 70 genes</code></pre>
-<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="venn-plot.html#cb98-1" aria-hidden="true" tabindex="-1"></a>plots <span class="ot">&lt;-</span> p0 <span class="sc">|</span> p1 <span class="sc">|</span> p2</span>
-<span id="cb98-2"><a href="venn-plot.html#cb98-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(plots)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
-<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="venn-plot.html#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Save the plots to a PDF file</span></span>
-<span id="cb99-2"><a href="venn-plot.html#cb99-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ggsave(plots, filename = &quot;../03.out/figure1/05.vennPlots.pdf&quot;, width = 9, height = 3)</span></span></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="venn-plot.html#cb43-1" aria-hidden="true" tabindex="-1"></a>plots <span class="ot">&lt;-</span> p0 <span class="sc">|</span> p1 <span class="sc">|</span> p2</span>
+<span id="cb43-2"><a href="venn-plot.html#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(plots)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-16-1.png" width="672" /></p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="venn-plot.html#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Save the plots to a PDF file</span></span>
+<span id="cb44-2"><a href="venn-plot.html#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ggsave(plots, filename = &quot;../03.out/figure1/05.vennPlots.pdf&quot;, width = 9, height = 3)</span></span></code></pre></div>
 </div>
             </section>
 

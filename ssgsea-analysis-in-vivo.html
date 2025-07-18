@@ -23,7 +23,7 @@
 <meta name="author" content="Peng Jin, Qiqi Jin, Kankan Wang" />
 
 
-<meta name="date" content="2025-07-18" />
+<meta name="date" content="2025-07-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -244,127 +244,51 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="ssgsea-analysis-in-vivo" class="section level2 hasAnchor" number="2.9">
 <h2><span class="header-section-number">2.9</span> ssGSEA analysis in vivo<a href="ssgsea-analysis-in-vivo.html#ssgsea-analysis-in-vivo" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="ssgsea-analysis-in-vivo.html#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GSVA)</span>
-<span id="cb38-2"><a href="ssgsea-analysis-in-vivo.html#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GSEABase)</span></code></pre></div>
-<pre><code>## Loading required package: BiocGenerics</code></pre>
-<pre><code>## 
-## Attaching package: &#39;BiocGenerics&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:lubridate&#39;:
-## 
-##     intersect, setdiff, union</code></pre>
-<pre><code>## The following objects are masked from &#39;package:dplyr&#39;:
-## 
-##     combine, intersect, setdiff, union</code></pre>
-<pre><code>## The following objects are masked from &#39;package:stats&#39;:
-## 
-##     IQR, mad, sd, var, xtabs</code></pre>
-<pre><code>## The following objects are masked from &#39;package:base&#39;:
-## 
-##     anyDuplicated, append, as.data.frame, basename, cbind, colnames,
-##     dirname, do.call, duplicated, eval, evalq, Filter, Find, get, grep,
-##     grepl, intersect, is.unsorted, lapply, Map, mapply, match, mget,
-##     order, paste, pmax, pmax.int, pmin, pmin.int, Position, rank, rbind,
-##     Reduce, rownames, sapply, setdiff, sort, table, tapply, union,
-##     unique, unsplit, which.max, which.min</code></pre>
-<pre><code>## Loading required package: Biobase</code></pre>
-<pre><code>## Welcome to Bioconductor
-## 
-##     Vignettes contain introductory material; view with
-##     &#39;browseVignettes()&#39;. To cite Bioconductor, see
-##     &#39;citation(&quot;Biobase&quot;)&#39;, and for packages &#39;citation(&quot;pkgname&quot;)&#39;.</code></pre>
-<pre><code>## Loading required package: annotate</code></pre>
-<pre><code>## Loading required package: AnnotationDbi</code></pre>
-<pre><code>## Loading required package: stats4</code></pre>
-<pre><code>## Loading required package: IRanges</code></pre>
-<pre><code>## Loading required package: S4Vectors</code></pre>
-<pre><code>## 
-## Attaching package: &#39;S4Vectors&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:lubridate&#39;:
-## 
-##     second, second&lt;-</code></pre>
-<pre><code>## The following objects are masked from &#39;package:dplyr&#39;:
-## 
-##     first, rename</code></pre>
-<pre><code>## The following object is masked from &#39;package:tidyr&#39;:
-## 
-##     expand</code></pre>
-<pre><code>## The following objects are masked from &#39;package:base&#39;:
-## 
-##     expand.grid, I, unname</code></pre>
-<pre><code>## 
-## Attaching package: &#39;IRanges&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:lubridate&#39;:
-## 
-##     %within%</code></pre>
-<pre><code>## The following objects are masked from &#39;package:dplyr&#39;:
-## 
-##     collapse, desc, slice</code></pre>
-<pre><code>## The following object is masked from &#39;package:purrr&#39;:
-## 
-##     reduce</code></pre>
-<pre><code>## 
-## Attaching package: &#39;AnnotationDbi&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
-## 
-##     select</code></pre>
-<pre><code>## Loading required package: XML</code></pre>
-<pre><code>## Loading required package: graph</code></pre>
-<pre><code>## 
-## Attaching package: &#39;graph&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:XML&#39;:
-## 
-##     addNode</code></pre>
-<pre><code>## The following object is masked from &#39;package:stringr&#39;:
-## 
-##     boundary</code></pre>
-<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="ssgsea-analysis-in-vivo.html#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span></code></pre></div>
-<pre><code>## 
-## Attaching package: &#39;patchwork&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:XML&#39;:
-## 
-##     free</code></pre>
-<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="ssgsea-analysis-in-vivo.html#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggpubr)</span>
-<span id="cb71-2"><a href="ssgsea-analysis-in-vivo.html#cb71-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb71-3"><a href="ssgsea-analysis-in-vivo.html#cb71-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggrastr)</span>
-<span id="cb71-4"><a href="ssgsea-analysis-in-vivo.html#cb71-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggbeeswarm)</span>
-<span id="cb71-5"><a href="ssgsea-analysis-in-vivo.html#cb71-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb71-6"><a href="ssgsea-analysis-in-vivo.html#cb71-6" aria-hidden="true" tabindex="-1"></a><span class="co"># tpm &lt;- read.csv(&quot;../03.out/figure1/cohort1_2_cibersortx.csv&quot;, header = TRUE, row.names = 1, check.names = FALSE)</span></span>
-<span id="cb71-7"><a href="ssgsea-analysis-in-vivo.html#cb71-7" aria-hidden="true" tabindex="-1"></a><span class="co"># gene.set &lt;- read.csv(&quot;../03.out/figure1/Mono_LSC_genes.csv&quot;, header = T, sep = &quot;,&quot;)</span></span>
-<span id="cb71-8"><a href="ssgsea-analysis-in-vivo.html#cb71-8" aria-hidden="true" tabindex="-1"></a><span class="co"># geneSets &lt;- list(Monocyte_Differentiation = gene.set$Monocyte_Differentiation,</span></span>
-<span id="cb71-9"><a href="ssgsea-analysis-in-vivo.html#cb71-9" aria-hidden="true" tabindex="-1"></a><span class="co">#                  LSC_UP = gene.set$LSC_UP)</span></span>
-<span id="cb71-10"><a href="ssgsea-analysis-in-vivo.html#cb71-10" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb71-11"><a href="ssgsea-analysis-in-vivo.html#cb71-11" aria-hidden="true" tabindex="-1"></a><span class="co"># tpm &lt;- as.matrix(tpm)</span></span>
-<span id="cb71-12"><a href="ssgsea-analysis-in-vivo.html#cb71-12" aria-hidden="true" tabindex="-1"></a><span class="co"># gsvapar &lt;- gsvaParam(tpm, geneSets, maxDiff=TRUE)</span></span>
-<span id="cb71-13"><a href="ssgsea-analysis-in-vivo.html#cb71-13" aria-hidden="true" tabindex="-1"></a><span class="co"># gsva_es &lt;- gsva(gsvapar)</span></span>
-<span id="cb71-14"><a href="ssgsea-analysis-in-vivo.html#cb71-14" aria-hidden="true" tabindex="-1"></a><span class="co"># gsva_es &lt;- data.frame(t(gsva_es))</span></span>
-<span id="cb71-15"><a href="ssgsea-analysis-in-vivo.html#cb71-15" aria-hidden="true" tabindex="-1"></a><span class="co"># gsva_es$Sample &lt;- row.names(gsva_es)</span></span>
-<span id="cb71-16"><a href="ssgsea-analysis-in-vivo.html#cb71-16" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb71-17"><a href="ssgsea-analysis-in-vivo.html#cb71-17" aria-hidden="true" tabindex="-1"></a><span class="co"># clinic &lt;- read.csv(&quot;../03.out/figure1/CIBERSORTx_142_Results.csv&quot;, header = TRUE, check.names = FALSE)</span></span>
-<span id="cb71-18"><a href="ssgsea-analysis-in-vivo.html#cb71-18" aria-hidden="true" tabindex="-1"></a><span class="co"># clinic &lt;- clinic[, c(&quot;Sample&quot;, &quot;Response&quot;)]</span></span>
-<span id="cb71-19"><a href="ssgsea-analysis-in-vivo.html#cb71-19" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb71-20"><a href="ssgsea-analysis-in-vivo.html#cb71-20" aria-hidden="true" tabindex="-1"></a><span class="co"># gsva_es &lt;- merge(gsva_es, clinic, by = &quot;Sample&quot;)</span></span>
-<span id="cb71-21"><a href="ssgsea-analysis-in-vivo.html#cb71-21" aria-hidden="true" tabindex="-1"></a><span class="co"># write.csv(gsva_es, &quot;../03.out/figure1/gsva_es.out.csv&quot;)</span></span>
-<span id="cb71-22"><a href="ssgsea-analysis-in-vivo.html#cb71-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb71-23"><a href="ssgsea-analysis-in-vivo.html#cb71-23" aria-hidden="true" tabindex="-1"></a>gsva_es <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;../03.out/figure1/gsva_es.out.csv&quot;</span>, <span class="at">header =</span> T)</span>
-<span id="cb71-24"><a href="ssgsea-analysis-in-vivo.html#cb71-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Transform data from wide to long format</span></span>
-<span id="cb71-25"><a href="ssgsea-analysis-in-vivo.html#cb71-25" aria-hidden="true" tabindex="-1"></a>gsva_es_long <span class="ot">&lt;-</span> gsva_es[, <span class="sc">-</span><span class="dv">1</span>] <span class="sc">%&gt;%</span> </span>
-<span id="cb71-26"><a href="ssgsea-analysis-in-vivo.html#cb71-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(<span class="sc">-</span>Response, <span class="at">key =</span> <span class="st">&quot;cell_type&quot;</span>, <span class="at">value =</span> <span class="st">&quot;Score&quot;</span>)</span>
-<span id="cb71-27"><a href="ssgsea-analysis-in-vivo.html#cb71-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb71-28"><a href="ssgsea-analysis-in-vivo.html#cb71-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate boxplot for cellular abundance comparison (Resistant vs. Sensitive)</span></span>
-<span id="cb71-29"><a href="ssgsea-analysis-in-vivo.html#cb71-29" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(gsva_es_long, <span class="fu">aes</span>(<span class="at">x =</span> Response, <span class="at">y =</span> Score, <span class="at">color =</span> Response)) <span class="sc">+</span> </span>
-<span id="cb71-30"><a href="ssgsea-analysis-in-vivo.html#cb71-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot_jitter</span>() <span class="sc">+</span> </span>
-<span id="cb71-31"><a href="ssgsea-analysis-in-vivo.html#cb71-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_quasirandom</span>(<span class="at">width =</span> <span class="fl">0.15</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb71-32"><a href="ssgsea-analysis-in-vivo.html#cb71-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>cell_type, <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">scales =</span> <span class="st">&quot;free&quot;</span>) <span class="sc">+</span> </span>
-<span id="cb71-33"><a href="ssgsea-analysis-in-vivo.html#cb71-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_pubr</span>() <span class="sc">+</span> </span>
-<span id="cb71-34"><a href="ssgsea-analysis-in-vivo.html#cb71-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;&quot;</span>) <span class="sc">+</span> </span>
-<span id="cb71-35"><a href="ssgsea-analysis-in-vivo.html#cb71-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Signature score (ssGSEA)&quot;</span>) <span class="sc">+</span></span>
-<span id="cb71-36"><a href="ssgsea-analysis-in-vivo.html#cb71-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">strip.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">13</span>)) <span class="sc">+</span></span>
-<span id="cb71-37"><a href="ssgsea-analysis-in-vivo.html#cb71-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_compare_means</span>(<span class="at">comparisons =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">&#39;CR&#39;</span>, <span class="st">&#39;NonCR&#39;</span>)), <span class="at">method =</span> <span class="st">&#39;wilcox.test&#39;</span>, <span class="at">label =</span> <span class="st">&quot;p.signif&quot;</span>) <span class="sc">+</span> </span>
-<span id="cb71-38"><a href="ssgsea-analysis-in-vivo.html#cb71-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;#e9b383&quot;</span>, <span class="st">&quot;#7c9d97&quot;</span>)) <span class="sc">+</span>  </span>
-<span id="cb71-39"><a href="ssgsea-analysis-in-vivo.html#cb71-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&#39;None&#39;</span>)</span>
-<span id="cb71-40"><a href="ssgsea-analysis-in-vivo.html#cb71-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb71-41"><a href="ssgsea-analysis-in-vivo.html#cb71-41" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p2)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="ssgsea-analysis-in-vivo.html#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GSVA)</span>
+<span id="cb22-2"><a href="ssgsea-analysis-in-vivo.html#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GSEABase)</span>
+<span id="cb22-3"><a href="ssgsea-analysis-in-vivo.html#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb22-4"><a href="ssgsea-analysis-in-vivo.html#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggpubr)</span>
+<span id="cb22-5"><a href="ssgsea-analysis-in-vivo.html#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb22-6"><a href="ssgsea-analysis-in-vivo.html#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggrastr)</span>
+<span id="cb22-7"><a href="ssgsea-analysis-in-vivo.html#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggbeeswarm)</span>
+<span id="cb22-8"><a href="ssgsea-analysis-in-vivo.html#cb22-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-9"><a href="ssgsea-analysis-in-vivo.html#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="co"># tpm &lt;- read.csv(&quot;../03.out/figure1/cohort1_2_cibersortx.csv&quot;, header = TRUE, row.names = 1, check.names = FALSE)</span></span>
+<span id="cb22-10"><a href="ssgsea-analysis-in-vivo.html#cb22-10" aria-hidden="true" tabindex="-1"></a><span class="co"># gene.set &lt;- read.csv(&quot;../03.out/figure1/Mono_LSC_genes.csv&quot;, header = T, sep = &quot;,&quot;)</span></span>
+<span id="cb22-11"><a href="ssgsea-analysis-in-vivo.html#cb22-11" aria-hidden="true" tabindex="-1"></a><span class="co"># geneSets &lt;- list(Monocyte_Differentiation = gene.set$Monocyte_Differentiation,</span></span>
+<span id="cb22-12"><a href="ssgsea-analysis-in-vivo.html#cb22-12" aria-hidden="true" tabindex="-1"></a><span class="co">#                  LSC_UP = gene.set$LSC_UP)</span></span>
+<span id="cb22-13"><a href="ssgsea-analysis-in-vivo.html#cb22-13" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb22-14"><a href="ssgsea-analysis-in-vivo.html#cb22-14" aria-hidden="true" tabindex="-1"></a><span class="co"># tpm &lt;- as.matrix(tpm)</span></span>
+<span id="cb22-15"><a href="ssgsea-analysis-in-vivo.html#cb22-15" aria-hidden="true" tabindex="-1"></a><span class="co"># gsvapar &lt;- gsvaParam(tpm, geneSets, maxDiff=TRUE)</span></span>
+<span id="cb22-16"><a href="ssgsea-analysis-in-vivo.html#cb22-16" aria-hidden="true" tabindex="-1"></a><span class="co"># gsva_es &lt;- gsva(gsvapar)</span></span>
+<span id="cb22-17"><a href="ssgsea-analysis-in-vivo.html#cb22-17" aria-hidden="true" tabindex="-1"></a><span class="co"># gsva_es &lt;- data.frame(t(gsva_es))</span></span>
+<span id="cb22-18"><a href="ssgsea-analysis-in-vivo.html#cb22-18" aria-hidden="true" tabindex="-1"></a><span class="co"># gsva_es$Sample &lt;- row.names(gsva_es)</span></span>
+<span id="cb22-19"><a href="ssgsea-analysis-in-vivo.html#cb22-19" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb22-20"><a href="ssgsea-analysis-in-vivo.html#cb22-20" aria-hidden="true" tabindex="-1"></a><span class="co"># clinic &lt;- read.csv(&quot;../03.out/figure1/CIBERSORTx_142_Results.csv&quot;, header = TRUE, check.names = FALSE)</span></span>
+<span id="cb22-21"><a href="ssgsea-analysis-in-vivo.html#cb22-21" aria-hidden="true" tabindex="-1"></a><span class="co"># clinic &lt;- clinic[, c(&quot;Sample&quot;, &quot;Response&quot;)]</span></span>
+<span id="cb22-22"><a href="ssgsea-analysis-in-vivo.html#cb22-22" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb22-23"><a href="ssgsea-analysis-in-vivo.html#cb22-23" aria-hidden="true" tabindex="-1"></a><span class="co"># gsva_es &lt;- merge(gsva_es, clinic, by = &quot;Sample&quot;)</span></span>
+<span id="cb22-24"><a href="ssgsea-analysis-in-vivo.html#cb22-24" aria-hidden="true" tabindex="-1"></a><span class="co"># write.csv(gsva_es, &quot;../03.out/figure1/gsva_es.out.csv&quot;)</span></span>
+<span id="cb22-25"><a href="ssgsea-analysis-in-vivo.html#cb22-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-26"><a href="ssgsea-analysis-in-vivo.html#cb22-26" aria-hidden="true" tabindex="-1"></a>gsva_es <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;../03.out/figure1/gsva_es.out.csv&quot;</span>, <span class="at">header =</span> T)</span>
+<span id="cb22-27"><a href="ssgsea-analysis-in-vivo.html#cb22-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Transform data from wide to long format</span></span>
+<span id="cb22-28"><a href="ssgsea-analysis-in-vivo.html#cb22-28" aria-hidden="true" tabindex="-1"></a>gsva_es_long <span class="ot">&lt;-</span> gsva_es[, <span class="sc">-</span><span class="dv">1</span>] <span class="sc">%&gt;%</span> </span>
+<span id="cb22-29"><a href="ssgsea-analysis-in-vivo.html#cb22-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(<span class="sc">-</span>Response, <span class="at">key =</span> <span class="st">&quot;cell_type&quot;</span>, <span class="at">value =</span> <span class="st">&quot;Score&quot;</span>)</span>
+<span id="cb22-30"><a href="ssgsea-analysis-in-vivo.html#cb22-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-31"><a href="ssgsea-analysis-in-vivo.html#cb22-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate boxplot for cellular abundance comparison (Resistant vs. Sensitive)</span></span>
+<span id="cb22-32"><a href="ssgsea-analysis-in-vivo.html#cb22-32" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(gsva_es_long, <span class="fu">aes</span>(<span class="at">x =</span> Response, <span class="at">y =</span> Score, <span class="at">color =</span> Response)) <span class="sc">+</span> </span>
+<span id="cb22-33"><a href="ssgsea-analysis-in-vivo.html#cb22-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot_jitter</span>() <span class="sc">+</span> </span>
+<span id="cb22-34"><a href="ssgsea-analysis-in-vivo.html#cb22-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_quasirandom</span>(<span class="at">width =</span> <span class="fl">0.15</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb22-35"><a href="ssgsea-analysis-in-vivo.html#cb22-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>cell_type, <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">scales =</span> <span class="st">&quot;free&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb22-36"><a href="ssgsea-analysis-in-vivo.html#cb22-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_pubr</span>() <span class="sc">+</span> </span>
+<span id="cb22-37"><a href="ssgsea-analysis-in-vivo.html#cb22-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb22-38"><a href="ssgsea-analysis-in-vivo.html#cb22-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Signature score (ssGSEA)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb22-39"><a href="ssgsea-analysis-in-vivo.html#cb22-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">strip.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">13</span>)) <span class="sc">+</span></span>
+<span id="cb22-40"><a href="ssgsea-analysis-in-vivo.html#cb22-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_compare_means</span>(<span class="at">comparisons =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">&#39;CR&#39;</span>, <span class="st">&#39;NonCR&#39;</span>)), <span class="at">method =</span> <span class="st">&#39;wilcox.test&#39;</span>, <span class="at">label =</span> <span class="st">&quot;p.signif&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb22-41"><a href="ssgsea-analysis-in-vivo.html#cb22-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;#e9b383&quot;</span>, <span class="st">&quot;#7c9d97&quot;</span>)) <span class="sc">+</span>  </span>
+<span id="cb22-42"><a href="ssgsea-analysis-in-vivo.html#cb22-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&#39;None&#39;</span>)</span>
+<span id="cb22-43"><a href="ssgsea-analysis-in-vivo.html#cb22-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-44"><a href="ssgsea-analysis-in-vivo.html#cb22-44" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p2)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-10-1.png" width="672" /></p>
 </div>
             </section>
 

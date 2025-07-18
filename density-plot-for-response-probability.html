@@ -23,7 +23,7 @@
 <meta name="author" content="Peng Jin, Qiqi Jin, Kankan Wang" />
 
 
-<meta name="date" content="2025-07-18" />
+<meta name="date" content="2025-07-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -244,14 +244,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="density-plot-for-response-probability" class="section level2 hasAnchor" number="4.10">
 <h2><span class="header-section-number">4.10</span> Density Plot for Response Probability<a href="density-plot-for-response-probability.html#density-plot-for-response-probability" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb325"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb325-1"><a href="density-plot-for-response-probability.html#cb325-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;../03.out/figure3/RF8_RJAML_cohort1_entire.csv&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">row.names =</span> <span class="dv">1</span>)</span>
-<span id="cb325-2"><a href="density-plot-for-response-probability.html#cb325-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb325-3"><a href="density-plot-for-response-probability.html#cb325-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create density plot for response probability</span></span>
-<span id="cb325-4"><a href="density-plot-for-response-probability.html#cb325-4" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggdensity</span>(data, <span class="at">x =</span> <span class="st">&quot;RF8.prob.CR&quot;</span>, <span class="at">add =</span> <span class="st">&quot;mean&quot;</span>, <span class="at">rug =</span> <span class="cn">TRUE</span>, <span class="at">color =</span> <span class="st">&quot;Response&quot;</span>,</span>
-<span id="cb325-5"><a href="density-plot-for-response-probability.html#cb325-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">xlab =</span> <span class="st">&quot;Response Probability (RF8)&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Density&quot;</span>,</span>
-<span id="cb325-6"><a href="density-plot-for-response-probability.html#cb325-6" aria-hidden="true" tabindex="-1"></a>               <span class="at">fill =</span> <span class="st">&quot;Response&quot;</span>, <span class="at">palette =</span> <span class="st">&quot;npg&quot;</span>)</span>
-<span id="cb325-7"><a href="density-plot-for-response-probability.html#cb325-7" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-34-1.png" width="672" /></p>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="density-plot-for-response-probability.html#cb109-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;../03.out/figure3/RF8_RJAML_cohort1_entire.csv&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">row.names =</span> <span class="dv">1</span>)</span>
+<span id="cb109-2"><a href="density-plot-for-response-probability.html#cb109-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb109-3"><a href="density-plot-for-response-probability.html#cb109-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create density plot for response probability</span></span>
+<span id="cb109-4"><a href="density-plot-for-response-probability.html#cb109-4" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggdensity</span>(data, <span class="at">x =</span> <span class="st">&quot;RF8.prob.CR&quot;</span>, <span class="at">add =</span> <span class="st">&quot;mean&quot;</span>, <span class="at">rug =</span> <span class="cn">TRUE</span>, <span class="at">color =</span> <span class="st">&quot;Response&quot;</span>,</span>
+<span id="cb109-5"><a href="density-plot-for-response-probability.html#cb109-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">xlab =</span> <span class="st">&quot;Response Probability (RF8)&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Density&quot;</span>,</span>
+<span id="cb109-6"><a href="density-plot-for-response-probability.html#cb109-6" aria-hidden="true" tabindex="-1"></a>               <span class="at">fill =</span> <span class="st">&quot;Response&quot;</span>, <span class="at">palette =</span> <span class="st">&quot;npg&quot;</span>)</span>
+<span id="cb109-7"><a href="density-plot-for-response-probability.html#cb109-7" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-35-1.png" width="672" /></p>
 </div>
             </section>
 

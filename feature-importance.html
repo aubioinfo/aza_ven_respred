@@ -23,7 +23,7 @@
 <meta name="author" content="Peng Jin, Qiqi Jin, Kankan Wang" />
 
 
-<meta name="date" content="2025-07-18" />
+<meta name="date" content="2025-07-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -244,19 +244,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="feature-importance" class="section level2 hasAnchor" number="4.5">
 <h2><span class="header-section-number">4.5</span> Feature importance<a href="feature-importance.html#feature-importance" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb308"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb308-1"><a href="feature-importance.html#cb308-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load feature importance data</span></span>
-<span id="cb308-2"><a href="feature-importance.html#cb308-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;../03.out/figure3/RF_FeatureImportance.csv&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb308-3"><a href="feature-importance.html#cb308-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb308-4"><a href="feature-importance.html#cb308-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create feature importance bar plot</span></span>
-<span id="cb308-5"><a href="feature-importance.html#cb308-5" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(dat, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(Feature, Importance), <span class="at">y =</span> Importance, <span class="at">fill =</span> Importance)) <span class="sc">+</span></span>
-<span id="cb308-6"><a href="feature-importance.html#cb308-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="at">width =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb308-7"><a href="feature-importance.html#cb308-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
-<span id="cb308-8"><a href="feature-importance.html#cb308-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;&quot;</span>, <span class="at">x =</span> <span class="st">&quot;&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Feature Importance&quot;</span>) <span class="sc">+</span></span>
-<span id="cb308-9"><a href="feature-importance.html#cb308-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient</span>(<span class="at">low =</span> <span class="st">&quot;#C6DBEF&quot;</span>, <span class="at">high =</span> <span class="st">&quot;#2171B5&quot;</span>) <span class="sc">+</span></span>
-<span id="cb308-10"><a href="feature-importance.html#cb308-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span>
-<span id="cb308-11"><a href="feature-importance.html#cb308-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb308-12"><a href="feature-importance.html#cb308-12" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p1)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="feature-importance.html#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load feature importance data</span></span>
+<span id="cb94-2"><a href="feature-importance.html#cb94-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;../03.out/figure3/RF_FeatureImportance.csv&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb94-3"><a href="feature-importance.html#cb94-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb94-4"><a href="feature-importance.html#cb94-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create feature importance bar plot</span></span>
+<span id="cb94-5"><a href="feature-importance.html#cb94-5" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(dat, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(Feature, Importance), <span class="at">y =</span> Importance, <span class="at">fill =</span> Importance)) <span class="sc">+</span></span>
+<span id="cb94-6"><a href="feature-importance.html#cb94-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="at">width =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb94-7"><a href="feature-importance.html#cb94-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb94-8"><a href="feature-importance.html#cb94-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;&quot;</span>, <span class="at">x =</span> <span class="st">&quot;&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Feature Importance&quot;</span>) <span class="sc">+</span></span>
+<span id="cb94-9"><a href="feature-importance.html#cb94-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient</span>(<span class="at">low =</span> <span class="st">&quot;#C6DBEF&quot;</span>, <span class="at">high =</span> <span class="st">&quot;#2171B5&quot;</span>) <span class="sc">+</span></span>
+<span id="cb94-10"><a href="feature-importance.html#cb94-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span>
+<span id="cb94-11"><a href="feature-importance.html#cb94-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb94-12"><a href="feature-importance.html#cb94-12" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p1)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-30-1.png" width="672" /></p>
 </div>
             </section>
 

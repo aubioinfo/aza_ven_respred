@@ -23,7 +23,7 @@
 <meta name="author" content="Peng Jin, Qiqi Jin, Kankan Wang" />
 
 
-<meta name="date" content="2025-07-18" />
+<meta name="date" content="2025-07-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -244,124 +244,100 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="gsea-analysis-molm13" class="section level2 hasAnchor" number="3.12">
 <h2><span class="header-section-number">3.12</span> GSEA analysis (MOLM13)<a href="gsea-analysis-molm13.html#gsea-analysis-molm13" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="gsea-analysis-molm13.html#cb167-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb167-2"><a href="gsea-analysis-molm13.html#cb167-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(clusterProfiler)</span>
-<span id="cb167-3"><a href="gsea-analysis-molm13.html#cb167-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(enrichplot)</span>
-<span id="cb167-4"><a href="gsea-analysis-molm13.html#cb167-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb167-5"><a href="gsea-analysis-molm13.html#cb167-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb167-6"><a href="gsea-analysis-molm13.html#cb167-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GseaVis)</span>
-<span id="cb167-7"><a href="gsea-analysis-molm13.html#cb167-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb167-8"><a href="gsea-analysis-molm13.html#cb167-8" aria-hidden="true" tabindex="-1"></a><span class="co"># MOLM13 sh1 </span></span>
-<span id="cb167-9"><a href="gsea-analysis-molm13.html#cb167-9" aria-hidden="true" tabindex="-1"></a>DEgene_mat <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;../03.out/figure2/M13_sh1_control_out_with_normalized_mat.txt&quot;</span>, <span class="at">header =</span> T)</span>
-<span id="cb167-10"><a href="gsea-analysis-molm13.html#cb167-10" aria-hidden="true" tabindex="-1"></a>DE_list <span class="ot">&lt;-</span> DEgene_mat[,<span class="fu">c</span>(<span class="dv">9</span>,<span class="dv">3</span>)]</span>
-<span id="cb167-11"><a href="gsea-analysis-molm13.html#cb167-11" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(DE_list) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;ID&quot;</span>,<span class="st">&quot;Corr&quot;</span>)</span>
-<span id="cb167-12"><a href="gsea-analysis-molm13.html#cb167-12" aria-hidden="true" tabindex="-1"></a>DE_list <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">distinct</span>(DE_list, ID, <span class="at">.keep_all=</span><span class="cn">TRUE</span>)</span>
-<span id="cb167-13"><a href="gsea-analysis-molm13.html#cb167-13" aria-hidden="true" tabindex="-1"></a>DE_list <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(DE_list)</span>
-<span id="cb167-14"><a href="gsea-analysis-molm13.html#cb167-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb167-15"><a href="gsea-analysis-molm13.html#cb167-15" aria-hidden="true" tabindex="-1"></a>DE_list <span class="ot">&lt;-</span> DE_list <span class="sc">%&gt;%</span></span>
-<span id="cb167-16"><a href="gsea-analysis-molm13.html#cb167-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">rank =</span> <span class="fu">rank</span>(Corr,  <span class="at">ties.method =</span> <span class="st">&quot;random&quot;</span>)) </span>
-<span id="cb167-17"><a href="gsea-analysis-molm13.html#cb167-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb167-18"><a href="gsea-analysis-molm13.html#cb167-18" aria-hidden="true" tabindex="-1"></a>geneList <span class="ot">&lt;-</span> DE_list<span class="sc">$</span>Corr</span>
-<span id="cb167-19"><a href="gsea-analysis-molm13.html#cb167-19" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(geneList)<span class="ot">=</span>DE_list<span class="sc">$</span>ID</span>
-<span id="cb167-20"><a href="gsea-analysis-molm13.html#cb167-20" aria-hidden="true" tabindex="-1"></a>geneList <span class="ot">&lt;-</span> <span class="fu">sort</span>(geneList,<span class="at">decreasing =</span> T)</span>
-<span id="cb167-21"><a href="gsea-analysis-molm13.html#cb167-21" aria-hidden="true" tabindex="-1"></a>geneSet <span class="ot">&lt;-</span> <span class="fu">read.gmt</span>(<span class="st">&quot;../03.out/figure2/AZA_VEN_responsive_genes.gmt&quot;</span>)</span></code></pre></div>
-<pre><code>## Warning in readLines(gmtfile): incomplete final line found on
-## &#39;../03.out/figure2/AZA_VEN_responsive_genes.gmt&#39;</code></pre>
-<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="gsea-analysis-molm13.html#cb169-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123456</span>)</span>
-<span id="cb169-2"><a href="gsea-analysis-molm13.html#cb169-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb169-3"><a href="gsea-analysis-molm13.html#cb169-3" aria-hidden="true" tabindex="-1"></a>gsea.enrich <span class="ot">&lt;-</span> <span class="fu">GSEA</span>(geneList,<span class="at">TERM2GENE =</span> geneSet, <span class="at">pvalueCutoff =</span> <span class="dv">1</span>, <span class="at">nPermSimple =</span> <span class="dv">1000</span>, </span>
-<span id="cb169-4"><a href="gsea-analysis-molm13.html#cb169-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">maxGSSize =</span> <span class="dv">800</span>, <span class="at">pAdjustMethod =</span> <span class="st">&quot;BH&quot;</span>, <span class="at">seed =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<pre><code>## preparing geneSet collections...</code></pre>
-<pre><code>## GSEA analysis...</code></pre>
-<pre><code>## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (10.33% of the list).
-## The order of those tied genes will be arbitrary, which may produce unexpected results.</code></pre>
-<pre><code>## leading edge analysis...</code></pre>
-<pre><code>## done...</code></pre>
-<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="gsea-analysis-molm13.html#cb175-1" aria-hidden="true" tabindex="-1"></a>gsea.out <span class="ot">&lt;-</span> gsea.enrich<span class="sc">@</span>result</span>
-<span id="cb175-2"><a href="gsea-analysis-molm13.html#cb175-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb175-3"><a href="gsea-analysis-molm13.html#cb175-3" aria-hidden="true" tabindex="-1"></a><span class="fu">gseaNb</span>(<span class="at">object =</span> gsea.enrich,</span>
-<span id="cb175-4"><a href="gsea-analysis-molm13.html#cb175-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">geneSetID =</span> <span class="fu">c</span>(<span class="st">&quot;Resistant_genes&quot;</span>,<span class="st">&quot;Sensitive_genes&quot;</span>), </span>
-<span id="cb175-5"><a href="gsea-analysis-molm13.html#cb175-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">addPval =</span> T,</span>
-<span id="cb175-6"><a href="gsea-analysis-molm13.html#cb175-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">subPlot =</span> <span class="dv">2</span>,</span>
-<span id="cb175-7"><a href="gsea-analysis-molm13.html#cb175-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">curveCol=</span> <span class="fu">c</span>(<span class="st">&#39;#7582c1&#39;</span>, <span class="st">&#39;#f99f1c&#39;</span>), </span>
-<span id="cb175-8"><a href="gsea-analysis-molm13.html#cb175-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">htCol=</span> <span class="fu">c</span>( <span class="st">&quot;#7582c1&quot;</span>, <span class="st">&quot;#f99f1c&quot;</span>), </span>
-<span id="cb175-9"><a href="gsea-analysis-molm13.html#cb175-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">rankCol=</span> <span class="fu">c</span>( <span class="st">&quot;#7582c1&quot;</span>, <span class="st">&quot;white&quot;</span>, <span class="st">&quot;#f99f1c&quot;</span>))</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
-<div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb176-1"><a href="gsea-analysis-molm13.html#cb176-1" aria-hidden="true" tabindex="-1"></a><span class="co"># MOLM13 sh2</span></span>
-<span id="cb176-2"><a href="gsea-analysis-molm13.html#cb176-2" aria-hidden="true" tabindex="-1"></a>DEgene_mat <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;../03.out/figure2/M13_sh2_control_out_with_normalized_mat.txt&quot;</span>, <span class="at">header =</span> T)</span>
-<span id="cb176-3"><a href="gsea-analysis-molm13.html#cb176-3" aria-hidden="true" tabindex="-1"></a>DE_list <span class="ot">&lt;-</span> DEgene_mat[,<span class="fu">c</span>(<span class="dv">9</span>,<span class="dv">3</span>)]</span>
-<span id="cb176-4"><a href="gsea-analysis-molm13.html#cb176-4" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(DE_list) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;ID&quot;</span>,<span class="st">&quot;Corr&quot;</span>)</span>
-<span id="cb176-5"><a href="gsea-analysis-molm13.html#cb176-5" aria-hidden="true" tabindex="-1"></a>DE_list <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">distinct</span>(DE_list, ID, <span class="at">.keep_all=</span><span class="cn">TRUE</span>)</span>
-<span id="cb176-6"><a href="gsea-analysis-molm13.html#cb176-6" aria-hidden="true" tabindex="-1"></a>DE_list <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(DE_list)</span>
-<span id="cb176-7"><a href="gsea-analysis-molm13.html#cb176-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb176-8"><a href="gsea-analysis-molm13.html#cb176-8" aria-hidden="true" tabindex="-1"></a>DE_list <span class="ot">&lt;-</span> DE_list <span class="sc">%&gt;%</span></span>
-<span id="cb176-9"><a href="gsea-analysis-molm13.html#cb176-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">rank =</span> <span class="fu">rank</span>(Corr,  <span class="at">ties.method =</span> <span class="st">&quot;random&quot;</span>)) </span>
-<span id="cb176-10"><a href="gsea-analysis-molm13.html#cb176-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb176-11"><a href="gsea-analysis-molm13.html#cb176-11" aria-hidden="true" tabindex="-1"></a>geneList <span class="ot">&lt;-</span> DE_list<span class="sc">$</span>Corr</span>
-<span id="cb176-12"><a href="gsea-analysis-molm13.html#cb176-12" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(geneList)<span class="ot">=</span>DE_list<span class="sc">$</span>ID</span>
-<span id="cb176-13"><a href="gsea-analysis-molm13.html#cb176-13" aria-hidden="true" tabindex="-1"></a>geneList <span class="ot">&lt;-</span> <span class="fu">sort</span>(geneList,<span class="at">decreasing =</span> T)</span>
-<span id="cb176-14"><a href="gsea-analysis-molm13.html#cb176-14" aria-hidden="true" tabindex="-1"></a>geneSet <span class="ot">&lt;-</span> <span class="fu">read.gmt</span>(<span class="st">&quot;../03.out/figure2/AZA_VEN_responsive_genes.gmt&quot;</span>)</span></code></pre></div>
-<pre><code>## Warning in readLines(gmtfile): incomplete final line found on
-## &#39;../03.out/figure2/AZA_VEN_responsive_genes.gmt&#39;</code></pre>
-<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="gsea-analysis-molm13.html#cb178-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123456</span>)</span>
-<span id="cb178-2"><a href="gsea-analysis-molm13.html#cb178-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb178-3"><a href="gsea-analysis-molm13.html#cb178-3" aria-hidden="true" tabindex="-1"></a>gsea.enrich <span class="ot">&lt;-</span> <span class="fu">GSEA</span>(geneList,<span class="at">TERM2GENE =</span> geneSet, <span class="at">pvalueCutoff =</span> <span class="dv">1</span>, <span class="at">nPermSimple =</span> <span class="dv">1000</span>, </span>
-<span id="cb178-4"><a href="gsea-analysis-molm13.html#cb178-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">maxGSSize =</span> <span class="dv">800</span>, <span class="at">pAdjustMethod =</span> <span class="st">&quot;BH&quot;</span>, <span class="at">seed =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<pre><code>## preparing geneSet collections...</code></pre>
-<pre><code>## GSEA analysis...</code></pre>
-<pre><code>## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (10.31% of the list).
-## The order of those tied genes will be arbitrary, which may produce unexpected results.</code></pre>
-<pre><code>## leading edge analysis...</code></pre>
-<pre><code>## done...</code></pre>
-<div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb184-1"><a href="gsea-analysis-molm13.html#cb184-1" aria-hidden="true" tabindex="-1"></a>gsea.out <span class="ot">&lt;-</span> gsea.enrich<span class="sc">@</span>result</span>
-<span id="cb184-2"><a href="gsea-analysis-molm13.html#cb184-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb184-3"><a href="gsea-analysis-molm13.html#cb184-3" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">gseaNb</span>(<span class="at">object =</span> gsea.enrich,</span>
-<span id="cb184-4"><a href="gsea-analysis-molm13.html#cb184-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">geneSetID =</span> <span class="fu">c</span>(<span class="st">&quot;Resistant_genes&quot;</span>,<span class="st">&quot;Sensitive_genes&quot;</span>), </span>
-<span id="cb184-5"><a href="gsea-analysis-molm13.html#cb184-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">addPval =</span> T,</span>
-<span id="cb184-6"><a href="gsea-analysis-molm13.html#cb184-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">subPlot =</span> <span class="dv">2</span>,</span>
-<span id="cb184-7"><a href="gsea-analysis-molm13.html#cb184-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">curveCol=</span> <span class="fu">c</span>(<span class="st">&#39;#7582c1&#39;</span>, <span class="st">&#39;#f99f1c&#39;</span>), </span>
-<span id="cb184-8"><a href="gsea-analysis-molm13.html#cb184-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">htCol=</span> <span class="fu">c</span>( <span class="st">&quot;#7582c1&quot;</span>, <span class="st">&quot;#f99f1c&quot;</span>), </span>
-<span id="cb184-9"><a href="gsea-analysis-molm13.html#cb184-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">rankCol=</span> <span class="fu">c</span>( <span class="st">&quot;#7582c1&quot;</span>, <span class="st">&quot;white&quot;</span>, <span class="st">&quot;#f99f1c&quot;</span>))</span>
-<span id="cb184-10"><a href="gsea-analysis-molm13.html#cb184-10" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(out)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-22-2.png" width="672" /></p>
-<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="gsea-analysis-molm13.html#cb185-1" aria-hidden="true" tabindex="-1"></a><span class="co"># MOLM13 sh1 and sh2</span></span>
-<span id="cb185-2"><a href="gsea-analysis-molm13.html#cb185-2" aria-hidden="true" tabindex="-1"></a>DEgene_mat <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;../03.out/figure2/M13_sh12_control_out_with_normalized_mat.txt&quot;</span>, <span class="at">header =</span> T)</span>
-<span id="cb185-3"><a href="gsea-analysis-molm13.html#cb185-3" aria-hidden="true" tabindex="-1"></a>DE_list <span class="ot">&lt;-</span> DEgene_mat[,<span class="fu">c</span>(<span class="dv">9</span>,<span class="dv">3</span>)]</span>
-<span id="cb185-4"><a href="gsea-analysis-molm13.html#cb185-4" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(DE_list) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;ID&quot;</span>,<span class="st">&quot;Corr&quot;</span>)</span>
-<span id="cb185-5"><a href="gsea-analysis-molm13.html#cb185-5" aria-hidden="true" tabindex="-1"></a>DE_list <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">distinct</span>(DE_list, ID, <span class="at">.keep_all=</span><span class="cn">TRUE</span>)</span>
-<span id="cb185-6"><a href="gsea-analysis-molm13.html#cb185-6" aria-hidden="true" tabindex="-1"></a>DE_list <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(DE_list)</span>
-<span id="cb185-7"><a href="gsea-analysis-molm13.html#cb185-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb185-8"><a href="gsea-analysis-molm13.html#cb185-8" aria-hidden="true" tabindex="-1"></a>DE_list <span class="ot">&lt;-</span> DE_list <span class="sc">%&gt;%</span></span>
-<span id="cb185-9"><a href="gsea-analysis-molm13.html#cb185-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">rank =</span> <span class="fu">rank</span>(Corr,  <span class="at">ties.method =</span> <span class="st">&quot;random&quot;</span>)) </span>
-<span id="cb185-10"><a href="gsea-analysis-molm13.html#cb185-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb185-11"><a href="gsea-analysis-molm13.html#cb185-11" aria-hidden="true" tabindex="-1"></a>geneList <span class="ot">&lt;-</span> DE_list<span class="sc">$</span>Corr</span>
-<span id="cb185-12"><a href="gsea-analysis-molm13.html#cb185-12" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(geneList)<span class="ot">=</span>DE_list<span class="sc">$</span>ID</span>
-<span id="cb185-13"><a href="gsea-analysis-molm13.html#cb185-13" aria-hidden="true" tabindex="-1"></a>geneList <span class="ot">&lt;-</span> <span class="fu">sort</span>(geneList,<span class="at">decreasing =</span> T)</span>
-<span id="cb185-14"><a href="gsea-analysis-molm13.html#cb185-14" aria-hidden="true" tabindex="-1"></a>geneSet <span class="ot">&lt;-</span> <span class="fu">read.gmt</span>(<span class="st">&quot;../03.out/figure2/AZA_VEN_responsive_genes.gmt&quot;</span>)</span></code></pre></div>
-<pre><code>## Warning in readLines(gmtfile): incomplete final line found on
-## &#39;../03.out/figure2/AZA_VEN_responsive_genes.gmt&#39;</code></pre>
-<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="gsea-analysis-molm13.html#cb187-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123456</span>)</span>
-<span id="cb187-2"><a href="gsea-analysis-molm13.html#cb187-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb187-3"><a href="gsea-analysis-molm13.html#cb187-3" aria-hidden="true" tabindex="-1"></a>gsea.enrich <span class="ot">&lt;-</span> <span class="fu">GSEA</span>(geneList,<span class="at">TERM2GENE =</span> geneSet, <span class="at">pvalueCutoff =</span> <span class="dv">1</span>, <span class="at">nPermSimple =</span> <span class="dv">1000</span>, </span>
-<span id="cb187-4"><a href="gsea-analysis-molm13.html#cb187-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">maxGSSize =</span> <span class="dv">800</span>, <span class="at">pAdjustMethod =</span> <span class="st">&quot;BH&quot;</span>, <span class="at">seed =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<pre><code>## preparing geneSet collections...</code></pre>
-<pre><code>## GSEA analysis...</code></pre>
-<pre><code>## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (8.61% of the list).
-## The order of those tied genes will be arbitrary, which may produce unexpected results.</code></pre>
-<pre><code>## leading edge analysis...</code></pre>
-<pre><code>## done...</code></pre>
-<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="gsea-analysis-molm13.html#cb193-1" aria-hidden="true" tabindex="-1"></a>gsea.out <span class="ot">&lt;-</span> gsea.enrich<span class="sc">@</span>result</span>
-<span id="cb193-2"><a href="gsea-analysis-molm13.html#cb193-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb193-3"><a href="gsea-analysis-molm13.html#cb193-3" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">gseaNb</span>(<span class="at">object =</span> gsea.enrich,</span>
-<span id="cb193-4"><a href="gsea-analysis-molm13.html#cb193-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">geneSetID =</span> <span class="fu">c</span>(<span class="st">&quot;Resistant_genes&quot;</span>,<span class="st">&quot;Sensitive_genes&quot;</span>), </span>
-<span id="cb193-5"><a href="gsea-analysis-molm13.html#cb193-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">addPval =</span> T,</span>
-<span id="cb193-6"><a href="gsea-analysis-molm13.html#cb193-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">subPlot =</span> <span class="dv">2</span>,</span>
-<span id="cb193-7"><a href="gsea-analysis-molm13.html#cb193-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">curveCol=</span> <span class="fu">c</span>(<span class="st">&#39;#7582c1&#39;</span>, <span class="st">&#39;#f99f1c&#39;</span>), </span>
-<span id="cb193-8"><a href="gsea-analysis-molm13.html#cb193-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">htCol=</span> <span class="fu">c</span>( <span class="st">&quot;#7582c1&quot;</span>, <span class="st">&quot;#f99f1c&quot;</span>), </span>
-<span id="cb193-9"><a href="gsea-analysis-molm13.html#cb193-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">rankCol=</span> <span class="fu">c</span>( <span class="st">&quot;#7582c1&quot;</span>, <span class="st">&quot;white&quot;</span>, <span class="st">&quot;#f99f1c&quot;</span>))</span>
-<span id="cb193-10"><a href="gsea-analysis-molm13.html#cb193-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb193-11"><a href="gsea-analysis-molm13.html#cb193-11" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(out)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-22-3.png" width="672" /></p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="gsea-analysis-molm13.html#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb64-2"><a href="gsea-analysis-molm13.html#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(clusterProfiler)</span>
+<span id="cb64-3"><a href="gsea-analysis-molm13.html#cb64-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(enrichplot)</span>
+<span id="cb64-4"><a href="gsea-analysis-molm13.html#cb64-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb64-5"><a href="gsea-analysis-molm13.html#cb64-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb64-6"><a href="gsea-analysis-molm13.html#cb64-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GseaVis)</span>
+<span id="cb64-7"><a href="gsea-analysis-molm13.html#cb64-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-8"><a href="gsea-analysis-molm13.html#cb64-8" aria-hidden="true" tabindex="-1"></a><span class="co"># MOLM13 sh1 </span></span>
+<span id="cb64-9"><a href="gsea-analysis-molm13.html#cb64-9" aria-hidden="true" tabindex="-1"></a>DEgene_mat <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;../03.out/figure2/M13_sh1_control_out_with_normalized_mat.txt&quot;</span>, <span class="at">header =</span> T)</span>
+<span id="cb64-10"><a href="gsea-analysis-molm13.html#cb64-10" aria-hidden="true" tabindex="-1"></a>DE_list <span class="ot">&lt;-</span> DEgene_mat[,<span class="fu">c</span>(<span class="dv">9</span>,<span class="dv">3</span>)]</span>
+<span id="cb64-11"><a href="gsea-analysis-molm13.html#cb64-11" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(DE_list) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;ID&quot;</span>,<span class="st">&quot;Corr&quot;</span>)</span>
+<span id="cb64-12"><a href="gsea-analysis-molm13.html#cb64-12" aria-hidden="true" tabindex="-1"></a>DE_list <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">distinct</span>(DE_list, ID, <span class="at">.keep_all=</span><span class="cn">TRUE</span>)</span>
+<span id="cb64-13"><a href="gsea-analysis-molm13.html#cb64-13" aria-hidden="true" tabindex="-1"></a>DE_list <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(DE_list)</span>
+<span id="cb64-14"><a href="gsea-analysis-molm13.html#cb64-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-15"><a href="gsea-analysis-molm13.html#cb64-15" aria-hidden="true" tabindex="-1"></a>DE_list <span class="ot">&lt;-</span> DE_list <span class="sc">%&gt;%</span></span>
+<span id="cb64-16"><a href="gsea-analysis-molm13.html#cb64-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">rank =</span> <span class="fu">rank</span>(Corr,  <span class="at">ties.method =</span> <span class="st">&quot;random&quot;</span>)) </span>
+<span id="cb64-17"><a href="gsea-analysis-molm13.html#cb64-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-18"><a href="gsea-analysis-molm13.html#cb64-18" aria-hidden="true" tabindex="-1"></a>geneList <span class="ot">&lt;-</span> DE_list<span class="sc">$</span>Corr</span>
+<span id="cb64-19"><a href="gsea-analysis-molm13.html#cb64-19" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(geneList)<span class="ot">=</span>DE_list<span class="sc">$</span>ID</span>
+<span id="cb64-20"><a href="gsea-analysis-molm13.html#cb64-20" aria-hidden="true" tabindex="-1"></a>geneList <span class="ot">&lt;-</span> <span class="fu">sort</span>(geneList,<span class="at">decreasing =</span> T)</span>
+<span id="cb64-21"><a href="gsea-analysis-molm13.html#cb64-21" aria-hidden="true" tabindex="-1"></a>geneSet <span class="ot">&lt;-</span> <span class="fu">read.gmt</span>(<span class="st">&quot;../03.out/figure2/AZA_VEN_responsive_genes.gmt&quot;</span>)</span>
+<span id="cb64-22"><a href="gsea-analysis-molm13.html#cb64-22" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123456</span>)</span>
+<span id="cb64-23"><a href="gsea-analysis-molm13.html#cb64-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-24"><a href="gsea-analysis-molm13.html#cb64-24" aria-hidden="true" tabindex="-1"></a>gsea.enrich <span class="ot">&lt;-</span> <span class="fu">GSEA</span>(geneList,<span class="at">TERM2GENE =</span> geneSet, <span class="at">pvalueCutoff =</span> <span class="dv">1</span>, <span class="at">nPermSimple =</span> <span class="dv">1000</span>, </span>
+<span id="cb64-25"><a href="gsea-analysis-molm13.html#cb64-25" aria-hidden="true" tabindex="-1"></a>                    <span class="at">maxGSSize =</span> <span class="dv">800</span>, <span class="at">pAdjustMethod =</span> <span class="st">&quot;BH&quot;</span>, <span class="at">seed =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb64-26"><a href="gsea-analysis-molm13.html#cb64-26" aria-hidden="true" tabindex="-1"></a>gsea.out <span class="ot">&lt;-</span> gsea.enrich<span class="sc">@</span>result</span>
+<span id="cb64-27"><a href="gsea-analysis-molm13.html#cb64-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-28"><a href="gsea-analysis-molm13.html#cb64-28" aria-hidden="true" tabindex="-1"></a><span class="fu">gseaNb</span>(<span class="at">object =</span> gsea.enrich,</span>
+<span id="cb64-29"><a href="gsea-analysis-molm13.html#cb64-29" aria-hidden="true" tabindex="-1"></a>       <span class="at">geneSetID =</span> <span class="fu">c</span>(<span class="st">&quot;Resistant_genes&quot;</span>,<span class="st">&quot;Sensitive_genes&quot;</span>), </span>
+<span id="cb64-30"><a href="gsea-analysis-molm13.html#cb64-30" aria-hidden="true" tabindex="-1"></a>       <span class="at">addPval =</span> T,</span>
+<span id="cb64-31"><a href="gsea-analysis-molm13.html#cb64-31" aria-hidden="true" tabindex="-1"></a>       <span class="at">subPlot =</span> <span class="dv">2</span>,</span>
+<span id="cb64-32"><a href="gsea-analysis-molm13.html#cb64-32" aria-hidden="true" tabindex="-1"></a>       <span class="at">curveCol=</span> <span class="fu">c</span>(<span class="st">&#39;#7582c1&#39;</span>, <span class="st">&#39;#f99f1c&#39;</span>), </span>
+<span id="cb64-33"><a href="gsea-analysis-molm13.html#cb64-33" aria-hidden="true" tabindex="-1"></a>       <span class="at">htCol=</span> <span class="fu">c</span>( <span class="st">&quot;#7582c1&quot;</span>, <span class="st">&quot;#f99f1c&quot;</span>), </span>
+<span id="cb64-34"><a href="gsea-analysis-molm13.html#cb64-34" aria-hidden="true" tabindex="-1"></a>       <span class="at">rankCol=</span> <span class="fu">c</span>( <span class="st">&quot;#7582c1&quot;</span>, <span class="st">&quot;white&quot;</span>, <span class="st">&quot;#f99f1c&quot;</span>))</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-23-1.png" width="672" /></p>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="gsea-analysis-molm13.html#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="co"># MOLM13 sh2</span></span>
+<span id="cb65-2"><a href="gsea-analysis-molm13.html#cb65-2" aria-hidden="true" tabindex="-1"></a>DEgene_mat <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;../03.out/figure2/M13_sh2_control_out_with_normalized_mat.txt&quot;</span>, <span class="at">header =</span> T)</span>
+<span id="cb65-3"><a href="gsea-analysis-molm13.html#cb65-3" aria-hidden="true" tabindex="-1"></a>DE_list <span class="ot">&lt;-</span> DEgene_mat[,<span class="fu">c</span>(<span class="dv">9</span>,<span class="dv">3</span>)]</span>
+<span id="cb65-4"><a href="gsea-analysis-molm13.html#cb65-4" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(DE_list) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;ID&quot;</span>,<span class="st">&quot;Corr&quot;</span>)</span>
+<span id="cb65-5"><a href="gsea-analysis-molm13.html#cb65-5" aria-hidden="true" tabindex="-1"></a>DE_list <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">distinct</span>(DE_list, ID, <span class="at">.keep_all=</span><span class="cn">TRUE</span>)</span>
+<span id="cb65-6"><a href="gsea-analysis-molm13.html#cb65-6" aria-hidden="true" tabindex="-1"></a>DE_list <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(DE_list)</span>
+<span id="cb65-7"><a href="gsea-analysis-molm13.html#cb65-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-8"><a href="gsea-analysis-molm13.html#cb65-8" aria-hidden="true" tabindex="-1"></a>DE_list <span class="ot">&lt;-</span> DE_list <span class="sc">%&gt;%</span></span>
+<span id="cb65-9"><a href="gsea-analysis-molm13.html#cb65-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">rank =</span> <span class="fu">rank</span>(Corr,  <span class="at">ties.method =</span> <span class="st">&quot;random&quot;</span>)) </span>
+<span id="cb65-10"><a href="gsea-analysis-molm13.html#cb65-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-11"><a href="gsea-analysis-molm13.html#cb65-11" aria-hidden="true" tabindex="-1"></a>geneList <span class="ot">&lt;-</span> DE_list<span class="sc">$</span>Corr</span>
+<span id="cb65-12"><a href="gsea-analysis-molm13.html#cb65-12" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(geneList)<span class="ot">=</span>DE_list<span class="sc">$</span>ID</span>
+<span id="cb65-13"><a href="gsea-analysis-molm13.html#cb65-13" aria-hidden="true" tabindex="-1"></a>geneList <span class="ot">&lt;-</span> <span class="fu">sort</span>(geneList,<span class="at">decreasing =</span> T)</span>
+<span id="cb65-14"><a href="gsea-analysis-molm13.html#cb65-14" aria-hidden="true" tabindex="-1"></a>geneSet <span class="ot">&lt;-</span> <span class="fu">read.gmt</span>(<span class="st">&quot;../03.out/figure2/AZA_VEN_responsive_genes.gmt&quot;</span>)</span>
+<span id="cb65-15"><a href="gsea-analysis-molm13.html#cb65-15" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123456</span>)</span>
+<span id="cb65-16"><a href="gsea-analysis-molm13.html#cb65-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-17"><a href="gsea-analysis-molm13.html#cb65-17" aria-hidden="true" tabindex="-1"></a>gsea.enrich <span class="ot">&lt;-</span> <span class="fu">GSEA</span>(geneList,<span class="at">TERM2GENE =</span> geneSet, <span class="at">pvalueCutoff =</span> <span class="dv">1</span>, <span class="at">nPermSimple =</span> <span class="dv">1000</span>, </span>
+<span id="cb65-18"><a href="gsea-analysis-molm13.html#cb65-18" aria-hidden="true" tabindex="-1"></a>                    <span class="at">maxGSSize =</span> <span class="dv">800</span>, <span class="at">pAdjustMethod =</span> <span class="st">&quot;BH&quot;</span>, <span class="at">seed =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb65-19"><a href="gsea-analysis-molm13.html#cb65-19" aria-hidden="true" tabindex="-1"></a>gsea.out <span class="ot">&lt;-</span> gsea.enrich<span class="sc">@</span>result</span>
+<span id="cb65-20"><a href="gsea-analysis-molm13.html#cb65-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-21"><a href="gsea-analysis-molm13.html#cb65-21" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">gseaNb</span>(<span class="at">object =</span> gsea.enrich,</span>
+<span id="cb65-22"><a href="gsea-analysis-molm13.html#cb65-22" aria-hidden="true" tabindex="-1"></a>       <span class="at">geneSetID =</span> <span class="fu">c</span>(<span class="st">&quot;Resistant_genes&quot;</span>,<span class="st">&quot;Sensitive_genes&quot;</span>), </span>
+<span id="cb65-23"><a href="gsea-analysis-molm13.html#cb65-23" aria-hidden="true" tabindex="-1"></a>       <span class="at">addPval =</span> T,</span>
+<span id="cb65-24"><a href="gsea-analysis-molm13.html#cb65-24" aria-hidden="true" tabindex="-1"></a>       <span class="at">subPlot =</span> <span class="dv">2</span>,</span>
+<span id="cb65-25"><a href="gsea-analysis-molm13.html#cb65-25" aria-hidden="true" tabindex="-1"></a>       <span class="at">curveCol=</span> <span class="fu">c</span>(<span class="st">&#39;#7582c1&#39;</span>, <span class="st">&#39;#f99f1c&#39;</span>), </span>
+<span id="cb65-26"><a href="gsea-analysis-molm13.html#cb65-26" aria-hidden="true" tabindex="-1"></a>       <span class="at">htCol=</span> <span class="fu">c</span>( <span class="st">&quot;#7582c1&quot;</span>, <span class="st">&quot;#f99f1c&quot;</span>), </span>
+<span id="cb65-27"><a href="gsea-analysis-molm13.html#cb65-27" aria-hidden="true" tabindex="-1"></a>       <span class="at">rankCol=</span> <span class="fu">c</span>( <span class="st">&quot;#7582c1&quot;</span>, <span class="st">&quot;white&quot;</span>, <span class="st">&quot;#f99f1c&quot;</span>))</span>
+<span id="cb65-28"><a href="gsea-analysis-molm13.html#cb65-28" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(out)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-23-2.png" width="672" /></p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="gsea-analysis-molm13.html#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="co"># MOLM13 sh1 and sh2</span></span>
+<span id="cb66-2"><a href="gsea-analysis-molm13.html#cb66-2" aria-hidden="true" tabindex="-1"></a>DEgene_mat <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;../03.out/figure2/M13_sh12_control_out_with_normalized_mat.txt&quot;</span>, <span class="at">header =</span> T)</span>
+<span id="cb66-3"><a href="gsea-analysis-molm13.html#cb66-3" aria-hidden="true" tabindex="-1"></a>DE_list <span class="ot">&lt;-</span> DEgene_mat[,<span class="fu">c</span>(<span class="dv">9</span>,<span class="dv">3</span>)]</span>
+<span id="cb66-4"><a href="gsea-analysis-molm13.html#cb66-4" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(DE_list) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;ID&quot;</span>,<span class="st">&quot;Corr&quot;</span>)</span>
+<span id="cb66-5"><a href="gsea-analysis-molm13.html#cb66-5" aria-hidden="true" tabindex="-1"></a>DE_list <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">distinct</span>(DE_list, ID, <span class="at">.keep_all=</span><span class="cn">TRUE</span>)</span>
+<span id="cb66-6"><a href="gsea-analysis-molm13.html#cb66-6" aria-hidden="true" tabindex="-1"></a>DE_list <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(DE_list)</span>
+<span id="cb66-7"><a href="gsea-analysis-molm13.html#cb66-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-8"><a href="gsea-analysis-molm13.html#cb66-8" aria-hidden="true" tabindex="-1"></a>DE_list <span class="ot">&lt;-</span> DE_list <span class="sc">%&gt;%</span></span>
+<span id="cb66-9"><a href="gsea-analysis-molm13.html#cb66-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">rank =</span> <span class="fu">rank</span>(Corr,  <span class="at">ties.method =</span> <span class="st">&quot;random&quot;</span>)) </span>
+<span id="cb66-10"><a href="gsea-analysis-molm13.html#cb66-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-11"><a href="gsea-analysis-molm13.html#cb66-11" aria-hidden="true" tabindex="-1"></a>geneList <span class="ot">&lt;-</span> DE_list<span class="sc">$</span>Corr</span>
+<span id="cb66-12"><a href="gsea-analysis-molm13.html#cb66-12" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(geneList)<span class="ot">=</span>DE_list<span class="sc">$</span>ID</span>
+<span id="cb66-13"><a href="gsea-analysis-molm13.html#cb66-13" aria-hidden="true" tabindex="-1"></a>geneList <span class="ot">&lt;-</span> <span class="fu">sort</span>(geneList,<span class="at">decreasing =</span> T)</span>
+<span id="cb66-14"><a href="gsea-analysis-molm13.html#cb66-14" aria-hidden="true" tabindex="-1"></a>geneSet <span class="ot">&lt;-</span> <span class="fu">read.gmt</span>(<span class="st">&quot;../03.out/figure2/AZA_VEN_responsive_genes.gmt&quot;</span>)</span>
+<span id="cb66-15"><a href="gsea-analysis-molm13.html#cb66-15" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123456</span>)</span>
+<span id="cb66-16"><a href="gsea-analysis-molm13.html#cb66-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-17"><a href="gsea-analysis-molm13.html#cb66-17" aria-hidden="true" tabindex="-1"></a>gsea.enrich <span class="ot">&lt;-</span> <span class="fu">GSEA</span>(geneList,<span class="at">TERM2GENE =</span> geneSet, <span class="at">pvalueCutoff =</span> <span class="dv">1</span>, <span class="at">nPermSimple =</span> <span class="dv">1000</span>, </span>
+<span id="cb66-18"><a href="gsea-analysis-molm13.html#cb66-18" aria-hidden="true" tabindex="-1"></a>                    <span class="at">maxGSSize =</span> <span class="dv">800</span>, <span class="at">pAdjustMethod =</span> <span class="st">&quot;BH&quot;</span>, <span class="at">seed =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb66-19"><a href="gsea-analysis-molm13.html#cb66-19" aria-hidden="true" tabindex="-1"></a>gsea.out <span class="ot">&lt;-</span> gsea.enrich<span class="sc">@</span>result</span>
+<span id="cb66-20"><a href="gsea-analysis-molm13.html#cb66-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-21"><a href="gsea-analysis-molm13.html#cb66-21" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">gseaNb</span>(<span class="at">object =</span> gsea.enrich,</span>
+<span id="cb66-22"><a href="gsea-analysis-molm13.html#cb66-22" aria-hidden="true" tabindex="-1"></a>       <span class="at">geneSetID =</span> <span class="fu">c</span>(<span class="st">&quot;Resistant_genes&quot;</span>,<span class="st">&quot;Sensitive_genes&quot;</span>), </span>
+<span id="cb66-23"><a href="gsea-analysis-molm13.html#cb66-23" aria-hidden="true" tabindex="-1"></a>       <span class="at">addPval =</span> T,</span>
+<span id="cb66-24"><a href="gsea-analysis-molm13.html#cb66-24" aria-hidden="true" tabindex="-1"></a>       <span class="at">subPlot =</span> <span class="dv">2</span>,</span>
+<span id="cb66-25"><a href="gsea-analysis-molm13.html#cb66-25" aria-hidden="true" tabindex="-1"></a>       <span class="at">curveCol=</span> <span class="fu">c</span>(<span class="st">&#39;#7582c1&#39;</span>, <span class="st">&#39;#f99f1c&#39;</span>), </span>
+<span id="cb66-26"><a href="gsea-analysis-molm13.html#cb66-26" aria-hidden="true" tabindex="-1"></a>       <span class="at">htCol=</span> <span class="fu">c</span>( <span class="st">&quot;#7582c1&quot;</span>, <span class="st">&quot;#f99f1c&quot;</span>), </span>
+<span id="cb66-27"><a href="gsea-analysis-molm13.html#cb66-27" aria-hidden="true" tabindex="-1"></a>       <span class="at">rankCol=</span> <span class="fu">c</span>( <span class="st">&quot;#7582c1&quot;</span>, <span class="st">&quot;white&quot;</span>, <span class="st">&quot;#f99f1c&quot;</span>))</span>
+<span id="cb66-28"><a href="gsea-analysis-molm13.html#cb66-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-29"><a href="gsea-analysis-molm13.html#cb66-29" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(out)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-23-3.png" width="672" /></p>
 </div>
             </section>
 

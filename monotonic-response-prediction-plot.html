@@ -23,7 +23,7 @@
 <meta name="author" content="Peng Jin, Qiqi Jin, Kankan Wang" />
 
 
-<meta name="date" content="2025-07-18" />
+<meta name="date" content="2025-07-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -244,28 +244,28 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="monotonic-response-prediction-plot" class="section level2 hasAnchor" number="7.2">
 <h2><span class="header-section-number">7.2</span> Monotonic Response Prediction Plot<a href="monotonic-response-prediction-plot.html#monotonic-response-prediction-plot" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb484"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb484-1"><a href="monotonic-response-prediction-plot.html#cb484-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb484-2"><a href="monotonic-response-prediction-plot.html#cb484-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scales)</span>
-<span id="cb484-3"><a href="monotonic-response-prediction-plot.html#cb484-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb484-4"><a href="monotonic-response-prediction-plot.html#cb484-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Load data for plotting</span></span>
-<span id="cb484-5"><a href="monotonic-response-prediction-plot.html#cb484-5" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;../03.out/figure6/source_data_forplot.csv&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb484-6"><a href="monotonic-response-prediction-plot.html#cb484-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb484-7"><a href="monotonic-response-prediction-plot.html#cb484-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the plot</span></span>
-<span id="cb484-8"><a href="monotonic-response-prediction-plot.html#cb484-8" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> RF8_score, <span class="at">y =</span> Prob_mean <span class="sc">*</span> <span class="dv">100</span>)) <span class="sc">+</span> </span>
-<span id="cb484-9"><a href="monotonic-response-prediction-plot.html#cb484-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span> </span>
-<span id="cb484-10"><a href="monotonic-response-prediction-plot.html#cb484-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> Prob_lower <span class="sc">*</span> <span class="dv">100</span>, <span class="at">ymax =</span> Prob_upper <span class="sc">*</span> <span class="dv">100</span>), <span class="at">fill =</span> <span class="st">&quot;red&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span>  </span>
-<span id="cb484-11"><a href="monotonic-response-prediction-plot.html#cb484-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;RF8 Score&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Response Probability (%)&quot;</span>) <span class="sc">+</span> </span>
-<span id="cb484-12"><a href="monotonic-response-prediction-plot.html#cb484-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
-<span id="cb484-13"><a href="monotonic-response-prediction-plot.html#cb484-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">100</span>, <span class="at">by =</span> <span class="dv">10</span>)) <span class="sc">+</span>  </span>
-<span id="cb484-14"><a href="monotonic-response-prediction-plot.html#cb484-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">by =</span> <span class="fl">0.1</span>)) <span class="sc">+</span> </span>
-<span id="cb484-15"><a href="monotonic-response-prediction-plot.html#cb484-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb484-16"><a href="monotonic-response-prediction-plot.html#cb484-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.major =</span> <span class="fu">element_line</span>(<span class="at">size =</span> <span class="fl">0.25</span>, <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">colour =</span> <span class="st">&quot;grey&quot;</span>),</span>
-<span id="cb484-17"><a href="monotonic-response-prediction-plot.html#cb484-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.minor =</span> <span class="fu">element_line</span>(<span class="at">size =</span> <span class="fl">0.25</span>, <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">colour =</span> <span class="st">&quot;grey&quot;</span>),</span>
-<span id="cb484-18"><a href="monotonic-response-prediction-plot.html#cb484-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.major.x =</span> <span class="fu">element_blank</span>()  </span>
-<span id="cb484-19"><a href="monotonic-response-prediction-plot.html#cb484-19" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb484-20"><a href="monotonic-response-prediction-plot.html#cb484-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb484-21"><a href="monotonic-response-prediction-plot.html#cb484-21" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p1)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-67-1.png" width="672" /></p>
+<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb181-1"><a href="monotonic-response-prediction-plot.html#cb181-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb181-2"><a href="monotonic-response-prediction-plot.html#cb181-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scales)</span>
+<span id="cb181-3"><a href="monotonic-response-prediction-plot.html#cb181-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb181-4"><a href="monotonic-response-prediction-plot.html#cb181-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Load data for plotting</span></span>
+<span id="cb181-5"><a href="monotonic-response-prediction-plot.html#cb181-5" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;../03.out/figure6/source_data_forplot.csv&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb181-6"><a href="monotonic-response-prediction-plot.html#cb181-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb181-7"><a href="monotonic-response-prediction-plot.html#cb181-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the plot</span></span>
+<span id="cb181-8"><a href="monotonic-response-prediction-plot.html#cb181-8" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> RF8_score, <span class="at">y =</span> Prob_mean <span class="sc">*</span> <span class="dv">100</span>)) <span class="sc">+</span> </span>
+<span id="cb181-9"><a href="monotonic-response-prediction-plot.html#cb181-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb181-10"><a href="monotonic-response-prediction-plot.html#cb181-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> Prob_lower <span class="sc">*</span> <span class="dv">100</span>, <span class="at">ymax =</span> Prob_upper <span class="sc">*</span> <span class="dv">100</span>), <span class="at">fill =</span> <span class="st">&quot;red&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span>  </span>
+<span id="cb181-11"><a href="monotonic-response-prediction-plot.html#cb181-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;RF8 Score&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Response Probability (%)&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb181-12"><a href="monotonic-response-prediction-plot.html#cb181-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
+<span id="cb181-13"><a href="monotonic-response-prediction-plot.html#cb181-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">100</span>, <span class="at">by =</span> <span class="dv">10</span>)) <span class="sc">+</span>  </span>
+<span id="cb181-14"><a href="monotonic-response-prediction-plot.html#cb181-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">by =</span> <span class="fl">0.1</span>)) <span class="sc">+</span> </span>
+<span id="cb181-15"><a href="monotonic-response-prediction-plot.html#cb181-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb181-16"><a href="monotonic-response-prediction-plot.html#cb181-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.major =</span> <span class="fu">element_line</span>(<span class="at">size =</span> <span class="fl">0.25</span>, <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">colour =</span> <span class="st">&quot;grey&quot;</span>),</span>
+<span id="cb181-17"><a href="monotonic-response-prediction-plot.html#cb181-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.minor =</span> <span class="fu">element_line</span>(<span class="at">size =</span> <span class="fl">0.25</span>, <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">colour =</span> <span class="st">&quot;grey&quot;</span>),</span>
+<span id="cb181-18"><a href="monotonic-response-prediction-plot.html#cb181-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.major.x =</span> <span class="fu">element_blank</span>()  </span>
+<span id="cb181-19"><a href="monotonic-response-prediction-plot.html#cb181-19" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb181-20"><a href="monotonic-response-prediction-plot.html#cb181-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb181-21"><a href="monotonic-response-prediction-plot.html#cb181-21" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p1)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-68-1.png" width="672" /></p>
 </div>
             </section>
 

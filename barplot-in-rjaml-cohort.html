@@ -23,7 +23,7 @@
 <meta name="author" content="Peng Jin, Qiqi Jin, Kankan Wang" />
 
 
-<meta name="date" content="2025-07-18" />
+<meta name="date" content="2025-07-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -244,17 +244,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="barplot-in-rjaml-cohort" class="section level2 hasAnchor" number="6.5">
 <h2><span class="header-section-number">6.5</span> Barplot in RJAML cohort<a href="barplot-in-rjaml-cohort.html#barplot-in-rjaml-cohort" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb437"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb437-1"><a href="barplot-in-rjaml-cohort.html#cb437-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggstatsplot)</span>
-<span id="cb437-2"><a href="barplot-in-rjaml-cohort.html#cb437-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
-<span id="cb437-3"><a href="barplot-in-rjaml-cohort.html#cb437-3" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read_xlsx</span>(<span class="st">&quot;../03.out/figure5/rjaml_mutations_rf8.xlsx&quot;</span>)</span>
-<span id="cb437-4"><a href="barplot-in-rjaml-cohort.html#cb437-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb437-5"><a href="barplot-in-rjaml-cohort.html#cb437-5" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggbarstats</span>(<span class="at">data =</span> data, <span class="at">x =</span> TP53, <span class="at">y =</span> Group)</span>
-<span id="cb437-6"><a href="barplot-in-rjaml-cohort.html#cb437-6" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggbarstats</span>(<span class="at">data =</span> data, <span class="at">x =</span> DNMT3A, <span class="at">y =</span> Group)</span>
-<span id="cb437-7"><a href="barplot-in-rjaml-cohort.html#cb437-7" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> <span class="fu">ggbarstats</span>(<span class="at">data =</span> data, <span class="at">x =</span> IDH2, <span class="at">y =</span> Group)</span>
-<span id="cb437-8"><a href="barplot-in-rjaml-cohort.html#cb437-8" aria-hidden="true" tabindex="-1"></a>p4 <span class="ot">&lt;-</span> <span class="fu">ggbarstats</span>(<span class="at">data =</span> data, <span class="at">x =</span> CEBPA, <span class="at">y =</span> Group)</span>
-<span id="cb437-9"><a href="barplot-in-rjaml-cohort.html#cb437-9" aria-hidden="true" tabindex="-1"></a>plots <span class="ot">&lt;-</span> p1<span class="sc">|</span>p2<span class="sc">|</span>p3<span class="sc">|</span>p4</span>
-<span id="cb437-10"><a href="barplot-in-rjaml-cohort.html#cb437-10" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(plots)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-55-1.png" width="768" /></p>
+<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="barplot-in-rjaml-cohort.html#cb164-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggstatsplot)</span>
+<span id="cb164-2"><a href="barplot-in-rjaml-cohort.html#cb164-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb164-3"><a href="barplot-in-rjaml-cohort.html#cb164-3" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read_xlsx</span>(<span class="st">&quot;../03.out/figure5/rjaml_mutations_rf8.xlsx&quot;</span>)</span>
+<span id="cb164-4"><a href="barplot-in-rjaml-cohort.html#cb164-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb164-5"><a href="barplot-in-rjaml-cohort.html#cb164-5" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggbarstats</span>(<span class="at">data =</span> data, <span class="at">x =</span> TP53, <span class="at">y =</span> Group)</span>
+<span id="cb164-6"><a href="barplot-in-rjaml-cohort.html#cb164-6" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggbarstats</span>(<span class="at">data =</span> data, <span class="at">x =</span> DNMT3A, <span class="at">y =</span> Group)</span>
+<span id="cb164-7"><a href="barplot-in-rjaml-cohort.html#cb164-7" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> <span class="fu">ggbarstats</span>(<span class="at">data =</span> data, <span class="at">x =</span> IDH2, <span class="at">y =</span> Group)</span>
+<span id="cb164-8"><a href="barplot-in-rjaml-cohort.html#cb164-8" aria-hidden="true" tabindex="-1"></a>p4 <span class="ot">&lt;-</span> <span class="fu">ggbarstats</span>(<span class="at">data =</span> data, <span class="at">x =</span> CEBPA, <span class="at">y =</span> Group)</span>
+<span id="cb164-9"><a href="barplot-in-rjaml-cohort.html#cb164-9" aria-hidden="true" tabindex="-1"></a>plots <span class="ot">&lt;-</span> p1<span class="sc">|</span>p2<span class="sc">|</span>p3<span class="sc">|</span>p4</span>
+<span id="cb164-10"><a href="barplot-in-rjaml-cohort.html#cb164-10" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(plots)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-56-1.png" width="768" /></p>
 </div>
             </section>
 

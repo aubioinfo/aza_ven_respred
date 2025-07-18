@@ -23,7 +23,7 @@
 <meta name="author" content="Peng Jin, Qiqi Jin, Kankan Wang" />
 
 
-<meta name="date" content="2025-07-18" />
+<meta name="date" content="2025-07-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -244,80 +244,80 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="de-analysis-in-cell-lines" class="section level2 hasAnchor" number="3.9">
 <h2><span class="header-section-number">3.9</span> DE analysis in cell lines<a href="de-analysis-in-cell-lines.html#de-analysis-in-cell-lines" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="de-analysis-in-cell-lines.html#cb151-1" aria-hidden="true" tabindex="-1"></a><span class="co"># library(dplyr)</span></span>
-<span id="cb151-2"><a href="de-analysis-in-cell-lines.html#cb151-2" aria-hidden="true" tabindex="-1"></a><span class="co"># library(DESeq2)</span></span>
-<span id="cb151-3"><a href="de-analysis-in-cell-lines.html#cb151-3" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb151-4"><a href="de-analysis-in-cell-lines.html#cb151-4" aria-hidden="true" tabindex="-1"></a><span class="co"># source(&quot;plotVolcanoV3.R&quot;)</span></span>
-<span id="cb151-5"><a href="de-analysis-in-cell-lines.html#cb151-5" aria-hidden="true" tabindex="-1"></a><span class="co"># # Load TPM and raw count data</span></span>
-<span id="cb151-6"><a href="de-analysis-in-cell-lines.html#cb151-6" aria-hidden="true" tabindex="-1"></a><span class="co"># tpm &lt;- read.table(&quot;../03.out/figure2/shPINK1_ID_matched_TPM_matrix.txt&quot;, header = TRUE, check.names = FALSE)</span></span>
-<span id="cb151-7"><a href="de-analysis-in-cell-lines.html#cb151-7" aria-hidden="true" tabindex="-1"></a><span class="co"># mat &lt;- read.table(&quot;../03.out/figure2/shPINK1_count.matrix.txt&quot;, header = TRUE, row.names = 1, check.names = FALSE)</span></span>
-<span id="cb151-8"><a href="de-analysis-in-cell-lines.html#cb151-8" aria-hidden="true" tabindex="-1"></a><span class="co"># tpm &lt;- subset(tpm, Type == &quot;protein_coding&quot;)</span></span>
-<span id="cb151-9"><a href="de-analysis-in-cell-lines.html#cb151-9" aria-hidden="true" tabindex="-1"></a><span class="co"># ## MOLM13 sh1 vs. control</span></span>
-<span id="cb151-10"><a href="de-analysis-in-cell-lines.html#cb151-10" aria-hidden="true" tabindex="-1"></a><span class="co"># samples &lt;- c(&quot;M0_rep1&quot;, &quot;M0_rep2&quot;, &quot;M1_rep1&quot;, &quot;M1_rep2&quot;)</span></span>
-<span id="cb151-11"><a href="de-analysis-in-cell-lines.html#cb151-11" aria-hidden="true" tabindex="-1"></a><span class="co"># # Filter low-expressed genes</span></span>
-<span id="cb151-12"><a href="de-analysis-in-cell-lines.html#cb151-12" aria-hidden="true" tabindex="-1"></a><span class="co"># tpm1 &lt;- tpm[which(rowMeans(tpm[, -c(1:3)]) &gt; 0), c(&quot;ID&quot;, &quot;Symbol&quot;, &quot;Type&quot;, samples)]</span></span>
-<span id="cb151-13"><a href="de-analysis-in-cell-lines.html#cb151-13" aria-hidden="true" tabindex="-1"></a><span class="co"># mat1 &lt;- mat[tpm1$ID, samples]</span></span>
-<span id="cb151-14"><a href="de-analysis-in-cell-lines.html#cb151-14" aria-hidden="true" tabindex="-1"></a><span class="co"># # Run DESeq2 analysis</span></span>
-<span id="cb151-15"><a href="de-analysis-in-cell-lines.html#cb151-15" aria-hidden="true" tabindex="-1"></a><span class="co"># RunDESeq2(count_mat = mat1, n.cont = 2, n.treat = 2,</span></span>
-<span id="cb151-16"><a href="de-analysis-in-cell-lines.html#cb151-16" aria-hidden="true" tabindex="-1"></a><span class="co">#           prefix = &quot;../03.out/figure2/M13_sh1_control_out&quot;, sort.p = FALSE,</span></span>
-<span id="cb151-17"><a href="de-analysis-in-cell-lines.html#cb151-17" aria-hidden="true" tabindex="-1"></a><span class="co">#           merge.normalized = TRUE,</span></span>
-<span id="cb151-18"><a href="de-analysis-in-cell-lines.html#cb151-18" aria-hidden="true" tabindex="-1"></a><span class="co">#           normalized_mat = tpm1)</span></span>
-<span id="cb151-19"><a href="de-analysis-in-cell-lines.html#cb151-19" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb151-20"><a href="de-analysis-in-cell-lines.html#cb151-20" aria-hidden="true" tabindex="-1"></a><span class="co"># ## MOLM13 sh2 vs. control</span></span>
-<span id="cb151-21"><a href="de-analysis-in-cell-lines.html#cb151-21" aria-hidden="true" tabindex="-1"></a><span class="co"># samples &lt;- c(&quot;M0_rep1&quot;, &quot;M0_rep2&quot;, &quot;M2_rep1&quot;, &quot;M2_rep2&quot;)</span></span>
-<span id="cb151-22"><a href="de-analysis-in-cell-lines.html#cb151-22" aria-hidden="true" tabindex="-1"></a><span class="co"># # Filter low-expressed genes</span></span>
-<span id="cb151-23"><a href="de-analysis-in-cell-lines.html#cb151-23" aria-hidden="true" tabindex="-1"></a><span class="co"># tpm1 &lt;- tpm[which(rowMeans(tpm[, -c(1:3)]) &gt; 0), c(&quot;ID&quot;, &quot;Symbol&quot;, &quot;Type&quot;, samples)]</span></span>
-<span id="cb151-24"><a href="de-analysis-in-cell-lines.html#cb151-24" aria-hidden="true" tabindex="-1"></a><span class="co"># mat1 &lt;- mat[tpm1$ID, samples]</span></span>
-<span id="cb151-25"><a href="de-analysis-in-cell-lines.html#cb151-25" aria-hidden="true" tabindex="-1"></a><span class="co"># # Run DESeq2 analysis</span></span>
-<span id="cb151-26"><a href="de-analysis-in-cell-lines.html#cb151-26" aria-hidden="true" tabindex="-1"></a><span class="co"># RunDESeq2(count_mat = mat1, n.cont = 2, n.treat = 2,</span></span>
-<span id="cb151-27"><a href="de-analysis-in-cell-lines.html#cb151-27" aria-hidden="true" tabindex="-1"></a><span class="co">#           prefix = &quot;../03.out/figure2/M13_sh2_control_out&quot;, sort.p = FALSE,</span></span>
-<span id="cb151-28"><a href="de-analysis-in-cell-lines.html#cb151-28" aria-hidden="true" tabindex="-1"></a><span class="co">#           merge.normalized = TRUE,</span></span>
-<span id="cb151-29"><a href="de-analysis-in-cell-lines.html#cb151-29" aria-hidden="true" tabindex="-1"></a><span class="co">#           normalized_mat = tpm1)</span></span>
-<span id="cb151-30"><a href="de-analysis-in-cell-lines.html#cb151-30" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb151-31"><a href="de-analysis-in-cell-lines.html#cb151-31" aria-hidden="true" tabindex="-1"></a><span class="co"># ## MOLM13 sh1 sh2 vs. control</span></span>
-<span id="cb151-32"><a href="de-analysis-in-cell-lines.html#cb151-32" aria-hidden="true" tabindex="-1"></a><span class="co"># samples &lt;- c(&quot;M0_rep1&quot;, &quot;M0_rep2&quot;, &quot;M1_rep1&quot;, &quot;M1_rep2&quot;, &quot;M2_rep1&quot;, &quot;M2_rep2&quot;)</span></span>
-<span id="cb151-33"><a href="de-analysis-in-cell-lines.html#cb151-33" aria-hidden="true" tabindex="-1"></a><span class="co"># # Filter low-expressed genes</span></span>
-<span id="cb151-34"><a href="de-analysis-in-cell-lines.html#cb151-34" aria-hidden="true" tabindex="-1"></a><span class="co"># tpm1 &lt;- tpm[which(rowMeans(tpm[, -c(1:3)]) &gt; 0), c(&quot;ID&quot;, &quot;Symbol&quot;, &quot;Type&quot;, samples)]</span></span>
-<span id="cb151-35"><a href="de-analysis-in-cell-lines.html#cb151-35" aria-hidden="true" tabindex="-1"></a><span class="co"># mat1 &lt;- mat[tpm1$ID, samples]</span></span>
-<span id="cb151-36"><a href="de-analysis-in-cell-lines.html#cb151-36" aria-hidden="true" tabindex="-1"></a><span class="co"># # Run DESeq2 analysis</span></span>
-<span id="cb151-37"><a href="de-analysis-in-cell-lines.html#cb151-37" aria-hidden="true" tabindex="-1"></a><span class="co"># RunDESeq2(count_mat = mat1, n.cont = 2, n.treat = 4,</span></span>
-<span id="cb151-38"><a href="de-analysis-in-cell-lines.html#cb151-38" aria-hidden="true" tabindex="-1"></a><span class="co">#           prefix = &quot;../03.out/figure2/M13_sh12_control_out&quot;, sort.p = FALSE,</span></span>
-<span id="cb151-39"><a href="de-analysis-in-cell-lines.html#cb151-39" aria-hidden="true" tabindex="-1"></a><span class="co">#           merge.normalized = TRUE,</span></span>
-<span id="cb151-40"><a href="de-analysis-in-cell-lines.html#cb151-40" aria-hidden="true" tabindex="-1"></a><span class="co">#           normalized_mat = tpm1)</span></span>
-<span id="cb151-41"><a href="de-analysis-in-cell-lines.html#cb151-41" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb151-42"><a href="de-analysis-in-cell-lines.html#cb151-42" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb151-43"><a href="de-analysis-in-cell-lines.html#cb151-43" aria-hidden="true" tabindex="-1"></a><span class="co"># ## OA3 sh1 vs. control</span></span>
-<span id="cb151-44"><a href="de-analysis-in-cell-lines.html#cb151-44" aria-hidden="true" tabindex="-1"></a><span class="co"># samples &lt;- c(&quot;O0_rep1&quot;, &quot;O0_rep2&quot;, &quot;O1_rep1&quot;, &quot;O1_rep2&quot;)</span></span>
-<span id="cb151-45"><a href="de-analysis-in-cell-lines.html#cb151-45" aria-hidden="true" tabindex="-1"></a><span class="co"># # Filter low-expressed genes</span></span>
-<span id="cb151-46"><a href="de-analysis-in-cell-lines.html#cb151-46" aria-hidden="true" tabindex="-1"></a><span class="co"># tpm1 &lt;- tpm[which(rowMeans(tpm[, -c(1:3)]) &gt; 0), c(&quot;ID&quot;, &quot;Symbol&quot;, &quot;Type&quot;, samples)]</span></span>
-<span id="cb151-47"><a href="de-analysis-in-cell-lines.html#cb151-47" aria-hidden="true" tabindex="-1"></a><span class="co"># mat1 &lt;- mat[tpm1$ID, samples]</span></span>
-<span id="cb151-48"><a href="de-analysis-in-cell-lines.html#cb151-48" aria-hidden="true" tabindex="-1"></a><span class="co"># # Run DESeq2 analysis</span></span>
-<span id="cb151-49"><a href="de-analysis-in-cell-lines.html#cb151-49" aria-hidden="true" tabindex="-1"></a><span class="co"># RunDESeq2(count_mat = mat1, n.cont = 2, n.treat = 2,</span></span>
-<span id="cb151-50"><a href="de-analysis-in-cell-lines.html#cb151-50" aria-hidden="true" tabindex="-1"></a><span class="co">#           prefix = &quot;../03.out/figure2/OA3_sh1_control_out&quot;, sort.p = FALSE,</span></span>
-<span id="cb151-51"><a href="de-analysis-in-cell-lines.html#cb151-51" aria-hidden="true" tabindex="-1"></a><span class="co">#           merge.normalized = TRUE,</span></span>
-<span id="cb151-52"><a href="de-analysis-in-cell-lines.html#cb151-52" aria-hidden="true" tabindex="-1"></a><span class="co">#           normalized_mat = tpm1)</span></span>
-<span id="cb151-53"><a href="de-analysis-in-cell-lines.html#cb151-53" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb151-54"><a href="de-analysis-in-cell-lines.html#cb151-54" aria-hidden="true" tabindex="-1"></a><span class="co"># ## OA3 sh4 vs. control</span></span>
-<span id="cb151-55"><a href="de-analysis-in-cell-lines.html#cb151-55" aria-hidden="true" tabindex="-1"></a><span class="co"># samples &lt;- c(&quot;O0_rep1&quot;, &quot;O0_rep2&quot;, &quot;O4_rep1&quot;, &quot;O4_rep2&quot;)</span></span>
-<span id="cb151-56"><a href="de-analysis-in-cell-lines.html#cb151-56" aria-hidden="true" tabindex="-1"></a><span class="co"># # Filter low-expressed genes</span></span>
-<span id="cb151-57"><a href="de-analysis-in-cell-lines.html#cb151-57" aria-hidden="true" tabindex="-1"></a><span class="co"># tpm1 &lt;- tpm[which(rowMeans(tpm[, -c(1:3)]) &gt; 0), c(&quot;ID&quot;, &quot;Symbol&quot;, &quot;Type&quot;, samples)]</span></span>
-<span id="cb151-58"><a href="de-analysis-in-cell-lines.html#cb151-58" aria-hidden="true" tabindex="-1"></a><span class="co"># mat1 &lt;- mat[tpm1$ID, samples]</span></span>
-<span id="cb151-59"><a href="de-analysis-in-cell-lines.html#cb151-59" aria-hidden="true" tabindex="-1"></a><span class="co"># # Run DESeq2 analysis</span></span>
-<span id="cb151-60"><a href="de-analysis-in-cell-lines.html#cb151-60" aria-hidden="true" tabindex="-1"></a><span class="co"># RunDESeq2(count_mat = mat1, n.cont = 2, n.treat = 2,</span></span>
-<span id="cb151-61"><a href="de-analysis-in-cell-lines.html#cb151-61" aria-hidden="true" tabindex="-1"></a><span class="co">#           prefix = &quot;../03.out/figure2/OA3_sh4_control_out&quot;, sort.p = FALSE,</span></span>
-<span id="cb151-62"><a href="de-analysis-in-cell-lines.html#cb151-62" aria-hidden="true" tabindex="-1"></a><span class="co">#           merge.normalized = TRUE,</span></span>
-<span id="cb151-63"><a href="de-analysis-in-cell-lines.html#cb151-63" aria-hidden="true" tabindex="-1"></a><span class="co">#           normalized_mat = tpm1)</span></span>
-<span id="cb151-64"><a href="de-analysis-in-cell-lines.html#cb151-64" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb151-65"><a href="de-analysis-in-cell-lines.html#cb151-65" aria-hidden="true" tabindex="-1"></a><span class="co"># ## OA3 sh1 sh4 vs. control</span></span>
-<span id="cb151-66"><a href="de-analysis-in-cell-lines.html#cb151-66" aria-hidden="true" tabindex="-1"></a><span class="co"># samples &lt;- c(&quot;O0_rep1&quot;, &quot;O0_rep2&quot;, &quot;O1_rep1&quot;, &quot;O1_rep2&quot;, &quot;O4_rep1&quot;, &quot;O4_rep2&quot;)</span></span>
-<span id="cb151-67"><a href="de-analysis-in-cell-lines.html#cb151-67" aria-hidden="true" tabindex="-1"></a><span class="co"># # Filter low-expressed genes</span></span>
-<span id="cb151-68"><a href="de-analysis-in-cell-lines.html#cb151-68" aria-hidden="true" tabindex="-1"></a><span class="co"># tpm1 &lt;- tpm[which(rowMeans(tpm[, -c(1:3)]) &gt; 0), c(&quot;ID&quot;, &quot;Symbol&quot;, &quot;Type&quot;, samples)]</span></span>
-<span id="cb151-69"><a href="de-analysis-in-cell-lines.html#cb151-69" aria-hidden="true" tabindex="-1"></a><span class="co"># mat1 &lt;- mat[tpm1$ID, samples]</span></span>
-<span id="cb151-70"><a href="de-analysis-in-cell-lines.html#cb151-70" aria-hidden="true" tabindex="-1"></a><span class="co"># # Run DESeq2 analysis</span></span>
-<span id="cb151-71"><a href="de-analysis-in-cell-lines.html#cb151-71" aria-hidden="true" tabindex="-1"></a><span class="co"># RunDESeq2(count_mat = mat1, n.cont = 2, n.treat = 4,</span></span>
-<span id="cb151-72"><a href="de-analysis-in-cell-lines.html#cb151-72" aria-hidden="true" tabindex="-1"></a><span class="co">#           prefix = &quot;../03.out/figure2/OA3_sh14_control_out&quot;, sort.p = FALSE,</span></span>
-<span id="cb151-73"><a href="de-analysis-in-cell-lines.html#cb151-73" aria-hidden="true" tabindex="-1"></a><span class="co">#           merge.normalized = TRUE,</span></span>
-<span id="cb151-74"><a href="de-analysis-in-cell-lines.html#cb151-74" aria-hidden="true" tabindex="-1"></a><span class="co">#           normalized_mat = tpm1)</span></span></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="de-analysis-in-cell-lines.html#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="co"># library(dplyr)</span></span>
+<span id="cb59-2"><a href="de-analysis-in-cell-lines.html#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="co"># library(DESeq2)</span></span>
+<span id="cb59-3"><a href="de-analysis-in-cell-lines.html#cb59-3" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb59-4"><a href="de-analysis-in-cell-lines.html#cb59-4" aria-hidden="true" tabindex="-1"></a><span class="co"># source(&quot;plotVolcanoV3.R&quot;)</span></span>
+<span id="cb59-5"><a href="de-analysis-in-cell-lines.html#cb59-5" aria-hidden="true" tabindex="-1"></a><span class="co"># # Load TPM and raw count data</span></span>
+<span id="cb59-6"><a href="de-analysis-in-cell-lines.html#cb59-6" aria-hidden="true" tabindex="-1"></a><span class="co"># tpm &lt;- read.table(&quot;../03.out/figure2/shPINK1_ID_matched_TPM_matrix.txt&quot;, header = TRUE, check.names = FALSE)</span></span>
+<span id="cb59-7"><a href="de-analysis-in-cell-lines.html#cb59-7" aria-hidden="true" tabindex="-1"></a><span class="co"># mat &lt;- read.table(&quot;../03.out/figure2/shPINK1_count.matrix.txt&quot;, header = TRUE, row.names = 1, check.names = FALSE)</span></span>
+<span id="cb59-8"><a href="de-analysis-in-cell-lines.html#cb59-8" aria-hidden="true" tabindex="-1"></a><span class="co"># tpm &lt;- subset(tpm, Type == &quot;protein_coding&quot;)</span></span>
+<span id="cb59-9"><a href="de-analysis-in-cell-lines.html#cb59-9" aria-hidden="true" tabindex="-1"></a><span class="co"># ## MOLM13 sh1 vs. control</span></span>
+<span id="cb59-10"><a href="de-analysis-in-cell-lines.html#cb59-10" aria-hidden="true" tabindex="-1"></a><span class="co"># samples &lt;- c(&quot;M0_rep1&quot;, &quot;M0_rep2&quot;, &quot;M1_rep1&quot;, &quot;M1_rep2&quot;)</span></span>
+<span id="cb59-11"><a href="de-analysis-in-cell-lines.html#cb59-11" aria-hidden="true" tabindex="-1"></a><span class="co"># # Filter low-expressed genes</span></span>
+<span id="cb59-12"><a href="de-analysis-in-cell-lines.html#cb59-12" aria-hidden="true" tabindex="-1"></a><span class="co"># tpm1 &lt;- tpm[which(rowMeans(tpm[, -c(1:3)]) &gt; 0), c(&quot;ID&quot;, &quot;Symbol&quot;, &quot;Type&quot;, samples)]</span></span>
+<span id="cb59-13"><a href="de-analysis-in-cell-lines.html#cb59-13" aria-hidden="true" tabindex="-1"></a><span class="co"># mat1 &lt;- mat[tpm1$ID, samples]</span></span>
+<span id="cb59-14"><a href="de-analysis-in-cell-lines.html#cb59-14" aria-hidden="true" tabindex="-1"></a><span class="co"># # Run DESeq2 analysis</span></span>
+<span id="cb59-15"><a href="de-analysis-in-cell-lines.html#cb59-15" aria-hidden="true" tabindex="-1"></a><span class="co"># RunDESeq2(count_mat = mat1, n.cont = 2, n.treat = 2,</span></span>
+<span id="cb59-16"><a href="de-analysis-in-cell-lines.html#cb59-16" aria-hidden="true" tabindex="-1"></a><span class="co">#           prefix = &quot;../03.out/figure2/M13_sh1_control_out&quot;, sort.p = FALSE,</span></span>
+<span id="cb59-17"><a href="de-analysis-in-cell-lines.html#cb59-17" aria-hidden="true" tabindex="-1"></a><span class="co">#           merge.normalized = TRUE,</span></span>
+<span id="cb59-18"><a href="de-analysis-in-cell-lines.html#cb59-18" aria-hidden="true" tabindex="-1"></a><span class="co">#           normalized_mat = tpm1)</span></span>
+<span id="cb59-19"><a href="de-analysis-in-cell-lines.html#cb59-19" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb59-20"><a href="de-analysis-in-cell-lines.html#cb59-20" aria-hidden="true" tabindex="-1"></a><span class="co"># ## MOLM13 sh2 vs. control</span></span>
+<span id="cb59-21"><a href="de-analysis-in-cell-lines.html#cb59-21" aria-hidden="true" tabindex="-1"></a><span class="co"># samples &lt;- c(&quot;M0_rep1&quot;, &quot;M0_rep2&quot;, &quot;M2_rep1&quot;, &quot;M2_rep2&quot;)</span></span>
+<span id="cb59-22"><a href="de-analysis-in-cell-lines.html#cb59-22" aria-hidden="true" tabindex="-1"></a><span class="co"># # Filter low-expressed genes</span></span>
+<span id="cb59-23"><a href="de-analysis-in-cell-lines.html#cb59-23" aria-hidden="true" tabindex="-1"></a><span class="co"># tpm1 &lt;- tpm[which(rowMeans(tpm[, -c(1:3)]) &gt; 0), c(&quot;ID&quot;, &quot;Symbol&quot;, &quot;Type&quot;, samples)]</span></span>
+<span id="cb59-24"><a href="de-analysis-in-cell-lines.html#cb59-24" aria-hidden="true" tabindex="-1"></a><span class="co"># mat1 &lt;- mat[tpm1$ID, samples]</span></span>
+<span id="cb59-25"><a href="de-analysis-in-cell-lines.html#cb59-25" aria-hidden="true" tabindex="-1"></a><span class="co"># # Run DESeq2 analysis</span></span>
+<span id="cb59-26"><a href="de-analysis-in-cell-lines.html#cb59-26" aria-hidden="true" tabindex="-1"></a><span class="co"># RunDESeq2(count_mat = mat1, n.cont = 2, n.treat = 2,</span></span>
+<span id="cb59-27"><a href="de-analysis-in-cell-lines.html#cb59-27" aria-hidden="true" tabindex="-1"></a><span class="co">#           prefix = &quot;../03.out/figure2/M13_sh2_control_out&quot;, sort.p = FALSE,</span></span>
+<span id="cb59-28"><a href="de-analysis-in-cell-lines.html#cb59-28" aria-hidden="true" tabindex="-1"></a><span class="co">#           merge.normalized = TRUE,</span></span>
+<span id="cb59-29"><a href="de-analysis-in-cell-lines.html#cb59-29" aria-hidden="true" tabindex="-1"></a><span class="co">#           normalized_mat = tpm1)</span></span>
+<span id="cb59-30"><a href="de-analysis-in-cell-lines.html#cb59-30" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb59-31"><a href="de-analysis-in-cell-lines.html#cb59-31" aria-hidden="true" tabindex="-1"></a><span class="co"># ## MOLM13 sh1 sh2 vs. control</span></span>
+<span id="cb59-32"><a href="de-analysis-in-cell-lines.html#cb59-32" aria-hidden="true" tabindex="-1"></a><span class="co"># samples &lt;- c(&quot;M0_rep1&quot;, &quot;M0_rep2&quot;, &quot;M1_rep1&quot;, &quot;M1_rep2&quot;, &quot;M2_rep1&quot;, &quot;M2_rep2&quot;)</span></span>
+<span id="cb59-33"><a href="de-analysis-in-cell-lines.html#cb59-33" aria-hidden="true" tabindex="-1"></a><span class="co"># # Filter low-expressed genes</span></span>
+<span id="cb59-34"><a href="de-analysis-in-cell-lines.html#cb59-34" aria-hidden="true" tabindex="-1"></a><span class="co"># tpm1 &lt;- tpm[which(rowMeans(tpm[, -c(1:3)]) &gt; 0), c(&quot;ID&quot;, &quot;Symbol&quot;, &quot;Type&quot;, samples)]</span></span>
+<span id="cb59-35"><a href="de-analysis-in-cell-lines.html#cb59-35" aria-hidden="true" tabindex="-1"></a><span class="co"># mat1 &lt;- mat[tpm1$ID, samples]</span></span>
+<span id="cb59-36"><a href="de-analysis-in-cell-lines.html#cb59-36" aria-hidden="true" tabindex="-1"></a><span class="co"># # Run DESeq2 analysis</span></span>
+<span id="cb59-37"><a href="de-analysis-in-cell-lines.html#cb59-37" aria-hidden="true" tabindex="-1"></a><span class="co"># RunDESeq2(count_mat = mat1, n.cont = 2, n.treat = 4,</span></span>
+<span id="cb59-38"><a href="de-analysis-in-cell-lines.html#cb59-38" aria-hidden="true" tabindex="-1"></a><span class="co">#           prefix = &quot;../03.out/figure2/M13_sh12_control_out&quot;, sort.p = FALSE,</span></span>
+<span id="cb59-39"><a href="de-analysis-in-cell-lines.html#cb59-39" aria-hidden="true" tabindex="-1"></a><span class="co">#           merge.normalized = TRUE,</span></span>
+<span id="cb59-40"><a href="de-analysis-in-cell-lines.html#cb59-40" aria-hidden="true" tabindex="-1"></a><span class="co">#           normalized_mat = tpm1)</span></span>
+<span id="cb59-41"><a href="de-analysis-in-cell-lines.html#cb59-41" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb59-42"><a href="de-analysis-in-cell-lines.html#cb59-42" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb59-43"><a href="de-analysis-in-cell-lines.html#cb59-43" aria-hidden="true" tabindex="-1"></a><span class="co"># ## OA3 sh1 vs. control</span></span>
+<span id="cb59-44"><a href="de-analysis-in-cell-lines.html#cb59-44" aria-hidden="true" tabindex="-1"></a><span class="co"># samples &lt;- c(&quot;O0_rep1&quot;, &quot;O0_rep2&quot;, &quot;O1_rep1&quot;, &quot;O1_rep2&quot;)</span></span>
+<span id="cb59-45"><a href="de-analysis-in-cell-lines.html#cb59-45" aria-hidden="true" tabindex="-1"></a><span class="co"># # Filter low-expressed genes</span></span>
+<span id="cb59-46"><a href="de-analysis-in-cell-lines.html#cb59-46" aria-hidden="true" tabindex="-1"></a><span class="co"># tpm1 &lt;- tpm[which(rowMeans(tpm[, -c(1:3)]) &gt; 0), c(&quot;ID&quot;, &quot;Symbol&quot;, &quot;Type&quot;, samples)]</span></span>
+<span id="cb59-47"><a href="de-analysis-in-cell-lines.html#cb59-47" aria-hidden="true" tabindex="-1"></a><span class="co"># mat1 &lt;- mat[tpm1$ID, samples]</span></span>
+<span id="cb59-48"><a href="de-analysis-in-cell-lines.html#cb59-48" aria-hidden="true" tabindex="-1"></a><span class="co"># # Run DESeq2 analysis</span></span>
+<span id="cb59-49"><a href="de-analysis-in-cell-lines.html#cb59-49" aria-hidden="true" tabindex="-1"></a><span class="co"># RunDESeq2(count_mat = mat1, n.cont = 2, n.treat = 2,</span></span>
+<span id="cb59-50"><a href="de-analysis-in-cell-lines.html#cb59-50" aria-hidden="true" tabindex="-1"></a><span class="co">#           prefix = &quot;../03.out/figure2/OA3_sh1_control_out&quot;, sort.p = FALSE,</span></span>
+<span id="cb59-51"><a href="de-analysis-in-cell-lines.html#cb59-51" aria-hidden="true" tabindex="-1"></a><span class="co">#           merge.normalized = TRUE,</span></span>
+<span id="cb59-52"><a href="de-analysis-in-cell-lines.html#cb59-52" aria-hidden="true" tabindex="-1"></a><span class="co">#           normalized_mat = tpm1)</span></span>
+<span id="cb59-53"><a href="de-analysis-in-cell-lines.html#cb59-53" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb59-54"><a href="de-analysis-in-cell-lines.html#cb59-54" aria-hidden="true" tabindex="-1"></a><span class="co"># ## OA3 sh4 vs. control</span></span>
+<span id="cb59-55"><a href="de-analysis-in-cell-lines.html#cb59-55" aria-hidden="true" tabindex="-1"></a><span class="co"># samples &lt;- c(&quot;O0_rep1&quot;, &quot;O0_rep2&quot;, &quot;O4_rep1&quot;, &quot;O4_rep2&quot;)</span></span>
+<span id="cb59-56"><a href="de-analysis-in-cell-lines.html#cb59-56" aria-hidden="true" tabindex="-1"></a><span class="co"># # Filter low-expressed genes</span></span>
+<span id="cb59-57"><a href="de-analysis-in-cell-lines.html#cb59-57" aria-hidden="true" tabindex="-1"></a><span class="co"># tpm1 &lt;- tpm[which(rowMeans(tpm[, -c(1:3)]) &gt; 0), c(&quot;ID&quot;, &quot;Symbol&quot;, &quot;Type&quot;, samples)]</span></span>
+<span id="cb59-58"><a href="de-analysis-in-cell-lines.html#cb59-58" aria-hidden="true" tabindex="-1"></a><span class="co"># mat1 &lt;- mat[tpm1$ID, samples]</span></span>
+<span id="cb59-59"><a href="de-analysis-in-cell-lines.html#cb59-59" aria-hidden="true" tabindex="-1"></a><span class="co"># # Run DESeq2 analysis</span></span>
+<span id="cb59-60"><a href="de-analysis-in-cell-lines.html#cb59-60" aria-hidden="true" tabindex="-1"></a><span class="co"># RunDESeq2(count_mat = mat1, n.cont = 2, n.treat = 2,</span></span>
+<span id="cb59-61"><a href="de-analysis-in-cell-lines.html#cb59-61" aria-hidden="true" tabindex="-1"></a><span class="co">#           prefix = &quot;../03.out/figure2/OA3_sh4_control_out&quot;, sort.p = FALSE,</span></span>
+<span id="cb59-62"><a href="de-analysis-in-cell-lines.html#cb59-62" aria-hidden="true" tabindex="-1"></a><span class="co">#           merge.normalized = TRUE,</span></span>
+<span id="cb59-63"><a href="de-analysis-in-cell-lines.html#cb59-63" aria-hidden="true" tabindex="-1"></a><span class="co">#           normalized_mat = tpm1)</span></span>
+<span id="cb59-64"><a href="de-analysis-in-cell-lines.html#cb59-64" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb59-65"><a href="de-analysis-in-cell-lines.html#cb59-65" aria-hidden="true" tabindex="-1"></a><span class="co"># ## OA3 sh1 sh4 vs. control</span></span>
+<span id="cb59-66"><a href="de-analysis-in-cell-lines.html#cb59-66" aria-hidden="true" tabindex="-1"></a><span class="co"># samples &lt;- c(&quot;O0_rep1&quot;, &quot;O0_rep2&quot;, &quot;O1_rep1&quot;, &quot;O1_rep2&quot;, &quot;O4_rep1&quot;, &quot;O4_rep2&quot;)</span></span>
+<span id="cb59-67"><a href="de-analysis-in-cell-lines.html#cb59-67" aria-hidden="true" tabindex="-1"></a><span class="co"># # Filter low-expressed genes</span></span>
+<span id="cb59-68"><a href="de-analysis-in-cell-lines.html#cb59-68" aria-hidden="true" tabindex="-1"></a><span class="co"># tpm1 &lt;- tpm[which(rowMeans(tpm[, -c(1:3)]) &gt; 0), c(&quot;ID&quot;, &quot;Symbol&quot;, &quot;Type&quot;, samples)]</span></span>
+<span id="cb59-69"><a href="de-analysis-in-cell-lines.html#cb59-69" aria-hidden="true" tabindex="-1"></a><span class="co"># mat1 &lt;- mat[tpm1$ID, samples]</span></span>
+<span id="cb59-70"><a href="de-analysis-in-cell-lines.html#cb59-70" aria-hidden="true" tabindex="-1"></a><span class="co"># # Run DESeq2 analysis</span></span>
+<span id="cb59-71"><a href="de-analysis-in-cell-lines.html#cb59-71" aria-hidden="true" tabindex="-1"></a><span class="co"># RunDESeq2(count_mat = mat1, n.cont = 2, n.treat = 4,</span></span>
+<span id="cb59-72"><a href="de-analysis-in-cell-lines.html#cb59-72" aria-hidden="true" tabindex="-1"></a><span class="co">#           prefix = &quot;../03.out/figure2/OA3_sh14_control_out&quot;, sort.p = FALSE,</span></span>
+<span id="cb59-73"><a href="de-analysis-in-cell-lines.html#cb59-73" aria-hidden="true" tabindex="-1"></a><span class="co">#           merge.normalized = TRUE,</span></span>
+<span id="cb59-74"><a href="de-analysis-in-cell-lines.html#cb59-74" aria-hidden="true" tabindex="-1"></a><span class="co">#           normalized_mat = tpm1)</span></span></code></pre></div>
 </div>
             </section>
 

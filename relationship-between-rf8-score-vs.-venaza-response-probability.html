@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>7.1 Relationship between RF8 score vs. VEN/AZA response probability | Precision Prediction of Venetoclax-Azacitidine Treatment Efficacy in Acute Myeloid Leukemia via Integrative Drug Screening and Machine Learning</title>
+  <meta name="description" content="This is a book-style code sharing." />
+  <meta name="generator" content="bookdown 0.39 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="7.1 Relationship between RF8 score vs. VEN/AZA response probability | Precision Prediction of Venetoclax-Azacitidine Treatment Efficacy in Acute Myeloid Leukemia via Integrative Drug Screening and Machine Learning" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This is a book-style code sharing." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="7.1 Relationship between RF8 score vs. VEN/AZA response probability | Precision Prediction of Venetoclax-Azacitidine Treatment Efficacy in Acute Myeloid Leukemia via Integrative Drug Screening and Machine Learning" />
+  
+  <meta name="twitter:description" content="This is a book-style code sharing." />
+  
+
+<meta name="author" content="Peng Jin, Qiqi Jin, Kankan Wang" />
+
+
+<meta name="date" content="2025-07-20" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="figure-6.html"/>
+<link rel="next" href="monotonic-response-prediction-plot.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Background</a></li>
+<li class="chapter" data-level="2" data-path="figure-1.html"><a href="figure-1.html"><i class="fa fa-check"></i><b>2</b> Figure 1</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="process-the-data-from-functional_precision_medicine_tumor_board_aml.html"><a href="process-the-data-from-functional_precision_medicine_tumor_board_aml.html"><i class="fa fa-check"></i><b>2.1</b> Process the data from Functional_Precision_Medicine_Tumor_Board_AML</a></li>
+<li class="chapter" data-level="2.2" data-path="functional_precision_medicine_tumor_board_aml.html"><a href="functional_precision_medicine_tumor_board_aml.html"><i class="fa fa-check"></i><b>2.2</b> Functional_Precision_Medicine_Tumor_Board_AML</a></li>
+<li class="chapter" data-level="2.3" data-path="boxplot-for-drug-sensitivity-between-resistant-and-sensitive.html"><a href="boxplot-for-drug-sensitivity-between-resistant-and-sensitive.html"><i class="fa fa-check"></i><b>2.3</b> Boxplot for drug sensitivity between resistant and sensitive</a></li>
+<li class="chapter" data-level="2.4" data-path="de-analysis-functional_medicine.html"><a href="de-analysis-functional_medicine.html"><i class="fa fa-check"></i><b>2.4</b> DE analysis Functional_medicine</a></li>
+<li class="chapter" data-level="2.5" data-path="valcanoplot-plot-ex-vivo.html"><a href="valcanoplot-plot-ex-vivo.html"><i class="fa fa-check"></i><b>2.5</b> Valcanoplot plot (Ex vivo)</a></li>
+<li class="chapter" data-level="2.6" data-path="heatmap-for-representative-de-genes.html"><a href="heatmap-for-representative-de-genes.html"><i class="fa fa-check"></i><b>2.6</b> Heatmap for representative DE genes</a></li>
+<li class="chapter" data-level="2.7" data-path="cibersortx-results-visualization-ex-vivo.html"><a href="cibersortx-results-visualization-ex-vivo.html"><i class="fa fa-check"></i><b>2.7</b> CIBERSORTx Results Visualization (ex vivo)</a></li>
+<li class="chapter" data-level="2.8" data-path="cibersortx-results-visualization-in-vivo.html"><a href="cibersortx-results-visualization-in-vivo.html"><i class="fa fa-check"></i><b>2.8</b> CIBERSORTx Results Visualization (in vivo)</a></li>
+<li class="chapter" data-level="2.9" data-path="ssgsea-analysis-in-vivo.html"><a href="ssgsea-analysis-in-vivo.html"><i class="fa fa-check"></i><b>2.9</b> ssGSEA analysis in vivo</a></li>
+<li class="chapter" data-level="2.10" data-path="go-enrichment-dot-plot.html"><a href="go-enrichment-dot-plot.html"><i class="fa fa-check"></i><b>2.10</b> GO Enrichment Dot Plot</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="figure-2.html"><a href="figure-2.html"><i class="fa fa-check"></i><b>3</b> Figure 2</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="de-analysis-between-in-vivo-sensitive-and-resistant.html"><a href="de-analysis-between-in-vivo-sensitive-and-resistant.html"><i class="fa fa-check"></i><b>3.1</b> DE analysis between in vivo sensitive and resistant</a></li>
+<li class="chapter" data-level="3.2" data-path="de-analysis-rjaml-azaven-cohort.html"><a href="de-analysis-rjaml-azaven-cohort.html"><i class="fa fa-check"></i><b>3.2</b> DE analysis RJAML AZA+VEN cohort</a></li>
+<li class="chapter" data-level="3.3" data-path="valcanoplot-plot-ex-vivo-1.html"><a href="valcanoplot-plot-ex-vivo-1.html"><i class="fa fa-check"></i><b>3.3</b> Valcanoplot plot (Ex vivo)</a></li>
+<li class="chapter" data-level="3.4" data-path="valcanoplot-plot-in-vivo.html"><a href="valcanoplot-plot-in-vivo.html"><i class="fa fa-check"></i><b>3.4</b> Valcanoplot plot (In vivo)</a></li>
+<li class="chapter" data-level="3.5" data-path="venn-plot.html"><a href="venn-plot.html"><i class="fa fa-check"></i><b>3.5</b> Venn plot</a></li>
+<li class="chapter" data-level="3.6" data-path="integration-of-degs-ex-vivo-and-in-vivo.html"><a href="integration-of-degs-ex-vivo-and-in-vivo.html"><i class="fa fa-check"></i><b>3.6</b> Integration of DEGs ex vivo and in vivo</a></li>
+<li class="chapter" data-level="3.7" data-path="gsea-analysis-for-crispri-drug-sensitivity.html"><a href="gsea-analysis-for-crispri-drug-sensitivity.html"><i class="fa fa-check"></i><b>3.7</b> GSEA analysis for CRISPRi drug sensitivity</a></li>
+<li class="chapter" data-level="3.8" data-path="differential-expression-analysis-for-shpink1.html"><a href="differential-expression-analysis-for-shpink1.html"><i class="fa fa-check"></i><b>3.8</b> Differential Expression Analysis for shPINK1</a></li>
+<li class="chapter" data-level="3.9" data-path="de-analysis-in-cell-lines.html"><a href="de-analysis-in-cell-lines.html"><i class="fa fa-check"></i><b>3.9</b> DE analysis in cell lines</a></li>
+<li class="chapter" data-level="3.10" data-path="valcano-plots-molm13.html"><a href="valcano-plots-molm13.html"><i class="fa fa-check"></i><b>3.10</b> Valcano plots (MOLM13)</a></li>
+<li class="chapter" data-level="3.11" data-path="valcano-plots-oa3.html"><a href="valcano-plots-oa3.html"><i class="fa fa-check"></i><b>3.11</b> Valcano plots (OA3)</a></li>
+<li class="chapter" data-level="3.12" data-path="gsea-analysis-molm13.html"><a href="gsea-analysis-molm13.html"><i class="fa fa-check"></i><b>3.12</b> GSEA analysis (MOLM13)</a></li>
+<li class="chapter" data-level="3.13" data-path="gsea-analysis-oa3.html"><a href="gsea-analysis-oa3.html"><i class="fa fa-check"></i><b>3.13</b> GSEA analysis (OA3)</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="figure-3.html"><a href="figure-3.html"><i class="fa fa-check"></i><b>4</b> Figure 3</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="benchmark-ml-methods-for-prediction.html"><a href="benchmark-ml-methods-for-prediction.html"><i class="fa fa-check"></i><b>4.1</b> Benchmark ML Methods for Prediction</a></li>
+<li class="chapter" data-level="4.2" data-path="predict-class-labels-on-the-test-set-and-plot-roc.html"><a href="predict-class-labels-on-the-test-set-and-plot-roc.html"><i class="fa fa-check"></i><b>4.2</b> Predict Class Labels on the Test Set and Plot ROC</a></li>
+<li class="chapter" data-level="4.3" data-path="auc-and-auprc-heatmap-for-the-entire-and-test-sets.html"><a href="auc-and-auprc-heatmap-for-the-entire-and-test-sets.html"><i class="fa fa-check"></i><b>4.3</b> AUC and AUPRC Heatmap for the Entire and Test Sets</a></li>
+<li class="chapter" data-level="4.4" data-path="model-performance-plot.html"><a href="model-performance-plot.html"><i class="fa fa-check"></i><b>4.4</b> Model Performance Plot</a></li>
+<li class="chapter" data-level="4.5" data-path="feature-importance.html"><a href="feature-importance.html"><i class="fa fa-check"></i><b>4.5</b> Feature importance</a></li>
+<li class="chapter" data-level="4.6" data-path="heatmap-for-confusion-matrices-defaut-cutoff-0.html"><a href="heatmap-for-confusion-matrices-defaut-cutoff-0.html"><i class="fa fa-check"></i><b>4.6</b> Heatmap for Confusion Matrices (defaut cutoff 0.5)</a></li>
+<li class="chapter" data-level="4.7" data-path="barplot-for-predicted-response-0.html"><a href="barplot-for-predicted-response-0.html"><i class="fa fa-check"></i><b>4.7</b> Barplot for predicted Response (0.5)</a></li>
+<li class="chapter" data-level="4.8" data-path="heatmap-for-confusion-matrices-optimal-cutoff-0.html"><a href="heatmap-for-confusion-matrices-optimal-cutoff-0.html"><i class="fa fa-check"></i><b>4.8</b> Heatmap for Confusion Matrices (optimal cutoff 0.630)</a></li>
+<li class="chapter" data-level="4.9" data-path="barplot-for-predicted-response-0.html"><a href="barplot-for-predicted-response-0.html#barplot-for-predicted-response-0.630"><i class="fa fa-check"></i><b>4.9</b> Barplot for predicted Response (0.630)</a></li>
+<li class="chapter" data-level="4.10" data-path="density-plot-for-response-probability.html"><a href="density-plot-for-response-probability.html"><i class="fa fa-check"></i><b>4.10</b> Density Plot for Response Probability</a></li>
+<li class="chapter" data-level="4.11" data-path="violin-and-boxplots-for-response-probability-rf8.html"><a href="violin-and-boxplots-for-response-probability-rf8.html"><i class="fa fa-check"></i><b>4.11</b> Violin and Boxplots for Response Probability (RF8)</a></li>
+<li class="chapter" data-level="4.12" data-path="barplot-for-response.html"><a href="barplot-for-response.html"><i class="fa fa-check"></i><b>4.12</b> Barplot for Response</a></li>
+<li class="chapter" data-level="4.13" data-path="rf8-for-mdr-status.html"><a href="rf8-for-mdr-status.html"><i class="fa fa-check"></i><b>4.13</b> RF8 for MDR status</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="figure-4.html"><a href="figure-4.html"><i class="fa fa-check"></i><b>5</b> Figure 4</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="validation-of-rf8-model-rjaml-cohort-2.html"><a href="validation-of-rf8-model-rjaml-cohort-2.html"><i class="fa fa-check"></i><b>5.1</b> Validation of RF8 model (RJAML-Cohort 2)</a></li>
+<li class="chapter" data-level="5.2" data-path="validation-of-rf8-model-fpmtb.html"><a href="validation-of-rf8-model-fpmtb.html"><i class="fa fa-check"></i><b>5.2</b> Validation of RF8 model (FPMTB)</a></li>
+<li class="chapter" data-level="5.3" data-path="validation-of-rf8-model-beataml.html"><a href="validation-of-rf8-model-beataml.html"><i class="fa fa-check"></i><b>5.3</b> Validation of RF8 model (BeatAML)</a></li>
+<li class="chapter" data-level="5.4" data-path="violin-and-boxplots-for-response-probability-rf8-1.html"><a href="violin-and-boxplots-for-response-probability-rf8-1.html"><i class="fa fa-check"></i><b>5.4</b> Violin and Boxplots for Response Probability (RF8)</a></li>
+<li class="chapter" data-level="5.5" data-path="rf8-score-among-clusters.html"><a href="rf8-score-among-clusters.html"><i class="fa fa-check"></i><b>5.5</b> RF8 score among clusters</a></li>
+<li class="chapter" data-level="5.6" data-path="integration-of-ex-vivo-drug-response-in-beataml.html"><a href="integration-of-ex-vivo-drug-response-in-beataml.html"><i class="fa fa-check"></i><b>5.6</b> Integration of ex vivo drug-response in BeatAML</a></li>
+<li class="chapter" data-level="5.7" data-path="beataml-waves-1-4-heatmap-based-on-drug-profiling.html"><a href="beataml-waves-1-4-heatmap-based-on-drug-profiling.html"><i class="fa fa-check"></i><b>5.7</b> BeatAML Waves 1-4 heatmap based on drug profiling</a></li>
+<li class="chapter" data-level="5.8" data-path="boxplot-for-drug-sensitivitity-between-resistant-and-sensitive.html"><a href="boxplot-for-drug-sensitivitity-between-resistant-and-sensitive.html"><i class="fa fa-check"></i><b>5.8</b> Boxplot for drug sensitivitity between resistant and sensitive</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="figure-5.html"><a href="figure-5.html"><i class="fa fa-check"></i><b>6</b> Figure 5</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="integration-with-aml-genomics.html"><a href="integration-with-aml-genomics.html"><i class="fa fa-check"></i><b>6.1</b> Integration with AML genomics</a></li>
+<li class="chapter" data-level="6.2" data-path="mutation-pairs.html"><a href="mutation-pairs.html"><i class="fa fa-check"></i><b>6.2</b> Mutation pairs</a></li>
+<li class="chapter" data-level="6.3" data-path="complexheatmap-for-mutation.html"><a href="complexheatmap-for-mutation.html"><i class="fa fa-check"></i><b>6.3</b> Complexheatmap for mutation</a></li>
+<li class="chapter" data-level="6.4" data-path="fisher-test.html"><a href="fisher-test.html"><i class="fa fa-check"></i><b>6.4</b> Fisher test</a></li>
+<li class="chapter" data-level="6.5" data-path="barplot-in-rjaml-cohort.html"><a href="barplot-in-rjaml-cohort.html"><i class="fa fa-check"></i><b>6.5</b> Barplot in RJAML cohort</a></li>
+<li class="chapter" data-level="6.6" data-path="table-one-for-multi-cohorts.html"><a href="table-one-for-multi-cohorts.html"><i class="fa fa-check"></i><b>6.6</b> Table one for multi-cohorts</a></li>
+<li class="chapter" data-level="6.7" data-path="barplot-for-real-response.html"><a href="barplot-for-real-response.html"><i class="fa fa-check"></i><b>6.7</b> Barplot for real response</a></li>
+<li class="chapter" data-level="6.8" data-path="multivariable-logisticreg.html"><a href="multivariable-logisticreg.html"><i class="fa fa-check"></i><b>6.8</b> Multivariable LogisticReg</a></li>
+<li class="chapter" data-level="6.9" data-path="identification-of-rf8-correlated-genes.html"><a href="identification-of-rf8-correlated-genes.html"><i class="fa fa-check"></i><b>6.9</b> Identification of RF8-correlated genes</a></li>
+<li class="chapter" data-level="6.10" data-path="differential-expression-analysis-for-mut-vs.-wt.html"><a href="differential-expression-analysis-for-mut-vs.-wt.html"><i class="fa fa-check"></i><b>6.10</b> Differential Expression Analysis for Mut vs. WT</a></li>
+<li class="chapter" data-level="6.11" data-path="venn-diagram-for-target-genes.html"><a href="venn-diagram-for-target-genes.html"><i class="fa fa-check"></i><b>6.11</b> Venn Diagram for target genes</a></li>
+<li class="chapter" data-level="6.12" data-path="pathway-overlap-analysis-of-genes.html"><a href="pathway-overlap-analysis-of-genes.html"><i class="fa fa-check"></i><b>6.12</b> Pathway overlap analysis of genes</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="figure-6.html"><a href="figure-6.html"><i class="fa fa-check"></i><b>7</b> Figure 6</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="relationship-between-rf8-score-vs.-venaza-response-probability.html"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html"><i class="fa fa-check"></i><b>7.1</b> Relationship between RF8 score vs. VEN/AZA response probability</a></li>
+<li class="chapter" data-level="7.2" data-path="monotonic-response-prediction-plot.html"><a href="monotonic-response-prediction-plot.html"><i class="fa fa-check"></i><b>7.2</b> Monotonic Response Prediction Plot</a></li>
+<li class="chapter" data-level="7.3" data-path="survival-plot.html"><a href="survival-plot.html"><i class="fa fa-check"></i><b>7.3</b> Survival plot</a></li>
+<li class="chapter" data-level="7.4" data-path="brier-score-analysis.html"><a href="brier-score-analysis.html"><i class="fa fa-check"></i><b>7.4</b> Brier Score Analysis</a></li>
+<li class="chapter" data-level="7.5" data-path="c-index-comparison.html"><a href="c-index-comparison.html"><i class="fa fa-check"></i><b>7.5</b> C-index Comparison</a></li>
+<li class="chapter" data-level="7.6" data-path="km-plots-for-rjaml-cohort-2.html"><a href="km-plots-for-rjaml-cohort-2.html"><i class="fa fa-check"></i><b>7.6</b> KM-Plots for RJAML Cohort 2</a></li>
+<li class="chapter" data-level="7.7" data-path="barplot-for-crcri.html"><a href="barplot-for-crcri.html"><i class="fa fa-check"></i><b>7.7</b> Barplot for CR/CRi</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Precision Prediction of Venetoclax-Azacitidine Treatment Efficacy in Acute Myeloid Leukemia via Integrative Drug Screening and Machine Learning</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="relationship-between-rf8-score-vs.-venaza-response-probability" class="section level2 hasAnchor" number="7.1">
+<h2><span class="header-section-number">7.1</span> Relationship between RF8 score vs. VEN/AZA response probability<a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#relationship-between-rf8-score-vs.-venaza-response-probability" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb176"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb176-1"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import sys</span></span>
+<span id="cb176-2"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-2" aria-hidden="true" tabindex="-1"></a><span class="co"># import time</span></span>
+<span id="cb176-3"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-3" aria-hidden="true" tabindex="-1"></a><span class="co"># import pandas as pd</span></span>
+<span id="cb176-4"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-4" aria-hidden="true" tabindex="-1"></a><span class="co"># import numpy as np</span></span>
+<span id="cb176-5"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-5" aria-hidden="true" tabindex="-1"></a><span class="co"># import matplotlib.pyplot as plt</span></span>
+<span id="cb176-6"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-6" aria-hidden="true" tabindex="-1"></a><span class="co"># import random</span></span>
+<span id="cb176-7"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-7" aria-hidden="true" tabindex="-1"></a><span class="co"># import seaborn as sns</span></span>
+<span id="cb176-8"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-8" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb176-9"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-9" aria-hidden="true" tabindex="-1"></a><span class="co"># import sklearn.neighbors._base</span></span>
+<span id="cb176-10"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-10" aria-hidden="true" tabindex="-1"></a><span class="co"># sys.modules[&#39;sklearn.neighbors.base&#39;] = sklearn.neighbors._base</span></span>
+<span id="cb176-11"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-11" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb176-12"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-12" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.rcParams.update({&#39;font.size&#39;: 9})</span></span>
+<span id="cb176-13"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-13" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.rcParams[&quot;font.family&quot;] = &quot;Arial&quot;</span></span>
+<span id="cb176-14"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-14" aria-hidden="true" tabindex="-1"></a><span class="co"># palette = sns.color_palette(&quot;deep&quot;)</span></span>
+<span id="cb176-15"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-15" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb176-16"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-16" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb176-17"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-17" aria-hidden="true" tabindex="-1"></a><span class="co"># if __name__ == &quot;__main__&quot;:</span></span>
+<span id="cb176-18"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-18" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb176-19"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-19" aria-hidden="true" tabindex="-1"></a><span class="co">#     bs_number = 1000  # bootstrapping</span></span>
+<span id="cb176-20"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-20" aria-hidden="true" tabindex="-1"></a><span class="co">#     random.seed(1)</span></span>
+<span id="cb176-21"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-21" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb176-22"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-22" aria-hidden="true" tabindex="-1"></a><span class="co">#     bin_size = 0.1</span></span>
+<span id="cb176-23"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-23" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb176-24"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-24" aria-hidden="true" tabindex="-1"></a><span class="co">#     start_time = time.time()</span></span>
+<span id="cb176-25"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-25" aria-hidden="true" tabindex="-1"></a><span class="co">#     print(&#39;Raw data read in ...&#39;)</span></span>
+<span id="cb176-26"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-26" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb176-27"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-27" aria-hidden="true" tabindex="-1"></a><span class="co">#     # Read RF8 prediction data</span></span>
+<span id="cb176-28"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-28" aria-hidden="true" tabindex="-1"></a><span class="co">#     fnIn = &#39;../03.out/figure6/01.RF8_SurvivalAnalysis.xlsx&#39; </span></span>
+<span id="cb176-29"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-29" aria-hidden="true" tabindex="-1"></a><span class="co">#     y_pred_RF8 = []</span></span>
+<span id="cb176-30"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-30" aria-hidden="true" tabindex="-1"></a><span class="co">#     y_true = []</span></span>
+<span id="cb176-31"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-31" aria-hidden="true" tabindex="-1"></a><span class="co">#     output_curve_fn = &#39;RF8_vs_ORR&#39; + &#39;.png&#39;</span></span>
+<span id="cb176-32"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-32" aria-hidden="true" tabindex="-1"></a><span class="co">#     </span></span>
+<span id="cb176-33"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-33" aria-hidden="true" tabindex="-1"></a><span class="co">#     # Reading only one sheet, since you have only one sheet in the file</span></span>
+<span id="cb176-34"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-34" aria-hidden="true" tabindex="-1"></a><span class="co">#     data = pd.read_excel(fnIn, sheet_name=0, header=0, index_col=0)</span></span>
+<span id="cb176-35"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-35" aria-hidden="true" tabindex="-1"></a><span class="co">#     </span></span>
+<span id="cb176-36"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-36" aria-hidden="true" tabindex="-1"></a><span class="co">#     # Extract relevant columns for prediction and true response</span></span>
+<span id="cb176-37"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-37" aria-hidden="true" tabindex="-1"></a><span class="co">#     y_pred_RF8 = data[&#39;RF8.prob.CR&#39;].tolist()  # RF8 predicted response probability</span></span>
+<span id="cb176-38"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-38" aria-hidden="true" tabindex="-1"></a><span class="co">#     y_true = data[&#39;Response&#39;].tolist()         # True response (0 or 1)</span></span>
+<span id="cb176-39"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-39" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb176-40"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-40" aria-hidden="true" tabindex="-1"></a><span class="co">#     y_true = np.array(y_true)</span></span>
+<span id="cb176-41"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-41" aria-hidden="true" tabindex="-1"></a><span class="co">#     y_pred_RF8 = np.array(y_pred_RF8)</span></span>
+<span id="cb176-42"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-42" aria-hidden="true" tabindex="-1"></a><span class="co">#     score_list_RF8 = np.arange(0.0, 1.01, 0.01)</span></span>
+<span id="cb176-43"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-43" aria-hidden="true" tabindex="-1"></a><span class="co">#     RF8_num = len(score_list_RF8)</span></span>
+<span id="cb176-44"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-44" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb176-45"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-45" aria-hidden="true" tabindex="-1"></a><span class="co">#     RF8high_ORR_list = [[] for _ in range(RF8_num)]</span></span>
+<span id="cb176-46"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-46" aria-hidden="true" tabindex="-1"></a><span class="co">#     RF8low_ORR_list = [[] for _ in range(RF8_num)]</span></span>
+<span id="cb176-47"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-47" aria-hidden="true" tabindex="-1"></a><span class="co">#     RF8_ORR_list = [[] for _ in range(RF8_num)]</span></span>
+<span id="cb176-48"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-48" aria-hidden="true" tabindex="-1"></a><span class="co">#     RF8_patientNUM_list = [[] for _ in range(RF8_num)]</span></span>
+<span id="cb176-49"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-49" aria-hidden="true" tabindex="-1"></a><span class="co">#     sampleNUM = len(y_true)</span></span>
+<span id="cb176-50"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-50" aria-hidden="true" tabindex="-1"></a><span class="co">#     idx_list = range(sampleNUM)</span></span>
+<span id="cb176-51"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-51" aria-hidden="true" tabindex="-1"></a><span class="co">#     print(&#39;Sample num:&#39;, sampleNUM)</span></span>
+<span id="cb176-52"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-52" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb176-53"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-53" aria-hidden="true" tabindex="-1"></a><span class="co">#     # Bootstrap resampling and ORR calculation</span></span>
+<span id="cb176-54"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-54" aria-hidden="true" tabindex="-1"></a><span class="co">#     for bs in range(bs_number):</span></span>
+<span id="cb176-55"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-55" aria-hidden="true" tabindex="-1"></a><span class="co">#         idx_resampled = random.choices(idx_list, k=sampleNUM)</span></span>
+<span id="cb176-56"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-56" aria-hidden="true" tabindex="-1"></a><span class="co">#         y_true_resampled = y_true[idx_resampled]</span></span>
+<span id="cb176-57"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-57" aria-hidden="true" tabindex="-1"></a><span class="co">#         y_pred_RF8_resampled = y_pred_RF8[idx_resampled]</span></span>
+<span id="cb176-58"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-58" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb176-59"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-59" aria-hidden="true" tabindex="-1"></a><span class="co">#         for score_i in range(len(score_list_RF8)):</span></span>
+<span id="cb176-60"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-60" aria-hidden="true" tabindex="-1"></a><span class="co">#             score = score_list_RF8[score_i]</span></span>
+<span id="cb176-61"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-61" aria-hidden="true" tabindex="-1"></a><span class="co">#             idx_high_interval = y_pred_RF8_resampled &gt;= score</span></span>
+<span id="cb176-62"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-62" aria-hidden="true" tabindex="-1"></a><span class="co">#             y_true_high = y_true_resampled[idx_high_interval]</span></span>
+<span id="cb176-63"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-63" aria-hidden="true" tabindex="-1"></a><span class="co">#             Rhigh_num = sum(y_true_high)</span></span>
+<span id="cb176-64"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-64" aria-hidden="true" tabindex="-1"></a><span class="co">#             tot_high_num = len(y_true_high)</span></span>
+<span id="cb176-65"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-65" aria-hidden="true" tabindex="-1"></a><span class="co">#             patientRatio_temp = sum(y_pred_RF8_resampled &lt; score) / sampleNUM</span></span>
+<span id="cb176-66"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-66" aria-hidden="true" tabindex="-1"></a><span class="co">#             RF8_patientNUM_list[score_i].append(patientRatio_temp)</span></span>
+<span id="cb176-67"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-67" aria-hidden="true" tabindex="-1"></a><span class="co">#             </span></span>
+<span id="cb176-68"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-68" aria-hidden="true" tabindex="-1"></a><span class="co">#             if not tot_high_num:</span></span>
+<span id="cb176-69"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-69" aria-hidden="true" tabindex="-1"></a><span class="co">#                 RF8high_ORR_list[score_i].append(RF8high_ORR_list[score_i-1][-1])</span></span>
+<span id="cb176-70"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-70" aria-hidden="true" tabindex="-1"></a><span class="co">#             else:</span></span>
+<span id="cb176-71"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-71" aria-hidden="true" tabindex="-1"></a><span class="co">#                 ORRhigh_temp = Rhigh_num / tot_high_num</span></span>
+<span id="cb176-72"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-72" aria-hidden="true" tabindex="-1"></a><span class="co">#                 RF8high_ORR_list[score_i].append(ORRhigh_temp)</span></span>
+<span id="cb176-73"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-73" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb176-74"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-74" aria-hidden="true" tabindex="-1"></a><span class="co">#             idx_low_interval = y_pred_RF8_resampled &lt; score</span></span>
+<span id="cb176-75"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-75" aria-hidden="true" tabindex="-1"></a><span class="co">#             y_true_low = y_true_resampled[idx_low_interval]</span></span>
+<span id="cb176-76"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-76" aria-hidden="true" tabindex="-1"></a><span class="co">#             Rlow_num = sum(y_true_low)</span></span>
+<span id="cb176-77"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-77" aria-hidden="true" tabindex="-1"></a><span class="co">#             tot_low_num = len(y_true_low)</span></span>
+<span id="cb176-78"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-78" aria-hidden="true" tabindex="-1"></a><span class="co">#             </span></span>
+<span id="cb176-79"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-79" aria-hidden="true" tabindex="-1"></a><span class="co">#             if not tot_low_num:</span></span>
+<span id="cb176-80"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-80" aria-hidden="true" tabindex="-1"></a><span class="co">#                 RF8low_ORR_list[score_i].append(0)</span></span>
+<span id="cb176-81"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-81" aria-hidden="true" tabindex="-1"></a><span class="co">#             else:</span></span>
+<span id="cb176-82"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-82" aria-hidden="true" tabindex="-1"></a><span class="co">#                 ORRlow_temp = Rlow_num / tot_low_num</span></span>
+<span id="cb176-83"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-83" aria-hidden="true" tabindex="-1"></a><span class="co">#                 RF8low_ORR_list[score_i].append(ORRlow_temp)</span></span>
+<span id="cb176-84"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-84" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb176-85"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-85" aria-hidden="true" tabindex="-1"></a><span class="co">#             if sum(y_pred_RF8_resampled &lt;= score + bin_size / 2) &lt; 0.01 * len(y_pred_RF8_resampled):</span></span>
+<span id="cb176-86"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-86" aria-hidden="true" tabindex="-1"></a><span class="co">#                 idx_interval = []</span></span>
+<span id="cb176-87"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-87" aria-hidden="true" tabindex="-1"></a><span class="co">#             elif sum(y_pred_RF8_resampled &gt; score - bin_size / 2) &lt; 0.01 * len(y_pred_RF8_resampled):</span></span>
+<span id="cb176-88"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-88" aria-hidden="true" tabindex="-1"></a><span class="co">#                 idx_interval = (y_pred_RF8_resampled &gt; score - bin_size / 2)</span></span>
+<span id="cb176-89"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-89" aria-hidden="true" tabindex="-1"></a><span class="co">#             else:</span></span>
+<span id="cb176-90"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-90" aria-hidden="true" tabindex="-1"></a><span class="co">#                 idx_interval = (y_pred_RF8_resampled &lt;= score + bin_size / 2) &amp; (y_pred_RF8_resampled &gt; score - bin_size / 2)</span></span>
+<span id="cb176-91"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-91" aria-hidden="true" tabindex="-1"></a><span class="co">#                 </span></span>
+<span id="cb176-92"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-92" aria-hidden="true" tabindex="-1"></a><span class="co">#             y_true_temp = y_true_resampled[idx_interval]</span></span>
+<span id="cb176-93"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-93" aria-hidden="true" tabindex="-1"></a><span class="co">#             R_num = sum(y_true_temp)</span></span>
+<span id="cb176-94"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-94" aria-hidden="true" tabindex="-1"></a><span class="co">#             tot_num = len(y_true_temp)</span></span>
+<span id="cb176-95"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-95" aria-hidden="true" tabindex="-1"></a><span class="co">#             </span></span>
+<span id="cb176-96"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-96" aria-hidden="true" tabindex="-1"></a><span class="co">#             if not tot_num:</span></span>
+<span id="cb176-97"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-97" aria-hidden="true" tabindex="-1"></a><span class="co">#                 RF8_ORR_list[score_i].append(0)</span></span>
+<span id="cb176-98"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-98" aria-hidden="true" tabindex="-1"></a><span class="co">#             else:</span></span>
+<span id="cb176-99"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-99" aria-hidden="true" tabindex="-1"></a><span class="co">#                 ORR_temp = R_num / tot_num</span></span>
+<span id="cb176-100"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-100" aria-hidden="true" tabindex="-1"></a><span class="co">#                 RF8_ORR_list[score_i].append(ORR_temp)</span></span>
+<span id="cb176-101"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-101" aria-hidden="true" tabindex="-1"></a><span class="co">#             </span></span>
+<span id="cb176-102"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-102" aria-hidden="true" tabindex="-1"></a><span class="co">#             if sum(y_pred_RF8_resampled &gt; score - bin_size / 2) &lt; 0.01 * len(y_pred_RF8_resampled):</span></span>
+<span id="cb176-103"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-103" aria-hidden="true" tabindex="-1"></a><span class="co">#                 break</span></span>
+<span id="cb176-104"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-104" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb176-105"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-105" aria-hidden="true" tabindex="-1"></a><span class="co">#     # Remove empty elements for high scores</span></span>
+<span id="cb176-106"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-106" aria-hidden="true" tabindex="-1"></a><span class="co">#     for i in range(len(RF8high_ORR_list)):</span></span>
+<span id="cb176-107"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-107" aria-hidden="true" tabindex="-1"></a><span class="co">#         if len(RF8high_ORR_list[i]) == 0:</span></span>
+<span id="cb176-108"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-108" aria-hidden="true" tabindex="-1"></a><span class="co">#             break</span></span>
+<span id="cb176-109"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-109" aria-hidden="true" tabindex="-1"></a><span class="co">#     RF8high_ORR_list = RF8high_ORR_list[0:i]</span></span>
+<span id="cb176-110"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-110" aria-hidden="true" tabindex="-1"></a><span class="co">#     RF8low_ORR_list = RF8low_ORR_list[0:i]</span></span>
+<span id="cb176-111"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-111" aria-hidden="true" tabindex="-1"></a><span class="co">#     RF8_ORR_list = RF8_ORR_list[0:i]</span></span>
+<span id="cb176-112"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-112" aria-hidden="true" tabindex="-1"></a><span class="co">#     RF8_patientNUM_list = RF8_patientNUM_list[0:i]</span></span>
+<span id="cb176-113"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-113" aria-hidden="true" tabindex="-1"></a><span class="co">#     score_list_RF8 = score_list_RF8[0:i]</span></span>
+<span id="cb176-114"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-114" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb176-115"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-115" aria-hidden="true" tabindex="-1"></a><span class="co">#     # Compute mean and confidence intervals</span></span>
+<span id="cb176-116"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-116" aria-hidden="true" tabindex="-1"></a><span class="co">#     RF8high_ORR_mean = [np.mean(c) for c in RF8high_ORR_list]</span></span>
+<span id="cb176-117"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-117" aria-hidden="true" tabindex="-1"></a><span class="co">#     RF8high_ORR_05 = [np.quantile(c, 0.05) for c in RF8high_ORR_list]</span></span>
+<span id="cb176-118"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-118" aria-hidden="true" tabindex="-1"></a><span class="co">#     RF8high_ORR_95 = [np.quantile(c, 0.95) for c in RF8high_ORR_list]</span></span>
+<span id="cb176-119"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-119" aria-hidden="true" tabindex="-1"></a><span class="co">#     RF8low_ORR_mean = [np.mean(c) for c in RF8low_ORR_list]</span></span>
+<span id="cb176-120"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-120" aria-hidden="true" tabindex="-1"></a><span class="co">#     RF8low_ORR_05 = [np.quantile(c, 0.05) for c in RF8low_ORR_list]</span></span>
+<span id="cb176-121"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-121" aria-hidden="true" tabindex="-1"></a><span class="co">#     RF8low_ORR_95 = [np.quantile(c, 0.95) for c in RF8low_ORR_list]</span></span>
+<span id="cb176-122"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-122" aria-hidden="true" tabindex="-1"></a><span class="co">#     RF8low_patientRatio_mean = [np.mean(c) for c in RF8_patientNUM_list]</span></span>
+<span id="cb176-123"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-123" aria-hidden="true" tabindex="-1"></a><span class="co">#     RF8_ORR_mean = [np.mean(c) for c in RF8_ORR_list]</span></span>
+<span id="cb176-124"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-124" aria-hidden="true" tabindex="-1"></a><span class="co">#     RF8_ORR_05 = [np.quantile(c, 0.05) for c in RF8_ORR_list]</span></span>
+<span id="cb176-125"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-125" aria-hidden="true" tabindex="-1"></a><span class="co">#     RF8_ORR_95 = [np.quantile(c, 0.95) for c in RF8_ORR_list]</span></span>
+<span id="cb176-126"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-126" aria-hidden="true" tabindex="-1"></a><span class="co">#     RF8_patientRatio_mean = [np.mean(c) for c in RF8_patientNUM_list]</span></span>
+<span id="cb176-127"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-127" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb176-128"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-128" aria-hidden="true" tabindex="-1"></a><span class="co">#     print(&#39;RF8 response odds:&#39;)</span></span>
+<span id="cb176-129"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-129" aria-hidden="true" tabindex="-1"></a><span class="co">#     for i in range(len(RF8high_ORR_95)):</span></span>
+<span id="cb176-130"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-130" aria-hidden="true" tabindex="-1"></a><span class="co">#         print(score_list_RF8[i], RF8high_ORR_mean[i], RF8low_ORR_mean[i], RF8_ORR_mean[i], RF8low_patientRatio_mean[i])</span></span>
+<span id="cb176-131"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-131" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb176-132"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-132" aria-hidden="true" tabindex="-1"></a><span class="co">#     # Save results to CSV files</span></span>
+<span id="cb176-133"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-133" aria-hidden="true" tabindex="-1"></a><span class="co">#     df = pd.DataFrame({&#39;RF8_score&#39;: score_list_RF8, &#39;Prob_mean&#39;: RF8_ORR_mean, &#39;Prob_lower&#39;: RF8_ORR_05, &#39;Prob_upper&#39;: RF8_ORR_95})</span></span>
+<span id="cb176-134"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-134" aria-hidden="true" tabindex="-1"></a><span class="co">#     df.to_csv(&#39;../03.out/figure6/source_data_forplot.csv&#39;, index=False)</span></span>
+<span id="cb176-135"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-135" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb176-136"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-136" aria-hidden="true" tabindex="-1"></a><span class="co">#     # Plotting Score-Prob curve</span></span>
+<span id="cb176-137"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-137" aria-hidden="true" tabindex="-1"></a><span class="co">#     fig1, axes = plt.subplots(1, 1, figsize=(6.5, 2.8))</span></span>
+<span id="cb176-138"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-138" aria-hidden="true" tabindex="-1"></a><span class="co">#     fig1.subplots_adjust(left=0.1, bottom=0.15, right=0.98, top=0.96)</span></span>
+<span id="cb176-139"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-139" aria-hidden="true" tabindex="-1"></a><span class="co">#     axes.plot(score_list_RF8, RF8_ORR_mean, &#39;-&#39;, color=&#39;r&#39;)</span></span>
+<span id="cb176-140"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-140" aria-hidden="true" tabindex="-1"></a><span class="co">#     axes.fill_between(score_list_RF8, RF8_ORR_05, RF8_ORR_95, facecolor=&#39;r&#39;, alpha=0.25)</span></span>
+<span id="cb176-141"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-141" aria-hidden="true" tabindex="-1"></a><span class="co">#     axes.set_ylabel(&quot;Response probability (%)&quot;, color=&quot;k&quot;)</span></span>
+<span id="cb176-142"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-142" aria-hidden="true" tabindex="-1"></a><span class="co">#     axes.set_xlabel(&#39;RF8&#39;)  # RF8 score</span></span>
+<span id="cb176-143"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-143" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb176-144"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-144" aria-hidden="true" tabindex="-1"></a><span class="co">#     axes.set_ylim([-0.02, 1.02])</span></span>
+<span id="cb176-145"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-145" aria-hidden="true" tabindex="-1"></a><span class="co">#     axes.set_yticks([0, 0.25, 0.5, 0.75, 1])</span></span>
+<span id="cb176-146"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-146" aria-hidden="true" tabindex="-1"></a><span class="co">#     axes.set_yticklabels([0, 25, 50, 75, 100])</span></span>
+<span id="cb176-147"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html#cb176-147" aria-hidden="true" tabindex="-1"></a><span class="co">#     axes.spines[&#39;right&#39;].set_visible(False)</span></span></code></pre></div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="figure-6.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="monotonic-response-prediction-plot.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/06-results6.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>3.5 Venn plot | Precision Prediction of Venetoclax-Azacitidine Treatment Efficacy in Acute Myeloid Leukemia via Integrative Drug Screening and Machine Learning</title>
+  <meta name="description" content="This is a book-style code sharing." />
+  <meta name="generator" content="bookdown 0.39 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="3.5 Venn plot | Precision Prediction of Venetoclax-Azacitidine Treatment Efficacy in Acute Myeloid Leukemia via Integrative Drug Screening and Machine Learning" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This is a book-style code sharing." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="3.5 Venn plot | Precision Prediction of Venetoclax-Azacitidine Treatment Efficacy in Acute Myeloid Leukemia via Integrative Drug Screening and Machine Learning" />
+  
+  <meta name="twitter:description" content="This is a book-style code sharing." />
+  
+
+<meta name="author" content="Peng Jin, Qiqi Jin, Kankan Wang" />
+
+
+<meta name="date" content="2025-07-20" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="valcanoplot-plot-in-vivo.html"/>
+<link rel="next" href="integration-of-degs-ex-vivo-and-in-vivo.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Background</a></li>
+<li class="chapter" data-level="2" data-path="figure-1.html"><a href="figure-1.html"><i class="fa fa-check"></i><b>2</b> Figure 1</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="process-the-data-from-functional_precision_medicine_tumor_board_aml.html"><a href="process-the-data-from-functional_precision_medicine_tumor_board_aml.html"><i class="fa fa-check"></i><b>2.1</b> Process the data from Functional_Precision_Medicine_Tumor_Board_AML</a></li>
+<li class="chapter" data-level="2.2" data-path="functional_precision_medicine_tumor_board_aml.html"><a href="functional_precision_medicine_tumor_board_aml.html"><i class="fa fa-check"></i><b>2.2</b> Functional_Precision_Medicine_Tumor_Board_AML</a></li>
+<li class="chapter" data-level="2.3" data-path="boxplot-for-drug-sensitivity-between-resistant-and-sensitive.html"><a href="boxplot-for-drug-sensitivity-between-resistant-and-sensitive.html"><i class="fa fa-check"></i><b>2.3</b> Boxplot for drug sensitivity between resistant and sensitive</a></li>
+<li class="chapter" data-level="2.4" data-path="de-analysis-functional_medicine.html"><a href="de-analysis-functional_medicine.html"><i class="fa fa-check"></i><b>2.4</b> DE analysis Functional_medicine</a></li>
+<li class="chapter" data-level="2.5" data-path="valcanoplot-plot-ex-vivo.html"><a href="valcanoplot-plot-ex-vivo.html"><i class="fa fa-check"></i><b>2.5</b> Valcanoplot plot (Ex vivo)</a></li>
+<li class="chapter" data-level="2.6" data-path="heatmap-for-representative-de-genes.html"><a href="heatmap-for-representative-de-genes.html"><i class="fa fa-check"></i><b>2.6</b> Heatmap for representative DE genes</a></li>
+<li class="chapter" data-level="2.7" data-path="cibersortx-results-visualization-ex-vivo.html"><a href="cibersortx-results-visualization-ex-vivo.html"><i class="fa fa-check"></i><b>2.7</b> CIBERSORTx Results Visualization (ex vivo)</a></li>
+<li class="chapter" data-level="2.8" data-path="cibersortx-results-visualization-in-vivo.html"><a href="cibersortx-results-visualization-in-vivo.html"><i class="fa fa-check"></i><b>2.8</b> CIBERSORTx Results Visualization (in vivo)</a></li>
+<li class="chapter" data-level="2.9" data-path="ssgsea-analysis-in-vivo.html"><a href="ssgsea-analysis-in-vivo.html"><i class="fa fa-check"></i><b>2.9</b> ssGSEA analysis in vivo</a></li>
+<li class="chapter" data-level="2.10" data-path="go-enrichment-dot-plot.html"><a href="go-enrichment-dot-plot.html"><i class="fa fa-check"></i><b>2.10</b> GO Enrichment Dot Plot</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="figure-2.html"><a href="figure-2.html"><i class="fa fa-check"></i><b>3</b> Figure 2</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="de-analysis-between-in-vivo-sensitive-and-resistant.html"><a href="de-analysis-between-in-vivo-sensitive-and-resistant.html"><i class="fa fa-check"></i><b>3.1</b> DE analysis between in vivo sensitive and resistant</a></li>
+<li class="chapter" data-level="3.2" data-path="de-analysis-rjaml-azaven-cohort.html"><a href="de-analysis-rjaml-azaven-cohort.html"><i class="fa fa-check"></i><b>3.2</b> DE analysis RJAML AZA+VEN cohort</a></li>
+<li class="chapter" data-level="3.3" data-path="valcanoplot-plot-ex-vivo-1.html"><a href="valcanoplot-plot-ex-vivo-1.html"><i class="fa fa-check"></i><b>3.3</b> Valcanoplot plot (Ex vivo)</a></li>
+<li class="chapter" data-level="3.4" data-path="valcanoplot-plot-in-vivo.html"><a href="valcanoplot-plot-in-vivo.html"><i class="fa fa-check"></i><b>3.4</b> Valcanoplot plot (In vivo)</a></li>
+<li class="chapter" data-level="3.5" data-path="venn-plot.html"><a href="venn-plot.html"><i class="fa fa-check"></i><b>3.5</b> Venn plot</a></li>
+<li class="chapter" data-level="3.6" data-path="integration-of-degs-ex-vivo-and-in-vivo.html"><a href="integration-of-degs-ex-vivo-and-in-vivo.html"><i class="fa fa-check"></i><b>3.6</b> Integration of DEGs ex vivo and in vivo</a></li>
+<li class="chapter" data-level="3.7" data-path="gsea-analysis-for-crispri-drug-sensitivity.html"><a href="gsea-analysis-for-crispri-drug-sensitivity.html"><i class="fa fa-check"></i><b>3.7</b> GSEA analysis for CRISPRi drug sensitivity</a></li>
+<li class="chapter" data-level="3.8" data-path="differential-expression-analysis-for-shpink1.html"><a href="differential-expression-analysis-for-shpink1.html"><i class="fa fa-check"></i><b>3.8</b> Differential Expression Analysis for shPINK1</a></li>
+<li class="chapter" data-level="3.9" data-path="de-analysis-in-cell-lines.html"><a href="de-analysis-in-cell-lines.html"><i class="fa fa-check"></i><b>3.9</b> DE analysis in cell lines</a></li>
+<li class="chapter" data-level="3.10" data-path="valcano-plots-molm13.html"><a href="valcano-plots-molm13.html"><i class="fa fa-check"></i><b>3.10</b> Valcano plots (MOLM13)</a></li>
+<li class="chapter" data-level="3.11" data-path="valcano-plots-oa3.html"><a href="valcano-plots-oa3.html"><i class="fa fa-check"></i><b>3.11</b> Valcano plots (OA3)</a></li>
+<li class="chapter" data-level="3.12" data-path="gsea-analysis-molm13.html"><a href="gsea-analysis-molm13.html"><i class="fa fa-check"></i><b>3.12</b> GSEA analysis (MOLM13)</a></li>
+<li class="chapter" data-level="3.13" data-path="gsea-analysis-oa3.html"><a href="gsea-analysis-oa3.html"><i class="fa fa-check"></i><b>3.13</b> GSEA analysis (OA3)</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="figure-3.html"><a href="figure-3.html"><i class="fa fa-check"></i><b>4</b> Figure 3</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="benchmark-ml-methods-for-prediction.html"><a href="benchmark-ml-methods-for-prediction.html"><i class="fa fa-check"></i><b>4.1</b> Benchmark ML Methods for Prediction</a></li>
+<li class="chapter" data-level="4.2" data-path="predict-class-labels-on-the-test-set-and-plot-roc.html"><a href="predict-class-labels-on-the-test-set-and-plot-roc.html"><i class="fa fa-check"></i><b>4.2</b> Predict Class Labels on the Test Set and Plot ROC</a></li>
+<li class="chapter" data-level="4.3" data-path="auc-and-auprc-heatmap-for-the-entire-and-test-sets.html"><a href="auc-and-auprc-heatmap-for-the-entire-and-test-sets.html"><i class="fa fa-check"></i><b>4.3</b> AUC and AUPRC Heatmap for the Entire and Test Sets</a></li>
+<li class="chapter" data-level="4.4" data-path="model-performance-plot.html"><a href="model-performance-plot.html"><i class="fa fa-check"></i><b>4.4</b> Model Performance Plot</a></li>
+<li class="chapter" data-level="4.5" data-path="feature-importance.html"><a href="feature-importance.html"><i class="fa fa-check"></i><b>4.5</b> Feature importance</a></li>
+<li class="chapter" data-level="4.6" data-path="heatmap-for-confusion-matrices-defaut-cutoff-0.html"><a href="heatmap-for-confusion-matrices-defaut-cutoff-0.html"><i class="fa fa-check"></i><b>4.6</b> Heatmap for Confusion Matrices (defaut cutoff 0.5)</a></li>
+<li class="chapter" data-level="4.7" data-path="barplot-for-predicted-response-0.html"><a href="barplot-for-predicted-response-0.html"><i class="fa fa-check"></i><b>4.7</b> Barplot for predicted Response (0.5)</a></li>
+<li class="chapter" data-level="4.8" data-path="heatmap-for-confusion-matrices-optimal-cutoff-0.html"><a href="heatmap-for-confusion-matrices-optimal-cutoff-0.html"><i class="fa fa-check"></i><b>4.8</b> Heatmap for Confusion Matrices (optimal cutoff 0.630)</a></li>
+<li class="chapter" data-level="4.9" data-path="barplot-for-predicted-response-0.html"><a href="barplot-for-predicted-response-0.html#barplot-for-predicted-response-0.630"><i class="fa fa-check"></i><b>4.9</b> Barplot for predicted Response (0.630)</a></li>
+<li class="chapter" data-level="4.10" data-path="density-plot-for-response-probability.html"><a href="density-plot-for-response-probability.html"><i class="fa fa-check"></i><b>4.10</b> Density Plot for Response Probability</a></li>
+<li class="chapter" data-level="4.11" data-path="violin-and-boxplots-for-response-probability-rf8.html"><a href="violin-and-boxplots-for-response-probability-rf8.html"><i class="fa fa-check"></i><b>4.11</b> Violin and Boxplots for Response Probability (RF8)</a></li>
+<li class="chapter" data-level="4.12" data-path="barplot-for-response.html"><a href="barplot-for-response.html"><i class="fa fa-check"></i><b>4.12</b> Barplot for Response</a></li>
+<li class="chapter" data-level="4.13" data-path="rf8-for-mdr-status.html"><a href="rf8-for-mdr-status.html"><i class="fa fa-check"></i><b>4.13</b> RF8 for MDR status</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="figure-4.html"><a href="figure-4.html"><i class="fa fa-check"></i><b>5</b> Figure 4</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="validation-of-rf8-model-rjaml-cohort-2.html"><a href="validation-of-rf8-model-rjaml-cohort-2.html"><i class="fa fa-check"></i><b>5.1</b> Validation of RF8 model (RJAML-Cohort 2)</a></li>
+<li class="chapter" data-level="5.2" data-path="validation-of-rf8-model-fpmtb.html"><a href="validation-of-rf8-model-fpmtb.html"><i class="fa fa-check"></i><b>5.2</b> Validation of RF8 model (FPMTB)</a></li>
+<li class="chapter" data-level="5.3" data-path="validation-of-rf8-model-beataml.html"><a href="validation-of-rf8-model-beataml.html"><i class="fa fa-check"></i><b>5.3</b> Validation of RF8 model (BeatAML)</a></li>
+<li class="chapter" data-level="5.4" data-path="violin-and-boxplots-for-response-probability-rf8-1.html"><a href="violin-and-boxplots-for-response-probability-rf8-1.html"><i class="fa fa-check"></i><b>5.4</b> Violin and Boxplots for Response Probability (RF8)</a></li>
+<li class="chapter" data-level="5.5" data-path="rf8-score-among-clusters.html"><a href="rf8-score-among-clusters.html"><i class="fa fa-check"></i><b>5.5</b> RF8 score among clusters</a></li>
+<li class="chapter" data-level="5.6" data-path="integration-of-ex-vivo-drug-response-in-beataml.html"><a href="integration-of-ex-vivo-drug-response-in-beataml.html"><i class="fa fa-check"></i><b>5.6</b> Integration of ex vivo drug-response in BeatAML</a></li>
+<li class="chapter" data-level="5.7" data-path="beataml-waves-1-4-heatmap-based-on-drug-profiling.html"><a href="beataml-waves-1-4-heatmap-based-on-drug-profiling.html"><i class="fa fa-check"></i><b>5.7</b> BeatAML Waves 1-4 heatmap based on drug profiling</a></li>
+<li class="chapter" data-level="5.8" data-path="boxplot-for-drug-sensitivitity-between-resistant-and-sensitive.html"><a href="boxplot-for-drug-sensitivitity-between-resistant-and-sensitive.html"><i class="fa fa-check"></i><b>5.8</b> Boxplot for drug sensitivitity between resistant and sensitive</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="figure-5.html"><a href="figure-5.html"><i class="fa fa-check"></i><b>6</b> Figure 5</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="integration-with-aml-genomics.html"><a href="integration-with-aml-genomics.html"><i class="fa fa-check"></i><b>6.1</b> Integration with AML genomics</a></li>
+<li class="chapter" data-level="6.2" data-path="mutation-pairs.html"><a href="mutation-pairs.html"><i class="fa fa-check"></i><b>6.2</b> Mutation pairs</a></li>
+<li class="chapter" data-level="6.3" data-path="complexheatmap-for-mutation.html"><a href="complexheatmap-for-mutation.html"><i class="fa fa-check"></i><b>6.3</b> Complexheatmap for mutation</a></li>
+<li class="chapter" data-level="6.4" data-path="fisher-test.html"><a href="fisher-test.html"><i class="fa fa-check"></i><b>6.4</b> Fisher test</a></li>
+<li class="chapter" data-level="6.5" data-path="barplot-in-rjaml-cohort.html"><a href="barplot-in-rjaml-cohort.html"><i class="fa fa-check"></i><b>6.5</b> Barplot in RJAML cohort</a></li>
+<li class="chapter" data-level="6.6" data-path="table-one-for-multi-cohorts.html"><a href="table-one-for-multi-cohorts.html"><i class="fa fa-check"></i><b>6.6</b> Table one for multi-cohorts</a></li>
+<li class="chapter" data-level="6.7" data-path="barplot-for-real-response.html"><a href="barplot-for-real-response.html"><i class="fa fa-check"></i><b>6.7</b> Barplot for real response</a></li>
+<li class="chapter" data-level="6.8" data-path="multivariable-logisticreg.html"><a href="multivariable-logisticreg.html"><i class="fa fa-check"></i><b>6.8</b> Multivariable LogisticReg</a></li>
+<li class="chapter" data-level="6.9" data-path="identification-of-rf8-correlated-genes.html"><a href="identification-of-rf8-correlated-genes.html"><i class="fa fa-check"></i><b>6.9</b> Identification of RF8-correlated genes</a></li>
+<li class="chapter" data-level="6.10" data-path="differential-expression-analysis-for-mut-vs.-wt.html"><a href="differential-expression-analysis-for-mut-vs.-wt.html"><i class="fa fa-check"></i><b>6.10</b> Differential Expression Analysis for Mut vs. WT</a></li>
+<li class="chapter" data-level="6.11" data-path="venn-diagram-for-target-genes.html"><a href="venn-diagram-for-target-genes.html"><i class="fa fa-check"></i><b>6.11</b> Venn Diagram for target genes</a></li>
+<li class="chapter" data-level="6.12" data-path="pathway-overlap-analysis-of-genes.html"><a href="pathway-overlap-analysis-of-genes.html"><i class="fa fa-check"></i><b>6.12</b> Pathway overlap analysis of genes</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="figure-6.html"><a href="figure-6.html"><i class="fa fa-check"></i><b>7</b> Figure 6</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="relationship-between-rf8-score-vs.-venaza-response-probability.html"><a href="relationship-between-rf8-score-vs.-venaza-response-probability.html"><i class="fa fa-check"></i><b>7.1</b> Relationship between RF8 score vs. VEN/AZA response probability</a></li>
+<li class="chapter" data-level="7.2" data-path="monotonic-response-prediction-plot.html"><a href="monotonic-response-prediction-plot.html"><i class="fa fa-check"></i><b>7.2</b> Monotonic Response Prediction Plot</a></li>
+<li class="chapter" data-level="7.3" data-path="survival-plot.html"><a href="survival-plot.html"><i class="fa fa-check"></i><b>7.3</b> Survival plot</a></li>
+<li class="chapter" data-level="7.4" data-path="brier-score-analysis.html"><a href="brier-score-analysis.html"><i class="fa fa-check"></i><b>7.4</b> Brier Score Analysis</a></li>
+<li class="chapter" data-level="7.5" data-path="c-index-comparison.html"><a href="c-index-comparison.html"><i class="fa fa-check"></i><b>7.5</b> C-index Comparison</a></li>
+<li class="chapter" data-level="7.6" data-path="km-plots-for-rjaml-cohort-2.html"><a href="km-plots-for-rjaml-cohort-2.html"><i class="fa fa-check"></i><b>7.6</b> KM-Plots for RJAML Cohort 2</a></li>
+<li class="chapter" data-level="7.7" data-path="barplot-for-crcri.html"><a href="barplot-for-crcri.html"><i class="fa fa-check"></i><b>7.7</b> Barplot for CR/CRi</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Precision Prediction of Venetoclax-Azacitidine Treatment Efficacy in Acute Myeloid Leukemia via Integrative Drug Screening and Machine Learning</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="venn-plot" class="section level2 hasAnchor" number="3.5">
+<h2><span class="header-section-number">3.5</span> Venn plot<a href="venn-plot.html#venn-plot" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="venn-plot.html#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggvenn)</span>
+<span id="cb33-2"><a href="venn-plot.html#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb33-3"><a href="venn-plot.html#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to create Venn diagram and perform hypergeometric test</span></span>
+<span id="cb33-4"><a href="venn-plot.html#cb33-4" aria-hidden="true" tabindex="-1"></a>create_venn_plot <span class="ot">&lt;-</span> <span class="cf">function</span>(gene_list1, gene_list2, labels, colors, N) {</span>
+<span id="cb33-5"><a href="venn-plot.html#cb33-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Convert to vectors and remove NAs and duplicates</span></span>
+<span id="cb33-6"><a href="venn-plot.html#cb33-6" aria-hidden="true" tabindex="-1"></a>  gene_list1 <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(<span class="fu">unique</span>(<span class="fu">as.vector</span>(gene_list1)))</span>
+<span id="cb33-7"><a href="venn-plot.html#cb33-7" aria-hidden="true" tabindex="-1"></a>  gene_list2 <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(<span class="fu">unique</span>(<span class="fu">as.vector</span>(gene_list2)))</span>
+<span id="cb33-8"><a href="venn-plot.html#cb33-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb33-9"><a href="venn-plot.html#cb33-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Print the lengths of the gene lists</span></span>
+<span id="cb33-10"><a href="venn-plot.html#cb33-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;Length of&quot;</span>, labels[<span class="dv">1</span>], <span class="st">&quot;:&quot;</span>, <span class="fu">length</span>(gene_list1), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb33-11"><a href="venn-plot.html#cb33-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;Length of&quot;</span>, labels[<span class="dv">2</span>], <span class="st">&quot;:&quot;</span>, <span class="fu">length</span>(gene_list2), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb33-12"><a href="venn-plot.html#cb33-12" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb33-13"><a href="venn-plot.html#cb33-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Check if gene lists are not empty</span></span>
+<span id="cb33-14"><a href="venn-plot.html#cb33-14" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">length</span>(gene_list1) <span class="sc">==</span> <span class="dv">0</span> <span class="sc">||</span> <span class="fu">length</span>(gene_list2) <span class="sc">==</span> <span class="dv">0</span>) {</span>
+<span id="cb33-15"><a href="venn-plot.html#cb33-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">warning</span>(<span class="st">&quot;One or both gene lists are empty. Cannot create Venn diagram.&quot;</span>)</span>
+<span id="cb33-16"><a href="venn-plot.html#cb33-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="cn">NULL</span>)</span>
+<span id="cb33-17"><a href="venn-plot.html#cb33-17" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb33-18"><a href="venn-plot.html#cb33-18" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb33-19"><a href="venn-plot.html#cb33-19" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Create a list of gene sets and assign names</span></span>
+<span id="cb33-20"><a href="venn-plot.html#cb33-20" aria-hidden="true" tabindex="-1"></a>  gene_lists <span class="ot">&lt;-</span> <span class="fu">list</span>(gene_list1, gene_list2)</span>
+<span id="cb33-21"><a href="venn-plot.html#cb33-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(gene_lists) <span class="ot">&lt;-</span> labels</span>
+<span id="cb33-22"><a href="venn-plot.html#cb33-22" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb33-23"><a href="venn-plot.html#cb33-23" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Create Venn diagram</span></span>
+<span id="cb33-24"><a href="venn-plot.html#cb33-24" aria-hidden="true" tabindex="-1"></a>  venn_plot <span class="ot">&lt;-</span> <span class="fu">ggvenn</span>(</span>
+<span id="cb33-25"><a href="venn-plot.html#cb33-25" aria-hidden="true" tabindex="-1"></a>    gene_lists,</span>
+<span id="cb33-26"><a href="venn-plot.html#cb33-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill_color =</span> colors,</span>
+<span id="cb33-27"><a href="venn-plot.html#cb33-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">stroke_size =</span> <span class="fl">0.5</span>,</span>
+<span id="cb33-28"><a href="venn-plot.html#cb33-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">set_name_size =</span> <span class="dv">4</span>,</span>
+<span id="cb33-29"><a href="venn-plot.html#cb33-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">auto_scale =</span> <span class="cn">FALSE</span></span>
+<span id="cb33-30"><a href="venn-plot.html#cb33-30" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb33-31"><a href="venn-plot.html#cb33-31" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb33-32"><a href="venn-plot.html#cb33-32" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Calculate sizes and overlap</span></span>
+<span id="cb33-33"><a href="venn-plot.html#cb33-33" aria-hidden="true" tabindex="-1"></a>  geneset1_size <span class="ot">&lt;-</span> <span class="fu">length</span>(gene_list1)</span>
+<span id="cb33-34"><a href="venn-plot.html#cb33-34" aria-hidden="true" tabindex="-1"></a>  geneset2_size <span class="ot">&lt;-</span> <span class="fu">length</span>(gene_list2)</span>
+<span id="cb33-35"><a href="venn-plot.html#cb33-35" aria-hidden="true" tabindex="-1"></a>  overlap <span class="ot">&lt;-</span> <span class="fu">length</span>(<span class="fu">intersect</span>(gene_list1, gene_list2))</span>
+<span id="cb33-36"><a href="venn-plot.html#cb33-36" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb33-37"><a href="venn-plot.html#cb33-37" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Print overlap information</span></span>
+<span id="cb33-38"><a href="venn-plot.html#cb33-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;Overlap between&quot;</span>, labels[<span class="dv">1</span>], <span class="st">&quot;and&quot;</span>, labels[<span class="dv">2</span>], <span class="st">&quot;:&quot;</span>, overlap, <span class="st">&quot;genes</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb33-39"><a href="venn-plot.html#cb33-39" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb33-40"><a href="venn-plot.html#cb33-40" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Perform hypergeometric test</span></span>
+<span id="cb33-41"><a href="venn-plot.html#cb33-41" aria-hidden="true" tabindex="-1"></a>  p_value <span class="ot">&lt;-</span> <span class="fu">phyper</span>(</span>
+<span id="cb33-42"><a href="venn-plot.html#cb33-42" aria-hidden="true" tabindex="-1"></a>    overlap <span class="sc">-</span> <span class="dv">1</span>,</span>
+<span id="cb33-43"><a href="venn-plot.html#cb33-43" aria-hidden="true" tabindex="-1"></a>    geneset2_size,</span>
+<span id="cb33-44"><a href="venn-plot.html#cb33-44" aria-hidden="true" tabindex="-1"></a>    N <span class="sc">-</span> geneset2_size,</span>
+<span id="cb33-45"><a href="venn-plot.html#cb33-45" aria-hidden="true" tabindex="-1"></a>    geneset1_size,</span>
+<span id="cb33-46"><a href="venn-plot.html#cb33-46" aria-hidden="true" tabindex="-1"></a>    <span class="at">lower.tail =</span> <span class="cn">FALSE</span></span>
+<span id="cb33-47"><a href="venn-plot.html#cb33-47" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb33-48"><a href="venn-plot.html#cb33-48" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb33-49"><a href="venn-plot.html#cb33-49" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Add p-value annotation to the plot</span></span>
+<span id="cb33-50"><a href="venn-plot.html#cb33-50" aria-hidden="true" tabindex="-1"></a>  venn_plot <span class="ot">&lt;-</span> venn_plot <span class="sc">+</span> <span class="fu">annotate</span>(</span>
+<span id="cb33-51"><a href="venn-plot.html#cb33-51" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;text&quot;</span>,</span>
+<span id="cb33-52"><a href="venn-plot.html#cb33-52" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="dv">0</span>,</span>
+<span id="cb33-53"><a href="venn-plot.html#cb33-53" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="dv">1</span>,</span>
+<span id="cb33-54"><a href="venn-plot.html#cb33-54" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="fu">paste0</span>(<span class="st">&quot;P-value = &quot;</span>, <span class="fu">signif</span>(p_value, <span class="dv">3</span>)),</span>
+<span id="cb33-55"><a href="venn-plot.html#cb33-55" aria-hidden="true" tabindex="-1"></a>    <span class="at">colour =</span> <span class="st">&quot;black&quot;</span></span>
+<span id="cb33-56"><a href="venn-plot.html#cb33-56" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb33-57"><a href="venn-plot.html#cb33-57" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb33-58"><a href="venn-plot.html#cb33-58" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Return the plot</span></span>
+<span id="cb33-59"><a href="venn-plot.html#cb33-59" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(venn_plot)</span>
+<span id="cb33-60"><a href="venn-plot.html#cb33-60" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb33-61"><a href="venn-plot.html#cb33-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-62"><a href="venn-plot.html#cb33-62" aria-hidden="true" tabindex="-1"></a><span class="co"># Define total number of genes in the background (e.g., human genome)</span></span>
+<span id="cb33-63"><a href="venn-plot.html#cb33-63" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">20000</span></span>
+<span id="cb33-64"><a href="venn-plot.html#cb33-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-65"><a href="venn-plot.html#cb33-65" aria-hidden="true" tabindex="-1"></a><span class="do">## Gene lists for DEGs</span></span>
+<span id="cb33-66"><a href="venn-plot.html#cb33-66" aria-hidden="true" tabindex="-1"></a>degs_list1 <span class="ot">&lt;-</span> degs1<span class="sc">$</span>Symbol</span>
+<span id="cb33-67"><a href="venn-plot.html#cb33-67" aria-hidden="true" tabindex="-1"></a>degs_list2 <span class="ot">&lt;-</span> degs2<span class="sc">$</span>Symbol</span>
+<span id="cb33-68"><a href="venn-plot.html#cb33-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-69"><a href="venn-plot.html#cb33-69" aria-hidden="true" tabindex="-1"></a><span class="do">## Labels and colors for DEGs</span></span>
+<span id="cb33-70"><a href="venn-plot.html#cb33-70" aria-hidden="true" tabindex="-1"></a>labels_degs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;AZA+VEN (Ex vivo)&quot;</span>, <span class="st">&quot;AZA+VEN (In vivo)&quot;</span>)</span>
+<span id="cb33-71"><a href="venn-plot.html#cb33-71" aria-hidden="true" tabindex="-1"></a>colors_degs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;#868686FF&quot;</span>, <span class="st">&quot;#CD534CFF&quot;</span>)</span>
+<span id="cb33-72"><a href="venn-plot.html#cb33-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-73"><a href="venn-plot.html#cb33-73" aria-hidden="true" tabindex="-1"></a>p0 <span class="ot">&lt;-</span> <span class="fu">create_venn_plot</span>(degs_list1, degs_list2, labels_degs, colors_degs, N)</span></code></pre></div>
+<pre><code>## Length of AZA+VEN (Ex vivo) : 1626 
+## Length of AZA+VEN (In vivo) : 1115 
+## Overlap between AZA+VEN (Ex vivo) and AZA+VEN (In vivo) : 130 genes</code></pre>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="venn-plot.html#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Gene lists for up-regulated genes</span></span>
+<span id="cb35-2"><a href="venn-plot.html#cb35-2" aria-hidden="true" tabindex="-1"></a>degs_up_list1 <span class="ot">&lt;-</span> degs_up<span class="sc">$</span>Symbol</span>
+<span id="cb35-3"><a href="venn-plot.html#cb35-3" aria-hidden="true" tabindex="-1"></a>degs_up_list2 <span class="ot">&lt;-</span> degs_up2<span class="sc">$</span>Symbol</span>
+<span id="cb35-4"><a href="venn-plot.html#cb35-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-5"><a href="venn-plot.html#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Labels and colors for up-regulated genes</span></span>
+<span id="cb35-6"><a href="venn-plot.html#cb35-6" aria-hidden="true" tabindex="-1"></a>labels_up <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;AZA+VEN (Ex vivo) UP&quot;</span>, <span class="st">&quot;AZA+VEN (In vivo) UP&quot;</span>)</span>
+<span id="cb35-7"><a href="venn-plot.html#cb35-7" aria-hidden="true" tabindex="-1"></a>colors_up <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;#0073C2FF&quot;</span>, <span class="st">&quot;#EFC000FF&quot;</span>)</span>
+<span id="cb35-8"><a href="venn-plot.html#cb35-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-9"><a href="venn-plot.html#cb35-9" aria-hidden="true" tabindex="-1"></a><span class="do">## Create up-regulated gene Venn diagram</span></span>
+<span id="cb35-10"><a href="venn-plot.html#cb35-10" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">create_venn_plot</span>(degs_up_list1, degs_up_list2, labels_up, colors_up, N)</span></code></pre></div>
+<pre><code>## Length of AZA+VEN (Ex vivo) UP : 411 
+## Length of AZA+VEN (In vivo) UP : 523 
+## Overlap between AZA+VEN (Ex vivo) UP and AZA+VEN (In vivo) UP : 14 genes</code></pre>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="venn-plot.html#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Gene lists for down-regulated genes</span></span>
+<span id="cb37-2"><a href="venn-plot.html#cb37-2" aria-hidden="true" tabindex="-1"></a>degs_down_list1 <span class="ot">&lt;-</span> degs_down<span class="sc">$</span>Symbol</span>
+<span id="cb37-3"><a href="venn-plot.html#cb37-3" aria-hidden="true" tabindex="-1"></a>degs_down_list2 <span class="ot">&lt;-</span> degs_down2<span class="sc">$</span>Symbol</span>
+<span id="cb37-4"><a href="venn-plot.html#cb37-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-5"><a href="venn-plot.html#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Labels and colors for down-regulated genes</span></span>
+<span id="cb37-6"><a href="venn-plot.html#cb37-6" aria-hidden="true" tabindex="-1"></a>labels_down <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;AZA+VEN (Ex vivo) DN&quot;</span>, <span class="st">&quot;AZA+VEN (In vivo) DN&quot;</span>)</span>
+<span id="cb37-7"><a href="venn-plot.html#cb37-7" aria-hidden="true" tabindex="-1"></a>colors_down <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;#868686FF&quot;</span>, <span class="st">&quot;#CD534CFF&quot;</span>)</span>
+<span id="cb37-8"><a href="venn-plot.html#cb37-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-9"><a href="venn-plot.html#cb37-9" aria-hidden="true" tabindex="-1"></a><span class="do">## Create down-regulated gene Venn diagram</span></span>
+<span id="cb37-10"><a href="venn-plot.html#cb37-10" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">create_venn_plot</span>(degs_down_list1, degs_down_list2, labels_down, colors_down, N)</span></code></pre></div>
+<pre><code>## Length of AZA+VEN (Ex vivo) DN : 1215 
+## Length of AZA+VEN (In vivo) DN : 593 
+## Overlap between AZA+VEN (Ex vivo) DN and AZA+VEN (In vivo) DN : 70 genes</code></pre>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="venn-plot.html#cb39-1" aria-hidden="true" tabindex="-1"></a>plots <span class="ot">&lt;-</span> p0 <span class="sc">|</span> p1 <span class="sc">|</span> p2</span>
+<span id="cb39-2"><a href="venn-plot.html#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(plots)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-30-1.png" width="672" /></p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="venn-plot.html#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Save the plots to a PDF file</span></span>
+<span id="cb40-2"><a href="venn-plot.html#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ggsave(plots, filename = &quot;../03.out/figure1/05.vennPlots.pdf&quot;, width = 9, height = 3)</span></span></code></pre></div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="valcanoplot-plot-in-vivo.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="integration-of-degs-ex-vivo-and-in-vivo.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/02-results2.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
